@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/17 23:16:20 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/19 19:32:54 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void ctrl_c(int num)
 void ctrl_d(void)
 {
 	printf("exit\n");
-	exit(0);
+	exit(130);
 }
 
 void ctrl_bslash(int num)
@@ -30,8 +30,17 @@ void ctrl_bslash(int num)
 	printf(GREEN"Mini"NC"S̸"RED"Hell "NC);
 }
 
+void sign_handler(int code)
+{
+	if (code == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+	}
+}
+
 void set_signals(void)
 {
-	signal(SIGINT, &ctrl_c);
-	signal(SIGQUIT, &ctrl_bslash);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, &sign_handler);
 }

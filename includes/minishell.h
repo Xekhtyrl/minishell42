@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 15:52:23 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/19 17:11:43 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 // readline, (rl_)clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history
-# include <sys/signal.h>
+# include <signal.h>
 // signal, sigaction, sigemptyset, sigaddset
 # include <sys/wait.h>
 // wait, waitpid, wait3, wait4
@@ -86,6 +86,9 @@ int			get_token_type(char *c, int start);
 t_arg_lst	*arg_node(int type, char *token);
 t_input		*create_node(char *str, int type);
 
+char	*pick_title();
+
+//_______________________SIGNAL________________________//
 void ctrl_c(int num);
 void ctrl_d(void);
 void set_signals(void);

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 16:26:16 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/19 19:41:16 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,21 @@ char	*pick_title()
 	return (RED"Mini hell "NC);
 }
 
+int only_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i] == ' ')
+		i++;
+	if (!str[i])
+		return (1);
+	return (0);
+}
+
 int main(int argc, char **argv, char **envp)
 {
-	char 	*str;
+	static char 	*str;
 	t_input	*input;
 
 	str = NULL;
@@ -73,7 +85,13 @@ int main(int argc, char **argv, char **envp)
 	set_signals();
 	while (1)
 	{
+		printf("end    = %d\n",rl_end);
+		printf("point  = %d\n",rl_point);
+		printf("max_in = %d\n",max_input_history);
+		printf("%s\n",rl_line_buffer);
 		str = readline(pick_title());
+		while (str && (ft_strlen(str) < 1 || only_space(str)))
+			str = readline(pick_title());
 		if (!str)
 			ctrl_d();
 		input = parse(str);
