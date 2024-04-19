@@ -23,9 +23,9 @@ C_END=\033[0m
 CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 
 ifeq "$(USER)" "gfinet"
-	LFLAGS = -L/Users/gfinet/homebrew/opt/readline/lib -I/Users/gfinet/homebrew/opt/readline/include -lreadline
+	LFLAGS = -L /Users/gfinet/homebrew/Cellar/readline/8.2.10/lib -I /Users/gfinet/homebrew/Cellar/readline/8.2.10/include/readline -lreadline
 else
-	LFLAGS = -L/Users/lvodak/.brew/opt/readline/lib -I/Users/lvodak/.brew/opt/readline/include -lreadline
+	LFLAGS = -L /Users/lvodak/.brew/opt/readline/lib -I /Users/lvodak/.brew/opt/readline/include -lreadline
 endif
 
 

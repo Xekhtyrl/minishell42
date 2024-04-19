@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 17:11:43 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:17:05 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 
 # include <stdio.h>
 // printf, strerror, perror,
-# include <readline/readline.h>
-# include <readline/history.h>
+# define READLINE_LIBRARY 1
+# include "/Users/gfinet/homebrew/Cellar/readline/8.2.10/include/readline/readline.h"
+# include "/Users/gfinet/homebrew/Cellar/readline/8.2.10/include/readline/history.h"
+// # include <readline/history.h>
 // readline, (rl_)clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history
 # include <signal.h>
 // signal, sigaction, sigemptyset, sigaddset

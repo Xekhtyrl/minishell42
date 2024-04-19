@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 19:41:16 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/19 23:25:39 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,11 @@ int main(int argc, char **argv, char **envp)
 	(void)envp;
 	using_history();
 	set_signals();
+	printf("%d\n", rl_already_prompted);
+	rl_display_prompt = pick_title();
+	printf("%s\n", rl_display_prompt);
 	while (1)
 	{
-		printf("end    = %d\n",rl_end);
-		printf("point  = %d\n",rl_point);
-		printf("max_in = %d\n",max_input_history);
-		printf("%s\n",rl_line_buffer);
 		str = readline(pick_title());
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
 			str = readline(pick_title());
@@ -99,4 +98,5 @@ int main(int argc, char **argv, char **envp)
 		free(str);
 		print_input_lst(input);
 	}
+	return (0);
 }
