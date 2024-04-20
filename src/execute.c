@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 18:34:57 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/20 18:46:19 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**get_path(char **envp)
 
 int exec_cmd_ve(t_input *cmd, char *path)
 {
-
+	
 }
 
 int	execute_command(char **envp, t_input *cmd)

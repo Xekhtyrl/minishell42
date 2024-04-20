@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/20 17:15:20 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/20 19:19:45 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # define RED "\033[0;31m\x1b[1m"
 # define WHITE "\033[0;30m"
 # define NC "\033[0m"
+
+// "\[\e[1;34m\]\u@\h:\w \$\[\e[0m\] "
 
 # define BUILT_TK 12
 # define WORD_TK 13

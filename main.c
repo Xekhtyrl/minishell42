@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 18:28:47 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/20 19:20:58 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,24 @@ char	*pick_title()
 	if (getenv("SHLVL="))
 		l = ft_atoi(getenv("SHLVL="));
 	if (l == 2)
-		return(GREEN"Minishell "NC);
+		return(GREEN"Minishell "NC"\n");
 	if (l == 3)
-		return(GREEN"Minishel"RED"l "NC);
+		return(GREEN"Minishel"RED"l "NC"\n");
 	if (l == 4)
-		return(GREEN"Minishe"RED"ll "NC);
+		return(GREEN"Minishe"RED"ll "NC"\n");
 	if (l == 5)
-		return(GREEN"Minish"RED"ell "NC);
+		return(GREEN"Minish"RED"ell "NC"\n");
 	if (l == 6)
-		return(GREEN"Minis"RED"hell "NC);
+		return(GREEN"Minis"RED"hell "NC"\n");
 	if (l == 7)
-		return(GREEN"Mini"RED"shell "NC);
+		return(GREEN"Mini"RED"shell "NC"\n");
 	if (l == 8)
-		return(GREEN"Min"RED"ishell "NC);
+		return(GREEN"Min"RED"ishell "NC"\n");
 	if (l == 9)
-		return(GREEN"Mi"RED"nishell "NC);
+		return(GREEN"Mi"RED"nishell"NC"\n");
 	if (l == 10)
-		return(GREEN"M"RED"inishell "NC);
-	return (RED"Mini hell "NC);
+		return(GREEN"M"RED"inishell "NC"\n");
+	return (RED"Mini hell "NC"\n");
 }
 
 int only_space(char *str)
@@ -85,16 +85,18 @@ int main(int argc, char **argv, char **envp)
 	set_signals();
 	while (1)
 	{
-		str = readline(pick_title());
+		str = readline(pick_title()); //pick_title()
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
 			str = readline(pick_title());
 		if (!str)
 			ctrl_d();
-		input = parse(str);
 		add_history(str);
+		input = parse(str);
 		free(str);
+		printf("%d\n",rl_mark);
 		print_input_lst(input);
 		//execute_command(input);
 	}
+	clear_history();
 	return (0);
 }
