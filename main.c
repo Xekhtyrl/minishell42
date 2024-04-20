@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 22:48:27 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/20 20:25:18 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,47 +40,61 @@ char	*pick_title()
 	if (getenv("SHLVL="))
 		l = ft_atoi(getenv("SHLVL="));
 	if (l == 2)
-		return(GREEN"Minishell "NC);
+		return (GREEN"Minishell "NC);
 	if (l == 3)
-		return(GREEN"Minishel"RED"l "NC);
+		return (GREEN"Minishel"RED"l "NC);
 	if (l == 4)
-		return(GREEN"Minishe"RED"ll "NC);
+		return (GREEN"Minishe"RED"ll "NC);
 	if (l == 5)
-		return(GREEN"Minish"RED"ell "NC);
+		return (GREEN"Minish"RED"ell "NC);
 	if (l == 6)
-		return(GREEN"Minis"RED"hell "NC);
+		return (GREEN"Minis"RED"hell "NC);
 	if (l == 7)
-		return(GREEN"Mini"RED"shell "NC);
+		return (GREEN"Mini"RED"shell "NC);
 	if (l == 8)
-		return(GREEN"Min"RED"ishell "NC);
+		return (GREEN"Min"RED"ishell "NC);
 	if (l == 9)
-		return(GREEN"Mi"RED"nishell "NC);
+		return (GREEN"Mi"RED"nishell "NC);
 	if (l == 10)
-		return(GREEN"M"RED"inishell "NC);
+		return (GREEN"M"RED"inishell "NC);
 	return (RED"Mini hell "NC);
 }
 
-int	main_loop(void)
+int only_space(char *str)
 {
-	char 	*str;
-	t_input	*input;
-	
-	str = readline(pick_title());
-	if (!str)
-		ctrl_d();
-	input = parse(str);
-	add_history(str);
-	free(str);
-	print_input_lst(input);
-	return (1);
+	int	i;
+
+	i = 0;
+	while (str && str[i] == ' ')
+		i++;
+	if (!str[i])
+		return (1);
+	return (0);
 }
+
 int main(int argc, char **argv, char **envp)
 {
+	static char 	*str;
+	t_input	*input;
+
+	str = NULL;
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	using_history();
 	set_signals();
 	while (1)
-		main_loop();
+	{
+		str = readline(pick_title());
+		while (str && (ft_strlen(str) < 1 || only_space(str)))
+			str = readline(pick_title());
+		if (!str)
+			ctrl_d();
+		input = parse(str);
+		add_history(str);
+		free(str);
+		print_input_lst(input);
+		//execute_command(input);
+	}
+	return (0);
 }

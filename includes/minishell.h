@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 17:54:06 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/20 20:23:03 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@
 # include <stdio.h>
 // printf, strerror, perror,
 # define READLINE_LIBRARY 1
+# define RL_PROMPT_START_IGNORE  '\001'
+# define RL_PROMPT_END_IGNORE    '\002'
 # include </Users/lvodak/.brew/Cellar/readline/8.2.10/include/readline/readline.h>
 # include </Users/lvodak/.brew/Cellar/readline/8.2.10/include/readline/history.h>
 // readline, (rl_)clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history
-# include <sys/signal.h>
+# include <signal.h>
 // signal, sigaction, sigemptyset, sigaddset
 # include <sys/wait.h>
 // wait, waitpid, wait3, wait4
@@ -44,12 +46,12 @@
 // stat, lstat, fstat
 
 /* exit, kill, chdir, , unlink, */
-# define GREEN "\033[0;32m\x1b[1m"
-# define LBLUE "\033[0;36m\x1b[1m"
-# define BLUE "\033[0;34m\x1b[1m"
-# define RED "\033[0;31m\x1b[1m"
-# define WHITE "\033[0;30m"
-# define NC "\033[0m"
+# define GREEN "\001\033[0;32m\x1b[1m\002"
+# define LBLUE "\001\033[0;36m\x1b[1m\002"
+# define BLUE "\001\033[0;34m\x1b[1m\002"
+# define RED "\001\033[0;31m\x1b[1m\002"
+# define WHITE "\001\033[0;30m\002"
+# define NC "\001\033[0m\002"
 
 # define WORD_TK 13
 # define PIPE_TK 14
@@ -88,6 +90,9 @@ int			get_token_type(char *c, int start);
 t_arg_lst	*arg_node(int type, char *token);
 t_input		*create_node(char *str, int type);
 
+char	*pick_title();
+
+//_______________________SIGNAL________________________//
 void ctrl_c(int num);
 void ctrl_d(void);
 void set_signals(void);

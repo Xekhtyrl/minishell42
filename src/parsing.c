@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 18:33:50 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/20 18:51:04 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ static int	split_cmd_redir(t_input **cmd, char *str, int start)
 		}
 		token++;
 	}
+	if (!*cmd)
+		*cmd = create_node(NULL, HEREDOC_TK);
 	(*cmd)->arg = lst;
 	return (start);
 }
