@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 16:26:16 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/19 22:48:27 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,27 @@ char	*pick_title()
 	return (RED"Mini hell "NC);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main_loop(void)
 {
 	char 	*str;
 	t_input	*input;
-
-	str = NULL;
+	
+	str = readline(pick_title());
+	if (!str)
+		ctrl_d();
+	input = parse(str);
+	add_history(str);
+	free(str);
+	print_input_lst(input);
+	return (1);
+}
+int main(int argc, char **argv, char **envp)
+{
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	using_history();
 	set_signals();
 	while (1)
-	{
-		str = readline(pick_title());
-		if (!str)
-			ctrl_d();
-		input = parse(str);
-		add_history(str);
-		free(str);
-		print_input_lst(input);
-	}
+		main_loop();
 }

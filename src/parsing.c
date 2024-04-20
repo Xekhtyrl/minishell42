@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 16:12:24 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/20 18:33:50 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ static char	*split_token(char *str, int	*start, char quote)
 			(*start)++;
 	else
 	{
-		if (str[*start] == quote)
+		if (str[*start] == quote && ++len)
 			(*start)++;
 		while (str[*start] && str[*start] != quote && ++len)
 			(*start)++;
 		(*start)++;
+		len++;
 	}
-	return (ft_substr(str, *start - len - (quote == '\'' || quote == '\"'), len));
+	return (ft_substr(str, *start - len, len));
 }
 
 // < arg(1) cmd arg
@@ -52,28 +53,32 @@ static char	*split_token(char *str, int	*start, char quote)
 static int	split_cmd_redir(t_input **cmd, char *str, int start)
 {
 	t_arg_lst	*arg;
-	t_arg_lst	*first;
+	t_arg_lst	*lst;
 	int			token;
 
 	token = 0;
-	arg = NULL;
-	first = arg;
-	while (str[start] && str[start] != '|')
+	lst = NULL;
+	while (str[start] && str[start] != '|' && start < (int)ft_strlen(str))
 	{
-		arg = malloc(sizeof(t_arg_lst));
-		if (!arg)
-			return (0);
 		if (token == 2)
-			*cmd = create_node(split_token(str, &start, 0), WORD_TK);
+			*cmd = create_node(split_token(str, &start, str[start]), WORD_TK);
 		else
 		{
-			arg->type = get_token_type(str, start);
-			arg->token = split_token(str, &start, str[start]);
-			arg = arg->next;
+			arg = arg_node(get_token_type(str, start), split_token(str, &start, str[start]));
+			if (arg)
+				ft_lstadd_back((t_list **)&lst, (t_list *)arg);
+		}
+		while (str[start] && is_white_space(str[start]))
+			start++;
+		if (start && str[start - 1] == ' ' && token >= 3)
+		{
+			arg = arg_node(SPACE_TK, " ");
+			if (arg)
+				ft_lstadd_back((t_list **)&lst, (t_list *)arg);
 		}
 		token++;
 	}
-	(*cmd)->arg = first;
+	(*cmd)->arg = lst;
 	return (start);
 }
 
@@ -96,6 +101,12 @@ static int split_cmd(t_input **cmd, char *str, int start)
 		}
 		while (str[start] && is_white_space(str[start]))
 			start++;
+		if (str[start - 1] == ' ' && arg)
+		{
+			arg = arg_node(SPACE_TK, " ");
+			if (arg)
+				ft_lstadd_back((t_list **)&(*cmd)->arg, (t_list *)arg);
+		}
 		token++;
 	}
 	return (start);
