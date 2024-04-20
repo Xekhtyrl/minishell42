@@ -6,16 +6,18 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 21:17:05 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:12:46 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/headers/libft.h"
-# include "libft/headers/ft_printf.h"
+
 # include "pipex_bonus.h"
+# include "token.h"
+# include "functions.h"
+
 
 # include <stdio.h>
 // printf, strerror, perror,
@@ -45,55 +47,6 @@
 // stat, lstat, fstat
 
 /* exit, kill, chdir, , unlink, */
-# define GREEN "\033[0;32m\x1b[1m"
-# define LBLUE "\033[0;36m\x1b[1m"
-# define BLUE "\033[0;34m\x1b[1m"
-# define RED "\033[0;31m\x1b[1m"
-# define WHITE "\033[0;30m"
-# define NC "\033[0m"
-
-# define WORD_TK 13
-# define PIPE_TK 14
-# define WRITE_TK 15
-# define APPEN_TK 16
-# define READ_TK 17
-# define HEREDOC_TK 18
-# define ENV_VAR_TK 19
-
-typedef struct s_arg_lst
-{
-	struct s_arg_lst	*next;
-	char				*token;
-	int					type;
-}	t_arg_lst;
-
-typedef	struct s_input
-{
-	struct s_input		*next;
-	char				*token;
-	int					type;
-	t_arg_lst			*arg;
-}	t_input;
-
-void		print_input_lst(t_input	*input);
-//______________________PARSING_______________________//
-t_input		*parse(char *str);
-//___________________PARSING_UTILS____________________//
-int			is_white_space(char c);
-int			is_not_sep(char c);
-int			closed_quotes(char *str);
-int			check_for_pipe(char *str);
-int			get_token_type(char *c, int start);
-//____________________PARSING_LST_____________________//
-t_arg_lst	*arg_node(int type, char *token);
-t_input		*create_node(char *str, int type);
-
-char	*pick_title();
-
-//_______________________SIGNAL________________________//
-void ctrl_c(int num);
-void ctrl_d(void);
-void set_signals(void);
 
 #endif
 

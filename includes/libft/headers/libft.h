@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 17:57:32 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 16:23:58 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:10:23 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_list
 	struct s_list	*next;
 	void			*content;
 }	t_list;
+
 // no external function needed
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
