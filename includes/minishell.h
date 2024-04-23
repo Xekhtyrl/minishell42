@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 20:23:03 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/23 21:20:56 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,15 @@ typedef	struct s_input
 	t_arg_lst			*arg;
 }	t_input;
 
+typedef struct s_env
+{
+	struct s_env	*next;
+	struct s_env	*prev;
+	char			*var;
+	char			*content;
+	int				flag;
+}	t_env;
+
 void		print_input_lst(t_input	*input);
 //______________________PARSING_______________________//
 t_input		*parse(char *str);
@@ -97,6 +106,15 @@ void ctrl_c(int num);
 void ctrl_d(void);
 void set_signals(void);
 int	main_loop(void);
+
+//_______________________UTILS________________________//
+void	push(t_env **lst1, t_env **lst2);
+void	rotate(t_env **lst1);
+void	sort_LSD_recursive(t_env **lsta, t_env **lstb, int msd);
+
+void	ft_env(t_env *envp);
+t_env	*env_lst(char **envp);
+t_env	*create_env_node(char *var, char *content, int flag, t_env *prev);
 
 #endif
 

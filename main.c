@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 20:25:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/23 21:22:16 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,32 +32,52 @@ void	print_input_lst(t_input	*input)
 	}
 }
 
-char	*pick_title()
+char	*ft_strjoinsup(char **tabl)
 {
-	int		l;
+	int	i;
+	int	j;
+	int	len;
+	char	*final;
 
-	l = 2;
-	if (getenv("SHLVL="))
-		l = ft_atoi(getenv("SHLVL="));
-	if (l == 2)
-		return (GREEN"Minishell "NC);
-	if (l == 3)
-		return (GREEN"Minishel"RED"l "NC);
-	if (l == 4)
-		return (GREEN"Minishe"RED"ll "NC);
-	if (l == 5)
-		return (GREEN"Minish"RED"ell "NC);
-	if (l == 6)
-		return (GREEN"Minis"RED"hell "NC);
-	if (l == 7)
-		return (GREEN"Mini"RED"shell "NC);
-	if (l == 8)
-		return (GREEN"Min"RED"ishell "NC);
-	if (l == 9)
-		return (GREEN"Mi"RED"nishell "NC);
-	if (l == 10)
-		return (GREEN"M"RED"inishell "NC);
-	return (RED"Mini hell "NC);
+	i = -1;
+	len = ft_strlen(GREEN) + ft_strlen(RED) + ft_strlen(NC) + ft_strlen(tabl[1]) + ft_strlen(tabl[3]) + 1;
+	final = malloc(sizeof(char) * (len + 1));
+	len = 0;
+	while (++i < 5)
+	{
+		j = 0;
+		while (tabl[i][j])
+			final[len++] = tabl[i][j++];
+	}
+	final[len] = 0;
+	return final;
+}
+
+char *pick_title()
+{
+	char	*str;
+	char	*path;
+	char	*str2;
+	int		lvl;
+	int		len;
+
+	lvl = 0;
+	if (getenv("SHLVL"))
+		lvl = atoi(getenv("SHLVL")) - 2;
+	path = getcwd(NULL, 0);
+	if (ft_strlen(ft_strrchr(path, '/')) + 10 > (size_t)lvl)
+		str = ft_strjoin("Minishell ", ft_strrchr(path, '/'));
+	else
+		str = ft_strjoin("Mini hell ", ft_strrchr(path, '/'));
+	len = ft_strlen(str);
+	if (lvl > 10)
+		lvl = 10;
+	free(path);
+	path = ft_substr(str, 0, (float)(len * (10 - lvl) / 10));
+	str2 =  ft_substr(str, (float)(len * (10 - lvl) / 10), len);
+	free(str);
+	str = ft_strjoinsup((char *[5]){GREEN, path, RED, str2, NC" "});
+	return (free(path), free(str2), str);
 }
 
 int only_space(char *str)
@@ -76,11 +96,13 @@ int main(int argc, char **argv, char **envp)
 {
 	static char 	*str;
 	t_input	*input;
+	t_env	*m_env;
 
 	str = NULL;
 	(void)argc;
 	(void)argv;
-	(void)envp;
+	m_env = env_lst(envp);
+	ft_env(m_env);
 	using_history();
 	set_signals();
 	while (1)

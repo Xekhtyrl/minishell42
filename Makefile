@@ -4,11 +4,13 @@ INCLUDES = ./includes
 
 LIBFT = $(INCLUDES)/libft
 
-MY_SOURCES =	main.c		\
-				 src/parsing.c \
-				 src/parsing_utils.c \
-				 src/parsing_lst.c \
-				 src/signal.c
+MY_SOURCES =	main.c				\
+				src/parsing.c		\
+				src/parsing_utils.c	\
+				src/parsing_lst.c	\
+				src/signal.c		\
+				src/builtin/env.c	\
+				src/utils/sort_list.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
 
@@ -27,7 +29,6 @@ ifeq "$(USER)" "gfinet"
 else
 	LFLAGS = -L/Users/lvodak/.brew/opt/readline/lib -I/Users/lvodak/.brew/opt/readline/include -lreadline
 endif
-
 
 all: $(NAME)
 
@@ -59,8 +60,6 @@ $(NAME): $(MY_OBJECTS)
 
 add:
 	git add Makefile src includes main.c
-
-
 
 clean:
 	@rm -rf $(MY_OBJECTS) $(MY_OBJ_BONUS)
