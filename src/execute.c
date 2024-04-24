@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/24 17:22:08 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 20:54:31 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,21 @@ char	**get_path(char **envp)
 
 int exec_cmd_ve(t_input *cmd, char *path)
 {
-	
+	(void)cmd;
+	(void)path;
+	return 1;
+}
+
+int in_list(char *str,char **lst)
+{
+	int i;
+
+	i = 0;
+	while (ft_strncmp(str, lst[i], ft_strlen(lst[i] + 1)))
+		i++;
+	if (!lst[i])
+		return (0);
+	return (1);
 }
 
 int trad_input(t_input *cmd)
@@ -55,38 +69,27 @@ int trad_input(t_input *cmd)
 
 int	execute_command(char **envp, t_input *cmd, int pipe[2])
 {
-	char	*path;
+	char	*path = 0;
 	t_input *tmp;
-	int		file_fd;
 	
-	
+	(void)envp;
+	(void)pipe;
 	tmp = cmd;
 	while (tmp)
 	{
 		if (tmp->type == WORD_TK)
 		{
-			path = get_cmd_path(envp, tmp);
+			//path = get_cmd_path(envp, tmp);
 			if (path == 0)
 				return (-1); //error path
 			exec_cmd_ve(tmp, path);
 		}
 		else if (tmp->type == BUILT_TK)
-			exec_builtin(cmd);
+			//exec_builtin(cmd);
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-int fill_fd(int pipe[2], t_input *input)
-{
-	t_arg_lst *tmp;
 
-	tmp = input->arg;
-	if (tmp)
-	{
-		tmp = tmp->next;
-		if (tmp->type == READ_TK)
-			pipe[0] = open(tmp->next->token, O_RDONLY);
-	}
 
-}

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 17:12:46 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 20:50:38 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <sys/wait.h>
 // wait, waitpid, wait3, wait4
 # include <unistd.h>
+# include <fcntl.h>
 // write, access, open, read, close, fork, dup, dup2, pipe
 // isatty, ttyname, ttyslot, getcwd, execve, unlink
 # include <stdlib.h>
@@ -45,6 +46,7 @@
 // opendir, readdir, closedir,
 # include <sys/stat.h>
 // stat, lstat, fstat
+# include <errno.h>
 
 /* exit, kill, chdir, , unlink, */
 

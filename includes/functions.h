@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/24 17:10:55 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 20:55:56 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,20 @@ char	*pick_title();
 void ctrl_c(int num);
 void ctrl_d(void);
 void set_signals(void);
+
+//______________________EXECUTE________________________//
+int	fill_fd(int *pipe[2], t_input *input);
+int	execute_command(char **envp, t_input *cmd, int pipe[2]);
+int trad_input(t_input *cmd);
+char	**get_path(char **envp);
+
+//_______________________GET_FD________________________//
+int *get_fd_infiles(t_input *input, int size);
+int *get_fd_outfiles(t_input *input, int size);
+int open_infile(t_arg_lst *tmp);
+int open_outfile(t_arg_lst *tmp);
+
+//________________________FREE_________________________//
+void strarray_free(char **built);
 
 #endif

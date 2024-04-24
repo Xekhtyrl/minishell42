@@ -6,11 +6,11 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/20 18:14:47 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 20:54:53 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
 void strarray_free(char **built)
 {
@@ -24,4 +24,3 @@ void strarray_free(char **built)
 	}
 	free(built);
 }
-

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/20 19:19:45 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 17:26:20 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@
 # define READ_TK 17
 # define HEREDOC_TK 18
 # define ENV_VAR_TK 19
+# define SPACE_TK 20
 
 #endif

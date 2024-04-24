@@ -8,7 +8,10 @@ MY_SOURCES =	main.c		\
 				 src/parsing.c \
 				 src/parsing_utils.c \
 				 src/parsing_lst.c \
-				 src/signal.c
+				 src/signal.c \
+				 src/execute.c \
+				 src/get_fd.c \
+				 src/free.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
 

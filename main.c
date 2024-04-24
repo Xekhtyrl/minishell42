@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/24 17:18:14 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:37:36 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int main(int argc, char **argv, char **envp)
 {
 	static char 	*str;
 	t_input			*input;
-	int				pipe[2];
+	int				*pipe[2];
 
 	str = NULL;
 	(void)argc;
@@ -96,7 +96,8 @@ int main(int argc, char **argv, char **envp)
 		add_history(str);
 		input = parse(str);
 		free(str);
-		//fill_fd(pipe, input);
+		if (fill_fd(pipe, input) == -1)
+			printf("yolo\n");
 		print_input_lst(input);
 		//execute_command(envp, input, pipe);
 	}
