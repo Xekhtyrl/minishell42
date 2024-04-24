@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 18:46:19 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 16:32:02 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,44 @@ int exec_cmd_ve(t_input *cmd, char *path)
 	
 }
 
-int	execute_command(char **envp, t_input *cmd)
+int trad_input(t_input *cmd)
 {
+	t_input *tmp;
 	char **built;
-	char *path;
 
 	built = ft_split("echo cd pwd export unset env exit", ' ');
 	if (!built)
 		return (0);
-	if (in_list(cmd->token, built))
-		cmd->type = BUILT_TK;
-	if (cmd->type == WORD_TK)
+	tmp = cmd;
+	while (tmp)
 	{
-		path = get_cmd_path(envp, cmd);
-		if (path == 0)
-			return (strarray_free(built), -1); //error path
-		exec_cmd_ve(cmd, path);
+		if (in_list(tmp->token, built))
+			tmp->type = BUILT_TK;
+		tmp = tmp->next;
 	}
-	else
-		exec_builtin(cmd);
-	return (strarray_free(built), 0);
+	return (strarray_free(built), 1);
+}
+
+int	execute_command(char **envp, t_input *cmd, int pipe[2])
+{
+	char	*path;
+	t_input *tmp;
+	int		file_fd;
+	
+	
+	tmp = cmd;
+	while (tmp)
+	{
+		if (tmp->type == WORD_TK)
+		{
+			path = get_cmd_path(envp, tmp);
+			if (path == 0)
+				return (-1); //error path
+			exec_cmd_ve(tmp, path);
+		}
+		else if (tmp->type == BUILT_TK)
+			exec_builtin(cmd);
+		tmp = tmp->next;
+	}
+	return (0);
 }

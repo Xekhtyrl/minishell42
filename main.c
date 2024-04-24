@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 19:20:58 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 16:29:56 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,24 @@ char	*pick_title()
 	if (getenv("SHLVL="))
 		l = ft_atoi(getenv("SHLVL="));
 	if (l == 2)
-		return(GREEN"Minishell "NC"\n");
+		return(GREEN"Minishell "NC);
 	if (l == 3)
-		return(GREEN"Minishel"RED"l "NC"\n");
+		return(GREEN"Minishel"RED"l "NC);
 	if (l == 4)
-		return(GREEN"Minishe"RED"ll "NC"\n");
+		return(GREEN"Minishe"RED"ll "NC);
 	if (l == 5)
-		return(GREEN"Minish"RED"ell "NC"\n");
+		return(GREEN"Minish"RED"ell "NC);
 	if (l == 6)
-		return(GREEN"Minis"RED"hell "NC"\n");
+		return(GREEN"Minis"RED"hell "NC);
 	if (l == 7)
-		return(GREEN"Mini"RED"shell "NC"\n");
+		return(GREEN"Mini"RED"shell "NC);
 	if (l == 8)
-		return(GREEN"Min"RED"ishell "NC"\n");
+		return(GREEN"Min"RED"ishell "NC);
 	if (l == 9)
-		return(GREEN"Mi"RED"nishell"NC"\n");
+		return(GREEN"Mi"RED"nishell"NC);
 	if (l == 10)
-		return(GREEN"M"RED"inishell "NC"\n");
-	return (RED"Mini hell "NC"\n");
+		return(GREEN"M"RED"inishell "NC);
+	return (RED"Mini hell "NC);
 }
 
 int only_space(char *str)
@@ -75,7 +75,8 @@ int only_space(char *str)
 int main(int argc, char **argv, char **envp)
 {
 	static char 	*str;
-	t_input	*input;
+	t_input			*input;
+	int				pipe[2];
 
 	str = NULL;
 	(void)argc;
@@ -83,6 +84,8 @@ int main(int argc, char **argv, char **envp)
 	(void)envp;
 	using_history();
 	set_signals();
+	pipe[0] = 0;
+	pipe[1] = 0;
 	while (1)
 	{
 		str = readline(pick_title()); //pick_title()
@@ -93,9 +96,8 @@ int main(int argc, char **argv, char **envp)
 		add_history(str);
 		input = parse(str);
 		free(str);
-		printf("%d\n",rl_mark);
 		print_input_lst(input);
-		//execute_command(input);
+		//execute_command(envp, input, pipe);
 	}
 	clear_history();
 	return (0);
