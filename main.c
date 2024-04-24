@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/24 16:29:56 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 17:18:14 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int main(int argc, char **argv, char **envp)
 		add_history(str);
 		input = parse(str);
 		free(str);
+		//fill_fd(pipe, input);
 		print_input_lst(input);
 		//execute_command(envp, input, pipe);
 	}

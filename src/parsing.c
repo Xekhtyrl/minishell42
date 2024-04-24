@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 18:28:58 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 17:10:08 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,15 @@ static int	split_cmd_redir(t_input **cmd, char *str, int start)
 	arg = NULL;
 	while (str[start] && str[start] != '|' && start < (int)ft_strlen(str))
 	{
-		if (token == 2)
+		if (token == 2 && !*cmd)
 			*cmd = create_node(split_token(str, &start, str[start]), WORD_TK);
+		else if (token == 2 && *cmd)
+			set_input(*cmd, split_token(str, &start, str[start]), WORD_TK);
 		else
 		{
 			arg = arg_node(get_token_type(str, start), split_token(str, &start, str[start]));
+			if (arg && !*cmd)
+				*cmd = create_node(0, 0);
 			if (arg)
 				ft_lstadd_back((t_list **)&(*cmd)->arg, (t_list *)arg);
 		}
@@ -106,7 +110,7 @@ static void	get_input_struct(t_input **start, char *str)
 	i = -1;
 	while (++i < (int)ft_strlen(str))
 	{
-		if (i == 0 || str[i] == '|' || (str[i - 1] == '|' && i > 1))
+		if (i == 0 || str[i] == '|' || (i > 1 && str[i - 1] == '|'))
 		{
 			if (i && str[i - 1] == '|')
 				while (str[i] && is_white_space(str[i]))

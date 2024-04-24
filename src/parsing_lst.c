@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 15:32:16 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 17:10:42 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,12 @@ t_arg_lst	*arg_node(int type, char *token)
 	node->type = type;
 	node->next = NULL;
 	return (node);
+}
+
+void set_input(t_input *cmd, char *token, int type)
+{
+	if (!cmd)
+		return ;
+	cmd->token = token;
+	cmd->type = type;
 }

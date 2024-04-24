@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/24 16:32:02 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 17:22:08 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,18 @@ int	execute_command(char **envp, t_input *cmd, int pipe[2])
 		tmp = tmp->next;
 	}
 	return (0);
+}
+
+int fill_fd(int pipe[2], t_input *input)
+{
+	t_arg_lst *tmp;
+
+	tmp = input->arg;
+	if (tmp)
+	{
+		tmp = tmp->next;
+		if (tmp->type == READ_TK)
+			pipe[0] = open(tmp->next->token, O_RDONLY);
+	}
+
 }
