@@ -6,19 +6,19 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/24 17:26:20 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 21:33:13 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# define GREEN "\033[0;32m\x1b[1m"
-# define LBLUE "\033[0;36m\x1b[1m"
-# define BLUE "\033[0;34m\x1b[1m"
-# define RED "\033[0;31m\x1b[1m"
-# define WHITE "\033[0;30m"
-# define NC "\033[0m"
+# define GREEN "\001\033[0;32m\x1b[1m\002"
+# define LBLUE "\001\033[0;36m\x1b[1m\002"
+# define BLUE "\001\033[0;34m\x1b[1m\002"
+# define RED "\001\033[0;31m\x1b[1m\002"
+# define WHITE "\001\033[0;30m\002"
+# define NC "\001\033[0m\002"
 
 // "\[\e[1;34m\]\u@\h:\w \$\[\e[0m\] "
 

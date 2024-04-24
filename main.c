@@ -6,11 +6,11 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/24 21:30:54 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 21:34:24 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 #include <time.h>
 // #include <termios.h>
 
@@ -78,6 +78,7 @@ char *pick_title()
 	free(str);
 	str = ft_strjoinsup((char *[5]){GREEN, path, RED, str2, NC" "});
 	return (free(path), free(str2), str);
+}
 
 int only_space(char *str)
 {
@@ -101,18 +102,16 @@ int main(int argc, char **argv, char **envp)
 	str = NULL;
 	(void)argc;
 	(void)argv;
-	m_env = env_lst(envp);
-	ft_env(m_env);
+	(void)envp;
+	(void)m_env;
+	// m_env = env_lst(envp);
+	// ft_env(m_env);
 	using_history();
 	set_signals();
 	pipe[0] = 0;
 	pipe[1] = 0;
 	while (1)
 	{
-		printf("end    = %d\n",rl_end);
-		printf("point  = %d\n",rl_point);
-		printf("max_in = %d\n",max_input_history);
-		printf("%s\n",rl_line_buffer);
 		str = readline(pick_title());
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
 			str = readline(pick_title());

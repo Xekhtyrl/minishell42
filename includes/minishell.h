@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/24 21:26:53 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 21:33:11 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define READLINE_LIBRARY 1
 # define RL_PROMPT_START_IGNORE  '\001'
 # define RL_PROMPT_END_IGNORE    '\002'
-# include </Users/lvodak/.brew/Cellar/readline/8.2.10/include/readline/readline.h>
-# include </Users/lvodak/.brew/Cellar/readline/8.2.10/include/readline/history.h>
+// # include </Users/lvodak/.brew/Cellar/readline/8.2.10/include/readline/readline.h>
+// # include </Users/lvodak/.brew/Cellar/readline/8.2.10/include/readline/history.h>
 # include "/Users/gfinet/homebrew/Cellar/readline/8.2.10/include/readline/readline.h"
 # include "/Users/gfinet/homebrew/Cellar/readline/8.2.10/include/readline/history.h"
 // readline, (rl_)clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history
@@ -52,36 +52,7 @@
 # include <errno.h>
 
 /* exit, kill, chdir, , unlink, */
-# define GREEN "\001\033[0;32m\x1b[1m\002"
-# define LBLUE "\001\033[0;36m\x1b[1m\002"
-# define BLUE "\001\033[0;34m\x1b[1m\002"
-# define RED "\001\033[0;31m\x1b[1m\002"
-# define WHITE "\001\033[0;30m\002"
-# define NC "\001\033[0m\002"
 
-# define WORD_TK 13
-# define PIPE_TK 14
-# define WRITE_TK 15
-# define APPEN_TK 16
-# define READ_TK 17
-# define HEREDOC_TK 18
-# define ENV_VAR_TK 19
-# define SPACE_TK 20
-
-typedef struct s_arg_lst
-{
-	struct s_arg_lst	*next;
-	char				*token;
-	int					type;
-}	t_arg_lst;
-
-typedef	struct s_input
-{
-	struct s_input		*next;
-	char				*token;
-	int					type;
-	t_arg_lst			*arg;
-}	t_input;
 
 typedef struct s_env
 {
