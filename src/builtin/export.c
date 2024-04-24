@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/13 22:32:49 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/23 15:38:28 by lvodak           ###   ########.fr       */
+/*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
+/*   Updated: 2024/04/23 18:25:20 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/libft.h"
+#include "../../includes/minishell.h"
 
-int	ft_atoi(const char *str)
+void	ft_export(char *var, char *content, t_env **envp)
 {
-	int		f;
-	long	nbr;
+	int	i;
 
-	f = 1;
-	nbr = 0;
-	while ((*str >= 9 && *str <= 13) || *str == 32)
-		str++;
-	if (*str == '-' || *str == '+')
+	i = -1;
+	while (var[++i])
+		if (ft_isdigit(var[i]))
+			return (ft_putstr_fd("Unvalid variable name\n", 2));
+	if (content)
+		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node(var, content));
+	else
 	{
-		if (*str++ == '-')
-			f *= -1;
+		while (*envp)
+		{
+			printf("declare -x %s=%s\n");
+		}
 	}
-	while (ft_isdigit(*str))
-		nbr = nbr * 10 + (*str++ - '0');
-	if (nbr > INT32_MAX || (nbr == INT32_MAX && f == -1) || nbr < 0)
-		return (0);
-	return (nbr * f);
 }

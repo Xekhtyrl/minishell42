@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/13 22:32:49 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/23 15:38:28 by lvodak           ###   ########.fr       */
+/*   Created: 2024/04/23 14:52:28 by lvodak            #+#    #+#             */
+/*   Updated: 2024/04/23 17:29:43 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/libft.h"
+#include "../../includes/minishell.h"
 
-int	ft_atoi(const char *str)
+void	ft_unset(t_env	**envp, char *var)
 {
-	int		f;
-	long	nbr;
+	t_env	*prev;
 
-	f = 1;
-	nbr = 0;
-	while ((*str >= 9 && *str <= 13) || *str == 32)
-		str++;
-	if (*str == '-' || *str == '+')
+	prev = NULL;
+	while (*envp)
 	{
-		if (*str++ == '-')
-			f *= -1;
+		if (ft_strncmp(var, (*envp)->var, ft_strlen(var)))
+			break ;
+		prev = *envp;
+		*envp = (*envp)->next;
 	}
-	while (ft_isdigit(*str))
-		nbr = nbr * 10 + (*str++ - '0');
-	if (nbr > INT32_MAX || (nbr == INT32_MAX && f == -1) || nbr < 0)
-		return (0);
-	return (nbr * f);
+	if (*envp)
+	{
+		if (prev)
+			prev->next = (*envp)->next;
+		prev = *envp;
+		*envp = (*envp)->next;
+		free(prev);
+	}
 }
