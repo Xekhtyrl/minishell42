@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/24 21:34:24 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/24 22:19:54 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int main(int argc, char **argv, char **envp)
 		if (fill_fd(pipe, input) == -1)
 			printf("yolo\n");
 		print_input_lst(input);
-		//execute_command(envp, input, pipe);
+		execute_command(envp, input, pipe);
 	}
 	clear_history();
 	return (0);
