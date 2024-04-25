@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/24 22:20:26 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:57:29 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ int open_outfile(t_arg_lst *tmp);
 //________________________FREE_________________________//
 void strarray_free(char **built);
 int	send_error(int flag);
+void close_pipes(int *pipe[2], int size);
 
 #endif

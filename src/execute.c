@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/24 22:36:32 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/25 16:22:15 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,20 +112,22 @@ int	execute_command(char **envp, t_input *cmd, int *pipe[2])
 	(void)pipe;
 	tmp = cmd;
 	if (!trad_input(cmd))
-		return (send_error(-1), 0);
+		return (close_pipes(pipe, ft_lstsize((t_list *)cmd)),
+			send_error(-1), 0);
 	while (tmp)
 	{
 		if (tmp->type == WORD_TK)
 		{
 			path = get_cmd_path(envp, tmp);
 			if (path == 0)
-				return (-1); //error path
+				return (close_pipes(pipe, ft_lstsize((t_list *)cmd)), -1); //error path
 			exec_cmd_ve(tmp, path);
 		}
 		else if (tmp->type == BUILT_TK)
 			;//exec_builtin(cmd);
 		tmp = tmp->next;
 	}
+	close_pipes(pipe, ft_lstsize((t_list *)cmd));
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/24 22:18:44 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/25 16:12:56 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int open_outfile(t_arg_lst *tmp)
 		tmp = tmp->next;
 		if (tmp->type == 15 && tmp->next)
 		{
-			if (fd != 0)
+			if (fd != 0 && fd != -1)
 				close(fd);
 			if (tmp->next && tmp->next->type == 20)
 				tmp = tmp->next;
@@ -61,6 +61,7 @@ int *get_fd_outfiles(t_input *input, int size)
 		i++;
 		tmp2 = tmp2->next;
 	}
+	printf("fdout[i] = %d\n", fd[--i]);
 	return (fd);
 }
 
@@ -76,8 +77,8 @@ int open_infile(t_arg_lst *tmp)
 		{
 			if (tmp->next && tmp->next->type == 20)
 				tmp = tmp->next;
-			if (fd != 0 && fd)
-				close(fd);
+			if (fd != 0 && fd != -1)
+				{printf("coucou %d\n", fd);close(fd);}
 			fd = open(tmp->next->token, O_RDONLY);
 		}
 	}
@@ -110,6 +111,7 @@ int *get_fd_infiles(t_input *input, int size)
 		i++;
 		tmp2 = tmp2->next;
 	}
+	printf("fdin[i] = %d\n", fd[--i]);
 	return (fd);
 }
 
