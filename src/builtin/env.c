@@ -6,11 +6,32 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/23 21:26:08 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/26 21:06:29 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	update_shell_lvl(t_env	**envp)
+{
+	int	n;
+
+	n = 0;
+	while (*envp)
+	{
+		if (!ft_strncmp((*envp)->var, "SHLVL", 5))
+		{
+			n = ft_atoi((*envp)->content);
+			if (n >= 999)
+				(*envp)->content = ft_strdup("");
+			else if (n < 0)
+				(*envp)->content = ft_strdup("0");
+			else
+				(*envp)->content = ft_itoa(n + 1);
+			break ;
+		}
+	}
+}
 
 t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 {
@@ -36,6 +57,7 @@ t_env	*env_lst(char **envp)
 	int		len;
 
 	prev = NULL;
+	start = NULL;
 	len = 0;
 	while (*envp)
 	{
@@ -46,8 +68,9 @@ t_env	*env_lst(char **envp)
 		prev = new;
 		if (ft_strlen(var) > (size_t)len)
 			len = ft_strlen(var);
+		envp++;
 	}
-	sort_LSD_recursive(&start, NULL, len);
+	sort_lst(&start);
 	return (start);
 }
 
@@ -57,7 +80,8 @@ void	ft_env(t_env *envp)
 		return ;
 	while (envp)
 	{
-		printf("%s=%s\n", envp->var, envp->content);
+		if (envp->flag != 2)
+			printf("%s=%s\n", envp->var, envp->content);
 		envp = envp->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/20 18:51:04 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:38:17 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	split_cmd_redir(t_input **cmd, char *str, int start)
 	return (start);
 }
 
-static int split_cmd(t_input **cmd, char *str, int start)
+int split_cmd(t_input **cmd, char *str, int start)
 {
 	t_arg_lst	*arg;
 	int			token;

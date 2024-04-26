@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/23 21:20:56 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:38:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,13 @@ int	main_loop(void);
 //_______________________UTILS________________________//
 void	push(t_env **lst1, t_env **lst2);
 void	rotate(t_env **lst1);
-void	sort_LSD_recursive(t_env **lsta, t_env **lstb, int msd);
+void	sort_lst(t_env **lsta);
 
 void	ft_env(t_env *envp);
 t_env	*env_lst(char **envp);
 t_env	*create_env_node(char *var, char *content, int flag, t_env *prev);
+
+int split_cmd(t_input **cmd, char *str, int start);
 
 #endif
 

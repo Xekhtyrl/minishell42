@@ -6,54 +6,42 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 20:48:41 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/23 21:28:32 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/25 19:56:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	push(t_env **lst1, t_env **lst2)
+void	swap(t_env	**lst1)
 {
-	t_env	*temp;
+	char	*temp;
+	char	*temp2;
+	int		tmp;
 
-	if (!*lst1)
-		return ;
-	temp = *lst1;
-	(*lst1)->next = (*lst2);
-	if (*lst2)
-		(*lst2)->prev = *lst1;
-	*lst2 = *lst1;
-	(*lst2)->prev = NULL;
-	*lst1 = temp->next;
-	(*lst1)->prev = NULL;
+	temp = (*lst1)->content;
+	temp2 = (*lst1)->var;
+	tmp = (*lst1)->flag;
+	(*lst1)->content = (*lst1)->next->content;
+	(*lst1)->var = (*lst1)->next->var;
+	(*lst1)->flag = (*lst1)->next->flag;
+	(*lst1)->next->content = temp;
+	(*lst1)->next->var = temp2;
+	(*lst1)->next->flag = tmp;
 }
 
-void	rotate(t_env **lst1)
+void	sort_lst(t_env **lsta)
 {
-	if (!*lst1)
-		return ;
-	if ((*lst1)->next)
-		*lst1 = (*lst1)->next;
-	else
-		while ((*lst1)->prev)
-			*lst1 = (*lst1)->prev;
-}
-
-void	sort_LSD_recursive(t_env **lsta, t_env **lstb, int msd)
-{
-	if (msd > 0)
-		sort_LSD_recursive(lsta, lstb, msd>>1);
-	while (msd > 0)
+	while ((*lsta)->next)
 	{
-		if (!(*lsta)->flag && ((*lsta)->var[msd] & msd))
-			rotate(lsta);
-		else
-			push(lsta, lstb);
-		if (*lstb)
+		if ((*lsta)->next && ft_strncmp((*lsta)->var, (*lsta)->next->var, ft_strlen((*lsta)->var)) > 0)
 		{
-			while (*lstb)
-				push(lstb, lsta);
+			swap(lsta);
+			while ((*lsta)->prev)
+				*lsta = (*lsta)->prev; 
 		}
+		else
+			*lsta = (*lsta)->next;
 	}
-	return ;
+	while ((*lsta)->prev)
+		*lsta = (*lsta)->prev; 
 }
