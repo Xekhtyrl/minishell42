@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/25 16:21:47 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/26 22:53:57 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ int main(int argc, char **argv, char **envp)
 		free(str);
 		if (fill_fd(pipe, input) == -1)
 			printf("yolo\n");
-		execute_command(envp, input, pipe);
 		print_input_lst(input);
+		execute_command(envp, input, pipe);
 	}
 	clear_history();
 	return (0);

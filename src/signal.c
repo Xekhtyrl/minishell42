@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/24 21:28:44 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/26 22:31:25 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ void ctrl_d(void)
 {
 	printf("exit\n");
 	exit(130);
-}
-
-void ctrl_bslash(int num)
-{
-	num++;
-	printf(GREEN"Mini"NC"S̸"RED"Hell "NC);
 }
 
 void sign_handler(int code)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 21:53:27 by lvodak            #+#    #+#             */
-/*   Updated: 2024/01/20 19:23:28 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/26 22:22:19 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ char	*error_free(char *str, char *temp)
 char	*ft_dup(char *src)
 {
 	char	*dup;
-	int		i;
 
-	i = 0;
 	if (src == NULL)
 		src = "(null)";
 	dup = (char *) malloc(sizeof(char) * (ft_strlen(src) + 1));

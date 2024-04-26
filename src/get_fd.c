@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/25 16:12:56 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/26 22:57:26 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,12 @@ int open_outfile(t_arg_lst *tmp)
 
 int *get_fd_outfiles(t_input *input, int size)
 {
-	t_arg_lst	*tmp;
 	t_input		*tmp2;
 	int			*fd;
 	int			i;
 
 	i = 0;
-	if (input->arg)
-		tmp = input->arg;
-	else
+	if (!input->arg)
 		return (0);
 	fd = malloc(sizeof(int) * size);
 	if (!fd)
@@ -89,15 +86,12 @@ int open_infile(t_arg_lst *tmp)
 
 int *get_fd_infiles(t_input *input, int size)
 {
-	t_arg_lst	*tmp;
 	t_input		*tmp2;
 	int			*fd;
 	int			i;
 
 	i = 0;
-	if (input->arg)
-		tmp = input->arg;
-	else
+	if (!input->arg)
 		return (0);
 	fd = malloc(sizeof(int) * size);
 	if (!fd)
@@ -117,10 +111,8 @@ int *get_fd_infiles(t_input *input, int size)
 
 int fill_fd(int *pipe[2], t_input *input)
 {
-	int i;
 	int size;
 
-	i = 0;
 	size = ft_lstsize((t_list *)input);
 	pipe[1] = get_fd_outfiles(input, size);
 	if (!pipe[1])
