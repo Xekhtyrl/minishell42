@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/04/28 23:43:25 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:25:11 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,29 @@ int uni_dup(int fd_in, int fd_out)
 	return (1);
 }
 
-int	mini_dup(int *fd_in_out[2], int n_cmd, int size)
+int	mini_dup(int *fd_in_out[2], int cur)
 {
-	int *prev = 0;
-	int *next = 0;
-	int pipe_fd[2];
+	int prev = cur - 1;
 
-	if (n_cmd == 0 && fd_in_out[0][1] != 1)
-		return (uni_dup(fd_in_out[0][0], fd_in_out[0][1]));
-	if (size > 1 && fd_in_out[n_cmd][1] == 1)
-
-	if (fd_in_out[n_cmd - 1][1])
-	pipe_fd[0] = fd_in_out[n_cmd - 1][1];
-	pipe_fd[1] = fd_in_out[n_cmd][1];
-	if (*prev == 0 && fd_in_out[n_cmd][0] == 0)
+	if (cur == 0)
+		uni_dup(fd_in_out[0][0], fd_in_out[1][0]);
+	else
 	{
-		if (dup2(*prev, STDIN_FILENO) == -1)
-			return (-1);
+		if (fd_in_out[prev][1] == 1 && fd_in_out[cur][0] == 0)
+		{
+			if (uni_dup(fd_in_out[1][prev], fd_in_out[1][cur]) == -1)
+				return (-1);
+			else
+				mini_cls_fd(fd_in_out[1][prev], fd_in_out[0][cur],
+					fd_in_out[cur][1]);
+		}
+		else if (fd_in_out[0][cur] > 1 && fd_in_out[1][cur] > 1)
+		{
+			if (uni_dup(fd_in_out[0][cur], fd_in_out[1][0]) == -1)
+				return (-1);
+			else
+				mini_cls_fd(fd_in_out[0][cur], fd_in_out[1][cur], 0);
+		}
 	}
-	else if (fd_in_out[n_cmd][0] > 0)
-	{
-		if (dup2(fd_in_out[n_cmd][0], STDIN_FILENO) == -1)
-			return (-1);
-	}
-	if (*next > 0)
-	{
-		if (dup2(*next, STDOUT_FILENO))
-			return (-1);
-	}
-	mini_cls_fd(*prev, *next, fd_in_out[n_cmd][0]);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 23:44:28 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:28:29 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int exec_cmd_ve(t_input *cmd, char *path)
 {
 	(void)cmd;
 	printf("%s\n", path);
+	
 
 	return (1);
 }
@@ -67,7 +68,7 @@ pid_t exec_cmd(t_input *cmd,t_cmd_info *inf, int n_cmd, int *pipe[2])
 	proc = fork();
 	if (!proc)
 	{
-		//mini_dup(pipe, n_cmd, inf->size);
+		mini_dup(pipe, n_cmd);
 		if (cmd->type == WORD_TK)
 			exec_cmd_ve(cmd, path);
 		else if (cmd->type == BUILT_TK)

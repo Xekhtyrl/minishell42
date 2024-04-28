@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/28 19:45:05 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:09:25 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,11 @@ int ft_pwd();
 int ft_exit();
 int ft_unset();
 // int ft_export();
+
+//________________________DUP_________________________//
+int uni_dup(int fd_in, int fd_out);
+int	mini_dup(int *fd_in_out[2], int cur);
+
 
 int split_cmd(t_input **cmd, char *str, int start);
 void	update_shell_lvl(t_env *envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/28 15:23:23 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 23:54:48 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@
 # define HEREDOC_TK 18
 # define ENV_VAR_TK 19
 # define SPACE_TK 20
+
+# define FD_OUT 1
+# define FD_IN 0
 
 #endif

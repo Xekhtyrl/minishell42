@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/28 22:11:43 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:19:35 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,27 +88,25 @@ int open_infile(t_arg_lst *tmp)
 
 int *get_fd_infiles(t_input *input, int size)
 {
-	t_input		*tmp2;
+	t_input		*tmp;
 	int			*fd;
 	int			i;
 
 	i = 0;
-	if (!input->arg)
-		return (0);
 	fd = malloc(sizeof(int) * size);
 	if (!fd)
 		return (0);
-	tmp2 = input;
+	tmp = input;
 	while (i < size)
 	{
 		fd[i] = 0;
-		if (tmp2)
+		if (tmp)
 		{
-			fd[i] = open_infile(tmp2->arg);
+			fd[i] = open_infile(tmp->arg);
 			// printf("fdin[%d] = %d\n",i,  fd[i]);
 			if (fd[i] == -1)
 				send_error(-2);
-			tmp2 = tmp2->next;
+			tmp = tmp->next;
 		}
 		i++;
 	}
