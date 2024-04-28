@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:35:30 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 19:42:41 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_env	*env_lst(char **envp)
 
 void	ft_env(t_env *envp)
 {
+	replace_or_append("_", "/usr/bin/env", 0, envp);
 	if (!envp)
 		return ;
 	while (envp)

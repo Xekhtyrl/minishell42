@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:33:01 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 19:36:04 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int			is_not_sep(char c);
 int			closed_quotes(char *str);
 int			check_for_pipe(char *str);
 int			get_token_type(char *c, int start);
+int			parse_error(char *str);
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token);
 t_input		*create_node(char *str, int type);
@@ -118,6 +119,7 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev);
 
 int split_cmd(t_input **cmd, char *str, int start);
 void	update_shell_lvl(t_env *envp);
+int	replace_or_append(char *var, char *content, int append, t_env *envp);
 
 #endif
 

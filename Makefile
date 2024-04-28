@@ -7,9 +7,11 @@ LIBFT = $(INCLUDES)/libft
 MY_SOURCES =	main.c				\
 				src/parsing.c		\
 				src/parsing_utils.c	\
+				src/parsing_utils2.c	\
 				src/parsing_lst.c	\
 				src/signal.c		\
 				src/builtin/env.c	\
+				src/builtin/export.c	\
 				src/utils/sort_list.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
@@ -55,7 +57,7 @@ $(NAME): $(MY_OBJECTS)
 	@echo "$(C_GREEN)                                                  .**   ****   **                                                     $(C_END)"  
 	@echo "$(C_GREEN)                                                   ***   *-*   ***                                                    $(C_END)"  
 	@echo "$(C_GREEN)                                                    *** **-*                                                          $(C_END)"  
-	@echo "$(C_GREEN)                                                     *******             $(C_END)"
+	@echo "$(C_GREEN)                                 .      *       .    *******         *   .$(C_END)"
 
 %.o:	%.c
 	@gcc $(CFLAGS) -I $(INCLUDES) -c $< -o $@
