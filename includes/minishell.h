@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 19:36:04 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 21:11:11 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,26 +100,26 @@ int			parse_error(char *str);
 t_arg_lst	*arg_node(int type, char *token);
 t_input		*create_node(char *str, int type);
 
-char	*pick_title();
+char		*pick_title();
 
 //_______________________SIGNAL________________________//
-void ctrl_c(int num);
-void ctrl_d(void);
-void set_signals(void);
-int	main_loop(void);
+void		ctrl_c(int num);
+void		ctrl_d(void);
+void		set_signals(void);
+int			main_loop(void);
 
 //_______________________UTILS________________________//
-void	push(t_env **lst1, t_env **lst2);
-void	rotate(t_env **lst1);
-void	sort_lst(t_env **lsta);
+void		push(t_env **lst1, t_env **lst2);
+void		rotate(t_env **lst1);
+void		sort_lst(t_env **lsta);
 
-void	ft_env(t_env *envp);
-t_env	*env_lst(char **envp);
-t_env	*create_env_node(char *var, char *content, int flag, t_env *prev);
+void		ft_env(t_env *envp);
+t_env		*env_lst(char **envp);
+t_env		*create_env_node(char *var, char *content, int flag, t_env *prev);
 
-int split_cmd(t_input **cmd, char *str, int start);
-void	update_shell_lvl(t_env *envp);
-int	replace_or_append(char *var, char *content, int append, t_env *envp);
+int			split_cmd(t_input **cmd, char *str, int start);
+void		update_shell_lvl(t_env *envp);
+int			replace_or_append(char *var, char *content, int append, t_env *envp);
 
 #endif
 

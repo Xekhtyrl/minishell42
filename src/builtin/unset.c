@@ -6,30 +6,32 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:52:28 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/23 17:29:43 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 21:14:57 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_unset(t_env	**envp, char *var)
+void	ft_unset(t_env	*envp, char *var)
 {
 	t_env	*prev;
 
 	prev = NULL;
-	while (*envp)
+	while (envp)
 	{
-		if (ft_strncmp(var, (*envp)->var, ft_strlen(var)))
+		if (ft_strncmp(var, (envp)->var, ft_strlen(var)))
 			break ;
-		prev = *envp;
-		*envp = (*envp)->next;
+		prev = envp;
+		envp = (envp)->next;
 	}
-	if (*envp)
+	if (envp)
 	{
 		if (prev)
-			prev->next = (*envp)->next;
-		prev = *envp;
-		*envp = (*envp)->next;
+			prev->next = (envp)->next;
+		if (envp->flag == 3)
+			free(envp->content);
+		prev = envp;
+		envp = (envp)->next;
 		free(prev);
 	}
 }
