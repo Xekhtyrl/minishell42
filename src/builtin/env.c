@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 21:50:38 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:42:08 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	update_shell_lvl(t_env	*envp)
 char	*get_env_var(t_env *envp, char *var)
 {
 	if (var && var[0] == '?')
-		return (signal_fct()); // laquelle???
+		return (0); //signal_fct()); // laquelle???
 	else
 	{
 		while (envp)

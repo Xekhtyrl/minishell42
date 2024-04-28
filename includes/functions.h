@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 00:09:25 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:42:35 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	sort_lst(t_env **lsta);
 void	ft_env(t_env *envp);
 t_env	*env_lst(char **envp);
 t_env	*create_env_node(char *var, char *content, int flag, t_env *prev);
-void ft_export();
 
 //_______________________BUILT________________________//
 int ft_echo();
@@ -99,7 +98,13 @@ int uni_dup(int fd_in, int fd_out);
 int	mini_dup(int *fd_in_out[2], int cur);
 
 
-int split_cmd(t_input **cmd, char *str, int start);
+int		split_cmd(t_input **cmd, char *str, int start);
 void	update_shell_lvl(t_env *envp);
+int		replace_or_append(char *var, char *content, int append, t_env *envp);
+char	*get_env_var(t_env *envp, char *var);
 
+int			parse_error(char *str);
+
+int			replace_or_append(char *var, char *content, int append, t_env *envp);
+char		*get_env_var(t_env *envp, char *var);
 #endif

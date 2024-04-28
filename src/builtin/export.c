@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 00:36:19 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:42:57 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 int	replace_or_append(char *var, char *content, int append, t_env *envp)
 {
 
-	while (env)
+	while (envp)
 	{
 		if (!ft_strncmp(envp->var, var, ft_strlen(var)))
 		{
