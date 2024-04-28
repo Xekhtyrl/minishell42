@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:47:32 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 22:01:23 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int main(int argc, char **argv, char **envp)
 	(void)m_env;
 	m_env = env_lst(envp);
 	update_shell_lvl(m_env);
-	ft_env(m_env);
+	//ft_env(m_env);
 	using_history();
 	set_signals();
 	pipe[0] = 0;

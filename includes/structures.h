@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:06:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/28 16:27:04 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 17:29:23 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ typedef	struct s_input
 	int					type;
 	t_arg_lst			*arg;
 }	t_input;
+
 
 #endif

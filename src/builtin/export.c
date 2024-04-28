@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:06:29 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 17:53:31 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	create_new_envar(char *var, char *content, int append, t_env *envp)
 {
 	t_env	*prev;
 
-	prev = *envp;
+	prev = envp;
 	while (prev)
 	{
 		if (!ft_strncmp(prev->var, var, ft_strlen(var)))
@@ -103,9 +103,9 @@ void	ft_export(t_arg_lst *arg, t_env *envp)
 	if (!arg)
 	{
 		sort_lst(envp);
-		while (*envp)
+		while (envp)
 		{
-		if ((*envp)->content)
+		if (envp->content)
 			printf("declare -x %s=%s\n");
 		else
 			printf("declare -x %s\n");

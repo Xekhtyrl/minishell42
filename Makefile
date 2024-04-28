@@ -12,6 +12,7 @@ MY_SOURCES =	main.c					\
 				src/builtin/env.c		\
 				src/utils/sort_list.c 	\
 				src/execute.c 			\
+				src/execute_utils.c 	\
 				src/get_fd.c 			\
 				src/free.c
 
