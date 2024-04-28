@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:35:30 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 21:50:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,24 @@ void	update_shell_lvl(t_env	*envp)
 	}
 }
 
+char	*get_env_var(t_env *envp, char *var)
+{
+	if (var && var[0] == '?')
+		return (signal_fct()); // laquelle???
+	else
+	{
+		while (envp)
+		{
+			if (!ft_strncmp(envp->var, var + 1, ft_strlen(envp->var)))
+				break ;
+			envp = envp->next;
+		}
+	}
+	if (envp)
+		return (0);
+	return (envp->content);
+}
+
 t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 {
 	t_env	*new;
@@ -51,6 +69,22 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 	return (new);
 }
 
+t_env	*create_simple_env(t_env *start)
+{
+	t_env	*prev;
+	t_env	*new;
+
+	new = create_env_node("OLDPWD", 0, 0, NULL);
+	ft_lstadd_back((t_list **)&start, (t_list *)new);
+	prev = new;
+	new = create_env_node("PWD", getcwd(NULL, 0), 3, prev);
+	ft_lstadd_back((t_list **)&start, (t_list *)new);
+	prev = new;
+	new = create_env_node("SHLVL", "0", 0, prev);
+	ft_lstadd_back((t_list **)&start, (t_list *)new);
+	return (start);
+}
+
 t_env	*env_lst(char **envp)
 {
 	t_env	*start;
@@ -62,6 +96,8 @@ t_env	*env_lst(char **envp)
 	prev = NULL;
 	start = NULL;
 	len = 0;
+	if (!envp || !*envp)
+		return (create_simple_env(start));
 	while (*envp)
 	{
 		var = ft_substr(*envp, 0, ft_strlen(*envp)
@@ -79,6 +115,7 @@ t_env	*env_lst(char **envp)
 
 void	ft_env(t_env *envp)
 {
+	replace_or_append("_", "/usr/bin/env", 0, envp);
 	if (!envp)
 		return ;
 	while (envp)
@@ -88,3 +125,5 @@ void	ft_env(t_env *envp)
 		envp = envp->next;
 	}
 }
+
+// a faire var d'env avec $

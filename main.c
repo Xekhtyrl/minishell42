@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 22:01:23 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:32:02 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char *pick_title()
 
 	lvl = 0;
 	if (getenv("SHLVL"))
-		lvl = atoi(getenv("SHLVL")) - 2;
+		lvl = atoi(getenv("SHLVL")) - 1;
 	path = getcwd(NULL, 0);
 	if (lvl < 10)
 		str = ft_strjoin("Minishell ", ft_strrchr(path, '/'));
@@ -92,6 +92,7 @@ int only_space(char *str)
 	return (0);
 }
 
+#include <fcntl.h>
 int main(int argc, char **argv, char **envp)
 {
 	static char 	*str;

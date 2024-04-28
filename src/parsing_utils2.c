@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   parsing_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/23 14:52:28 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 21:14:57 by lvodak           ###   ########.fr       */
+/*   Created: 2024/04/28 17:17:12 by lvodak            #+#    #+#             */
+/*   Updated: 2024/04/28 17:57:59 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-void	ft_unset(t_env	*envp, char *var)
+int	parse_error(char *str)
 {
-	t_env	*prev;
-
-	prev = NULL;
-	while (envp)
+	if (!closed_quotes(str))
+		return (1);
+	while (*str)
 	{
-		if (ft_strncmp(var, (envp)->var, ft_strlen(var)))
-			break ;
-		prev = envp;
-		envp = (envp)->next;
+		if ((*str == '<' && *(str + 1) == '>') || (*str == '>' && *(str + 1) == '<'))
+			return (1);
+		str++;
 	}
-	if (envp)
-	{
-		if (prev)
-			prev->next = (envp)->next;
-		if (envp->flag == 3)
-			free(envp->content);
-		prev = envp;
-		envp = (envp)->next;
-		free(prev);
-	}
+	return (0);
 }

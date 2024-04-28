@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:55:27 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:31:25 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,13 @@ static int	split_cmd_redir(t_input **cmd, char *str, int start)
 			if (arg)
 				ft_lstadd_back((t_list **)&lst, (t_list *)arg);
 		}
-		token++;
+		if ((str[start] == '<' || str[start] == '>'))
+			token = 0;
+		else
+			token++;
 	}
-	if (!*cmd)
-		*cmd = create_node(NULL, HEREDOC_TK);
+	if (token <= 2)
+		*cmd = create_node(NULL, 0);
 	(*cmd)->arg = lst;
 	return (start);
 }
@@ -129,7 +132,7 @@ static void	get_input_struct(t_input **start, char *str)
 					i++;
 			if (str[i] == '|')
 				i++;
-			else if (str[i] == '<')
+			else if (str[i] == '<' || str[i] == '>')
 				i = split_cmd_redir(&cmd, str, i);
 			else
 				i = split_cmd(&cmd, str, i);
@@ -149,7 +152,7 @@ t_input	*parse(char *str)
 	t_input	*input;
 
 	input = NULL;
-	if (!str || !closed_quotes(str))
+	if (!str || parse_error(str))
 		return (ft_putstr_fd("parse error\n !!! HAS TO BE CHANGED", 2), NULL);
 	get_input_struct(&input, str);
 	return (input);
