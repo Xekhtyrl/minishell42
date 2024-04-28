@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/26 20:28:06 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:35:02 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	m_env = env_lst(envp);
-	update_shell_lvl(&m_env);
-	// ft_env(m_env);
+	update_shell_lvl(m_env);
+	ft_env(m_env);
 	using_history();
 	set_signals();
 	while (1)

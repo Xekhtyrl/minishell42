@@ -6,13 +6,13 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:19:07 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/26 22:22:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:33:41 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/libft.h"
 
-char	*ft_strjoin_f(char const *s1, char const *s2, int fr)
+char	*ft_strjoin_f(char *s1, char const *s2, int fr)
 {
 	char	*s3;
 	int		j;
