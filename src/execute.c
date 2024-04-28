@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/25 16:22:15 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:09:49 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,18 @@ int exec_cmd_ve(t_input *cmd, char *path)
 	printf("%s\n", path);
 
 	return (1);
+}
+
+int exec_builtin(t_input *cmd, int *pipe[2])
+{
+	size_t size;
+	char **built;
+
+	built = ft_split("echo cd pwd export unset env exit", ' ');
+	size = ft_strlen(cmd->token);
+	
+	if (ft_strlen("echo") != size || ft_strncmp(cmd->token, "echo", size))
+		return (strarray_free(built), 0);
 }
 
 int	in_list(char *str,char **lst)
@@ -124,7 +136,7 @@ int	execute_command(char **envp, t_input *cmd, int *pipe[2])
 			exec_cmd_ve(tmp, path);
 		}
 		else if (tmp->type == BUILT_TK)
-			;//exec_builtin(cmd);
+			exec_builtin(cmd, pipe);
 		tmp = tmp->next;
 	}
 	close_pipes(pipe, ft_lstsize((t_list *)cmd));
