@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 21:38:31 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 21:50:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,24 @@ void	update_shell_lvl(t_env	*envp)
 		}
 		envp = envp->next;
 	}
+}
+
+char	*get_env_var(t_env *envp, char *var)
+{
+	if (var && var[0] == '?')
+		return (signal_fct()); // laquelle???
+	else
+	{
+		while (envp)
+		{
+			if (!ft_strncmp(envp->var, var + 1, ft_strlen(envp->var)))
+				break ;
+			envp = envp->next;
+		}
+	}
+	if (envp)
+		return (0);
+	return (envp->content);
 }
 
 t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
