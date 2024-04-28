@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:24:03 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:47:32 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char *pick_title()
 	if (getenv("SHLVL"))
 		lvl = atoi(getenv("SHLVL")) - 2;
 	path = getcwd(NULL, 0);
-	if (ft_strlen(ft_strrchr(path, '/')) + 10 > (size_t)lvl)
+	if (lvl < 10)
 		str = ft_strjoin("Minishell ", ft_strrchr(path, '/'));
 	else
 		str = ft_strjoin("Mini hell ", ft_strrchr(path, '/'));
@@ -104,6 +104,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)m_env;
 	m_env = env_lst(envp);
+	update_shell_lvl(m_env);
 	ft_env(m_env);
 	using_history();
 	set_signals();

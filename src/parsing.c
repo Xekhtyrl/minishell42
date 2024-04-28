@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/24 21:37:33 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:46:52 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	split_cmd_redir(t_input **cmd, char *str, int start)
 	return (start);
 }
 
-static int split_cmd(t_input **cmd, char *str, int start)
+int split_cmd(t_input **cmd, char *str, int start)
 {
 	t_arg_lst	*arg;
 	int			token;

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:21:57 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:47:27 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@
 
 /* exit, kill, chdir, , unlink, */
 
+
 void		print_input_lst(t_input	*input);
 //______________________PARSING_______________________//
 t_input		*parse(char *str);
@@ -78,11 +79,14 @@ void set_signals(void);
 //_______________________UTILS________________________//
 void	push(t_env **lst1, t_env **lst2);
 void	rotate(t_env **lst1);
-void	sort_LSD_recursive(t_env **lsta, t_env **lstb, int msd);
+void	sort_lst(t_env **lsta);
 
 void	ft_env(t_env *envp);
 t_env	*env_lst(char **envp);
 t_env	*create_env_node(char *var, char *content, int flag, t_env *prev);
+
+int split_cmd(t_input **cmd, char *str, int start);
+void	update_shell_lvl(t_env *envp);
 
 #endif
 
