@@ -6,13 +6,21 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:06:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/20 17:06:42 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:27:04 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
+typedef struct s_env
+{
+	struct s_env	*next;
+	char			*var;
+	struct s_env	*prev;
+	char			*content;
+	int				flag;
+}	t_env;
 
 typedef struct s_arg_lst
 {

@@ -6,35 +6,35 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:09:49 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:25:54 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**get_path(char **envp)
+char	**get_our_path(t_env *envp)
 {
-	char	*temp;
 	char	**path;
-	int		i;
+	t_env	*tmp;
 
-	i = -1;
-	while (envp && envp[++i])
+	tmp = envp;
+	while (tmp)
 	{
-		temp = ft_strnstr(envp[i], "PATH=", ft_strlen(envp[i]));
-		if (temp)
+		if (tmp->var
+			&& ft_strncmp(tmp->var, "PATH",ft_strlen(tmp->var)))
 		{
-			path = ft_split(temp + 5, ':');
+			path = ft_split(tmp->content, ':');
 			if (!path)
 				return (send_error(-1), NULL);
 			return (path);
 			strarray_free(path);
 		}
+		tmp=tmp->next;
 	}
 	return (0);
 }
 
-char *get_cmd_path(char **envp, t_input *input)
+char *get_cmd_path(t_env *envp, t_input *input)
 {
 	char	**path;
 	char	*cmd;
@@ -42,7 +42,7 @@ char *get_cmd_path(char **envp, t_input *input)
 	int		i;
 	
 	i = -1;
-	path = get_path(envp);
+	path = get_our_path(envp);
 	if (!path)
 		return (send_error(-1), NULL);
 	cmd = ft_strjoin("/", input->token);
@@ -74,6 +74,9 @@ int exec_builtin(t_input *cmd, int *pipe[2])
 	
 	if (ft_strlen("echo") != size || ft_strncmp(cmd->token, "echo", size))
 		return (strarray_free(built), 0);
+	if (pipe[0])
+		printf("%d", pipe[0][0]);
+	return (1);
 }
 
 int	in_list(char *str,char **lst)
@@ -115,7 +118,7 @@ int trad_input(t_input *cmd)
 	return (strarray_free(built), 1);
 }
 
-int	execute_command(char **envp, t_input *cmd, int *pipe[2])
+int	execute_command(t_env *envp, t_input *cmd, int *pipe[2])
 {
 	char	*path = 0;
 	t_input *tmp;

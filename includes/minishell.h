@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 14:55:09 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:21:57 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,6 @@
 # include <errno.h>
 
 /* exit, kill, chdir, , unlink, */
-
-
-typedef struct s_env
-{
-	struct s_env	*next;
-	struct s_env	*prev;
-	char			*var;
-	char			*content;
-	int				flag;
-}	t_env;
 
 void		print_input_lst(t_input	*input);
 //______________________PARSING_______________________//

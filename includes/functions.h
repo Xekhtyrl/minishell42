@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/25 15:57:29 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:25:33 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ void set_signals(void);
 
 //______________________EXECUTE________________________//
 int	fill_fd(int *pipe[2], t_input *input);
-int	execute_command(char **envp, t_input *cmd, int *pipe[2]);
+int	execute_command(t_env *envp, t_input *cmd, int *pipe[2]);
 int trad_input(t_input *cmd);
-char	**get_path(char **envp);
+char	**get_our_path(t_env *envp);
+char *get_cmd_path(t_env *envp, t_input *input);
 
 //_______________________GET_FD________________________//
 int *get_fd_infiles(t_input *input, int size);
