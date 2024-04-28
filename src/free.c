@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/28 22:35:13 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 23:34:58 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void close_pipes(int *pipe[2], int size)
 			close(pipe[1][i]);
 		i++;
 	}
-	free(pipe[0]);
-	free(pipe[1]);
 }
 
 void strarray_free(char **built)

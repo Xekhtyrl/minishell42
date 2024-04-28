@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 22:42:08 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/28 23:44:28 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int exec_builtin(t_input *cmd, t_env *envp)
 	char **built;
 	int f;
 
-	printf("builtin\n");
+	printf("builtin %s\n", cmd->token);
 	f = 0;
 	built = ft_split("cd pwd env echo exit unset export", ' ');
 	if (!built)
@@ -51,101 +51,75 @@ int exec_builtin(t_input *cmd, t_env *envp)
 	return (strarray_free(built), 1);
 }
 
-int uni_dup(int fd_in, int fd_out)
+pid_t exec_cmd(t_input *cmd,t_cmd_info *inf, int n_cmd, int *pipe[2])
 {
-	if (fd_in > 0)
+	char *path;
+	pid_t proc;
+
+	path = 0;
+	n_cmd = n_cmd - 1 + 1;
+	if (cmd->type == WORD_TK)
 	{
-		if (dup2(fd_in, STDIN_FILENO) == -1)
-			return (-1);
+		path = get_cmd_path(inf->env, cmd);
+		if (path == 0)
+			return (close_pipes(pipe, inf->size), -1); //error path
 	}
-	if (fd_out > 1)
+	proc = fork();
+	if (!proc)
 	{
-		if (dup2(fd_out, STDOUT_FILENO) == -1)
-			return (-1);
+		//mini_dup(pipe, n_cmd, inf->size);
+		if (cmd->type == WORD_TK)
+			exec_cmd_ve(cmd, path);
+		else if (cmd->type == BUILT_TK)
+			exec_builtin(cmd, inf->env);
+		exit(0);
 	}
-	return (1);
+	return (proc);
 }
 
-int	mini_dup(int *fd_in_out[2], int n_cmd, int size)
+void wait_proc(t_cmd_info * info)
 {
-	int *prev = 0;
-	int *next;
-	int pipe_fd[2];
+	int i;
+	int *bugs;
 
-	if (n_cmd == 0 && fd_in_out[0][1] != 1)
-		return (uni_dup(fd_in_out[0][0], fd_in_out[0][1]));
-	if (size > 1 && fd_in_out[n_cmd][1] == 1)
-
-	if (fd_in_out[n_cmd - 1][1])
-	pipe_fd[0] = fd_in_out[n_cmd - 1][1];
-	pipe_fd[1] = fd_in_out[n_cmd][1];
-	if (*prev == 0 && fd_in_out[n_cmd][0] == 0)
+	i = 0;
+	bugs = 0;
+	bugs = malloc(sizeof(int) * info->size);
+	while (i < info->size)
 	{
-		if (dup2(*prev, STDIN_FILENO) == -1)
-			return (-1);
+		waitpid(info->proc[i], bugs, 0);
+		i++;
 	}
-	else if (fd_in_out[n_cmd][0] > 0)
-	{
-		if (dup2(fd_in_out[n_cmd][0], STDIN_FILENO) == -1)
-			return (-1);
-	}
-	if (*next > 0)
-	{
-		if (dup2(*next, STDOUT_FILENO))
-			return (-1);
-	}
-	mini_cls_fd(*prev, *next, fd_in_out[n_cmd][0]);
-	return (1);
 }
 
 int	execute_command(t_env *envp, t_input *cmd, int *pipe[2])
 {
-	char	*path = 0;
 	t_input *tmp;
 	int n_cmd;
-	pid_t *proc;
-	int size;
+	t_cmd_info inf;
 	
 	(void)envp;
 	(void)pipe;
 	tmp = cmd;
 	n_cmd = 0;
-	size = ft_lstsize((t_list *)cmd);
-	proc = malloc(sizeof(pid_t) * size);
+	inf.size = ft_lstsize((t_list *)cmd);
+	inf.proc = malloc(sizeof(pid_t) * inf.size);
+	inf.env = envp;
 	if (!trad_input(cmd))
-		return (close_pipes(pipe, size),
+		return (close_pipes(pipe, inf.size),
 			send_error(-1), 0);
 	while (tmp)
 	{
 		if (pipe[0])
-			printf("in %d\n",pipe[0][n_cmd]);
+			printf("%s in %d\n", tmp->token, pipe[0][n_cmd]);
 		if (pipe[1])
-			printf("out %d\n",pipe[1][n_cmd]);
-		if (tmp->type == WORD_TK)
-		{
-			path = get_cmd_path(envp, tmp);
-			if (path == 0)
-				return (close_pipes(pipe, ft_lstsize((t_list *)cmd)), -1); //error path
-			proc[n_cmd] = fork();
-			if (!proc[n_cmd])
-			{
-				mini_dup(pipe, n_cmd, ft_lstsize((t_list *)cmd));
-				exec_cmd_ve(tmp, path);
-			}
-		}
-		else if (tmp->type == BUILT_TK)
-		{
-			proc[n_cmd] = fork();
-			if (!proc[n_cmd])
-			{
-				mini_dup(pipe, n_cmd, ft_lstsize((t_list *)cmd));
-				exec_builtin(tmp, envp);
-			}
-		}
+			printf("%s out %d\n", tmp->token, pipe[1][n_cmd]);
+		inf.proc[n_cmd] = exec_cmd(tmp, &inf, n_cmd, pipe);
 		tmp = tmp->next;
 		n_cmd++;
 	}
-	close_pipes(pipe, ft_lstsize((t_list *)cmd));
+	wait_proc(&inf);
+	close_pipes(pipe, inf.size);
 	return (0);
 }
 
