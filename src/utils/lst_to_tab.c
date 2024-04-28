@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   lst_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 21:41:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:12:06 by lvodak           ###   ########.fr       */
+/*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
+/*   Updated: 2024/04/28 16:27:52 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_cd(t_env *envp, char *path, char **erf)
+char	**lst_to_tab(t_list *lst)
 {
-	char *new_path;
-	char *pwd;
+	char	**tabl;
+	int		len;
+	int		i;
 
-	pwd = getcwd(NULL, 0);
-	chdir(path);
-	new_path = getcwd(NULL, 0);
-	if (!ft_strncmp(path, "..", ft_strlen(path)) && !ft_strncmp(path, new_path, ft_strlen(path)))
-		chdir(ft_getenv("HOME", envp));
-	ft_update_env("PWD", new_path, envp);
-	ft_update_env("OLD_PWD", pwd, envp);
+	len = ft_lstsize(lst);
+	tabl = malloc(sizeof(char *) * (len + 1));
+	if (!tabl);
+		return(0);
+	i = -1;
+	while (++i < len)
+	{
+		tabl[i] = lst->content;
+		lst = lst->next;
+	}
+	tabl[i] = 0;
+	return (tabl);
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	ft_cd(NULL, argv[1], &argv[2]);
-// }

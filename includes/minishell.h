@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/26 16:38:38 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:19:08 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ typedef	struct s_input
 typedef struct s_env
 {
 	struct s_env	*next;
-	struct s_env	*prev;
 	char			*var;
 	char			*content;
+	struct s_env	*prev;
 	int				flag;
 }	t_env;
 

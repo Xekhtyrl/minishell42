@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/26 21:06:29 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 15:49:15 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ void	update_shell_lvl(t_env	**envp)
 		if (!ft_strncmp((*envp)->var, "SHLVL", 5))
 		{
 			n = ft_atoi((*envp)->content);
-			if (n >= 999)
+			if (n == 999)
 				(*envp)->content = ft_strdup("");
+			else if (n > 999)
+				(*envp)->content = ft_strdup("1");
 			else if (n < 0)
 				(*envp)->content = ft_strdup("0");
 			else
@@ -61,8 +63,8 @@ t_env	*env_lst(char **envp)
 	len = 0;
 	while (*envp)
 	{
-		var = ft_substr(*envp, 0, ft_strlen(*envp) -
-				ft_strlen(ft_strchr(*envp, '=')));
+		var = ft_substr(*envp, 0, ft_strlen(*envp)
+				- ft_strlen(ft_strchr(*envp, '=')));
 		new = create_env_node(var, ft_strchr(*envp, '=') + 1, 0, prev);
 		ft_lstadd_back((t_list **)&start, (t_list *)new);
 		prev = new;
@@ -80,7 +82,7 @@ void	ft_env(t_env *envp)
 		return ;
 	while (envp)
 	{
-		if (envp->flag != 2)
+		if (envp->content)
 			printf("%s=%s\n", envp->var, envp->content);
 		envp = envp->next;
 	}

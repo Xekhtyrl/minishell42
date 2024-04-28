@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/26 22:30:01 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:06:29 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //create a new environment variable by adding it to the end of the struct
 //and if the var already exist, it will replace it or append it
-void	create_new_envar(char *var, char *content, int append, t_env **envp)
+void	create_new_envar(char *var, char *content, int append, t_env *envp)
 {
 	t_env	*prev;
 
@@ -71,7 +71,7 @@ int	checkarg(char *arg)
 	return (c);
 }
 
-void	ft_export(t_arg_lst *arg, t_env **envp)
+void	ft_export(t_arg_lst *arg, t_env *envp)
 {
 	// int		i;
 	// t_env	*prev;
