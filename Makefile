@@ -18,6 +18,7 @@ MY_SOURCES =	main.c					\
 				src/get_fd.c 			\
 				src/get_path.c 			\
 				src/dup.c				\
+				src/utils/lst_to_tab.c	\
 				src/free.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)

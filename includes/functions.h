@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 18:53:47 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 19:21:53 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,8 @@ int			parse_error(char *str);
 int			replace_or_append(char *var, char *content, int append, t_env *envp);
 char 	**get_env(t_env *envp);
 char	*ft_stradd(char *s1, char const *s2);
+
+char	**lst_to_tab(t_list *lst);
+char **get_all_cmd(t_input *cmd);
 
 #endif

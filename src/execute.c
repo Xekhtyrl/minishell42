@@ -6,51 +6,23 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 18:28:41 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 19:43:26 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char **get_all_cmd(t_input *cmd)
-{
-	t_arg_lst *tmp;
-	char **res;
-	int len;
-	int i;
-
-	res = 0;
-	len = ft_lstsize((t_list *)cmd->arg);
-	// printf("len %d\n",len);
-	res = malloc((len + 2) * sizeof(char *));
-	if (!res)
-		return (0);
-	res[len + 1] = NULL;
-	res[0] = ft_strdup(cmd->token);
-	tmp = cmd->arg;
-	i = 1;
-	while (tmp)
-	{
-		res[i] = ft_strdup(tmp->token);
-		tmp = tmp->next;
-		i++;
-	}
-	return (res);
-}
-
-void exec_cmd_ve(t_input *cmd, char **envp, char *path)
+void exec_cmd_ve(t_input *cmd, char **envp, char *path, int pipe[2])
 {	
 	char **cmd_cplt;
 	
-	// pipe[0]++;
-	// pipe[0]--;
+
+	pipe[0]++;
+	pipe[0]--;
+	// close(pipe[0]);
+	// close(pipe[1]);
 
 	cmd_cplt = get_all_cmd(cmd);
-	// (void)path;
-	// (void)envp;
-	// int i=0;
-	// while (cmd_cplt[i])
-	// 	printf("%s\n", cmd_cplt[i++]);
 	execve(path, cmd_cplt, envp);
 	exit(EXIT_FAILURE);
 }
@@ -83,6 +55,7 @@ int exec_builtin(t_input *cmd, char **envp)
 	// 	ft_unset();
 	// if (f == 6)
 	// 	ft_export();
+	exit(0);
 	return (strarray_free(built), 1);
 }
 
@@ -91,9 +64,11 @@ pid_t exec_cmd(t_input *cmd,t_cmd_info *inf, int n_cmd, int *pipe[2])
 	char *path;
 	char **envp;
 	pid_t proc;
+	int pipe_fd[2];
 
 	path = 0;
-	n_cmd = n_cmd - 1 + 1;
+	pipe_fd[0] = pipe[0][n_cmd];
+	pipe_fd[1] = pipe[1][n_cmd];
 	if (cmd->type == WORD_TK)
 	{
 		path = get_cmd_path(inf->env, cmd);
@@ -106,10 +81,9 @@ pid_t exec_cmd(t_input *cmd,t_cmd_info *inf, int n_cmd, int *pipe[2])
 	{
 		mini_dup(pipe, n_cmd);
 		if (cmd->type == WORD_TK)
-			exec_cmd_ve(cmd, envp, path);
+			exec_cmd_ve(cmd, envp, path, pipe_fd);
 		else if (cmd->type == BUILT_TK)
 			exec_builtin(cmd, envp);
-		exit(0);
 	}
 	return (proc);
 }

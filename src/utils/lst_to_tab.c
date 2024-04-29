@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   lst_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:27:52 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/29 19:21:49 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char **get_all_cmd(t_input *cmd)
+{
+	t_arg_lst *tmp;
+	char **res;
+	int len;
+	int i;
+
+	res = 0;
+	len = ft_lstsize((t_list *)cmd->arg);
+	// printf("len %d\n",len);
+	res = malloc((len + 2) * sizeof(char *));
+	if (!res)
+		return (0);
+	res[len + 1] = NULL;
+	res[0] = cmd->token;
+	tmp = cmd->arg;
+	i = 1;
+	while (tmp)
+	{
+		res[i] = tmp->token;
+		tmp = tmp->next;
+		i++;
+	}
+	return (res);
+}
 
 char	**lst_to_tab(t_list *lst)
 {
@@ -20,7 +46,7 @@ char	**lst_to_tab(t_list *lst)
 
 	len = ft_lstsize(lst);
 	tabl = malloc(sizeof(char *) * (len + 1));
-	if (!tabl);
+	if (!tabl)
 		return(0);
 	i = -1;
 	while (++i < len)

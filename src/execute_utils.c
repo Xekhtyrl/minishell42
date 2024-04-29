@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 17:10:10 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 19:41:33 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,3 @@ int trad_input(t_input *cmd)
 	return (strarray_free(built), 1);
 }
 
-void	mini_cls_fd(int fd1, int fd2, int fd3)
-{
-	if (close(fd1) == -1)
-		perror("close1");
-	if (close(fd2) == -1)
-		perror("close2");
-	if (close(fd3) == -1)
-		perror("close3");
-}
