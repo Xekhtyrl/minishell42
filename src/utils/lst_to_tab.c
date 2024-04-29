@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 23:25:27 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/30 00:16:25 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char **get_all_cmd(t_input *cmd)
 	{
 		if (tmp->type == READ_TK || tmp->type == WRITE_TK
 			|| tmp->type == SPACE_TK)
-			tmp = tmp->next->next;
+			tmp = tmp->next;
 		else
 		{
 			res[i] = tmp->token;

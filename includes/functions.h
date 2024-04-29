@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 22:51:46 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/30 00:54:11 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	in_list(char *str,char **lst);
 int trad_input(t_input *cmd);
 char	**get_our_path(t_env *envp);
 char *get_cmd_path(t_env *envp, t_input *input);
-void	mini_cls_fd(int fd1, int fd2, int fd3);
+void	mini_cls_fd(int fd1, int fd2);
 
 //_______________________GET_FD________________________//
 int *get_fd_infiles(t_input *input, int size);
@@ -98,6 +98,8 @@ int ft_unset();
 //________________________DUP_________________________//
 int uni_dup(int fd_in, int fd_out);
 int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info * inf);
+int	mini_dup2(int *fd_in_out[2], int cur, t_cmd_info * inf);
+int check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf);
 
 
 int		split_cmd(t_input **cmd, char *str, int start);
