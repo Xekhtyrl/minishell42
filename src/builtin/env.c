@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 00:42:08 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 19:04:52 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,48 @@ void	update_shell_lvl(t_env	*envp)
 	}
 }
 
+char	*replace_str_env_var(char *str, t_env *envp)
+{
+	int	start;
+	int	i;
+	char	*new;
+	char	*tmp;
+
+	start = ft_strleng(str, '$');
+	if (start == (int)ft_strlen(str))
+		return (printf("%s\n", "SAME LENGTH"), str);
+	i = start;
+	new = ft_substr(str, 0, start);
+	while (str[i] && !is_white_space(str[i]))
+		i++;
+	tmp = ft_substr(str, start+1, i - start - 1);
+	printf("%i\n%s\n", i - start, tmp);
+	new = ft_stradd(new, get_env_var(envp, tmp));
+	tmp = ft_substr(str, i, ft_strlen(str + i));
+	new = ft_stradd(new, tmp); // souci ici
+	free(tmp);
+	printf(">>> %s\n", new);
+	return (new);
+}
+
 char	*get_env_var(t_env *envp, char *var)
 {
+	// if (var && var[0] == '$')
+	// 	var = var + 1;
 	if (var && var[0] == '?')
-		return (0); //signal_fct()); // laquelle???
+		return (0);  // var globale
 	else
 	{
 		while (envp)
 		{
-			if (!ft_strncmp(envp->var, var + 1, ft_strlen(envp->var)))
+			if (!ft_strncmp(envp->var, var, ft_strlen(var)))
 				break ;
 			envp = envp->next;
 		}
 	}
-	if (envp)
+	if (!envp)
 		return (0);
+	printf("%s\n", envp->content);
 	return (envp->content);
 }
 

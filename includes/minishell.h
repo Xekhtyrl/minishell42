@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 16:47:00 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 18:48:15 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 // stat, lstat, fstat
 # include <errno.h>
 /* exit, kill, chdir, , unlink, */
+
 
 #endif
 

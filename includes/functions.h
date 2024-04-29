@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 17:17:19 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 18:53:47 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ int		split_cmd(t_input **cmd, char *str, int start);
 void	update_shell_lvl(t_env *envp);
 int		replace_or_append(char *var, char *content, int append, t_env *envp);
 char	*get_env_var(t_env *envp, char *var);
+char	*replace_str_env_var(char *str, t_env *envp);
 
 int			parse_error(char *str);
 
 int			replace_or_append(char *var, char *content, int append, t_env *envp);
-char		*get_env_var(t_env *envp, char *var);
 char 	**get_env(t_env *envp);
 char	*ft_stradd(char *s1, char const *s2);
 

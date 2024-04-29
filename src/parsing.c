@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 00:31:25 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 18:48:54 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,9 @@ t_input	*parse(char *str)
 	t_input	*input;
 
 	input = NULL;
-	if (!str || parse_error(str))
+	if (!str)
+		return (ft_putstr_fd("NO STR\n", 2), NULL);
+	if (parse_error(str))
 		return (ft_putstr_fd("parse error\n !!! HAS TO BE CHANGED", 2), NULL);
 	get_input_struct(&input, str);
 	return (input);
