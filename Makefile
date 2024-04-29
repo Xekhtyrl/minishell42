@@ -12,6 +12,11 @@ MY_SOURCES =	main.c					\
 				src/signal.c			\
 				src/builtin/env.c		\
 				src/builtin/export.c	\
+				src/builtin/cd.c		\
+				src/builtin/pwd.c		\
+				src/builtin/echo.c		\
+				src/builtin/unset.c		\
+				src/builtin/exit.c		\
 				src/utils/sort_list.c 	\
 				src/execute.c 			\
 				src/execute_utils.c 	\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 18:28:41 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 23:02:53 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,37 +56,37 @@ void exec_cmd_ve(t_input *cmd, char **envp, char *path)
 }
 
 
-int exec_builtin(t_input *cmd, char **envp)
+int exec_builtin(t_input *cmd, t_env *envp)
 {
-	char **built;
-	int f;
+	char	**built;
+	int		f;
 
 	printf("builtin %s\n", cmd->token);
 	f = 0;
-	built = ft_split("cd pwd env echo exit unset export", ' ');
+	// built = ft_split("cd pwd env echo exit unset export", ' ');
+	built = (char *[]){"cd", "pwd", "env", "echo", "exit", "unset", "export", 0};
 	if (!built)
 		return (-1);
 	while (built[f] && strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
 		f++;
-	(void)envp;
-	// if (f == 0)
-	// 	ft_cd(cmd->arg);
-	// if (f == 1)
-	// 	ft_pwd(cmd->arg);
-	// if (f == 2)
-	// 	ft_env(envp);
-	// if (f == 3)
-	// 	ft_echo(cmd->arg);
-	// if (f == 4)
-	// 	ft_exit();
-	// if (f == 5)
-	// 	ft_unset();
-	// if (f == 6)
-	// 	ft_export();
-	return (strarray_free(built), 1);
+	if (f == 0)
+		ft_cd(envp, cmd->arg);
+	if (f == 1)
+		ft_pwd();
+	if (f == 2)
+		ft_env(envp);
+	if (f == 3)
+		ft_echo(cmd->arg);
+	if (f == 4)
+		ft_exit(/**/);
+	if (f == 5)
+		ft_unset(envp, cmd->arg);
+	if (f == 6)
+		ft_export(cmd->arg, envp);
+	return (/*strarray_free(built),*/ 1);
 }
 
-pid_t exec_cmd(t_input *cmd,t_cmd_info *inf, int n_cmd, int *pipe[2])
+pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int *pipe[2])
 {
 	char *path;
 	char **envp;
@@ -108,7 +108,7 @@ pid_t exec_cmd(t_input *cmd,t_cmd_info *inf, int n_cmd, int *pipe[2])
 		if (cmd->type == WORD_TK)
 			exec_cmd_ve(cmd, envp, path);
 		else if (cmd->type == BUILT_TK)
-			exec_builtin(cmd, envp);
+			exec_builtin(cmd, inf->env);
 		exit(0);
 	}
 	return (proc);

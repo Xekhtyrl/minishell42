@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 20:11:08 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/29 22:27:41 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void		sort_lst(t_env **lsta);
 char		*ft_stradd(char *s1, char const *s2);
 
 //________________________ENV_________________________//
-void		ft_env(t_env *envp);
 t_env		*env_lst(char **envp);
 t_env		*create_env_node(char *var, char *content, int flag, t_env *prev);
 void		update_shell_lvl(t_env *envp);
@@ -82,12 +81,13 @@ char		*replace_str_env_var(char *str, t_env *envp);
 char		**get_env(t_env *envp);
 
 //_______________________BUILT________________________//
+void		ft_env(t_env *envp);
 int			ft_echo();
-int			ft_cd();
-int			ft_pwd();
+void		ft_cd(t_env *envp, char *path);
+void		ft_pwd();
 int			ft_exit();
-int			ft_unset();
-// int ft_export();
+void		ft_unset(t_env	*envp, t_arg_lst *arg);
+void		ft_export(t_arg_lst *arg, t_env *envp);
 
 //________________________DUP_________________________//
 int			uni_dup(int fd_in, int fd_out);
