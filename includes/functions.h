@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 00:42:35 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 17:17:19 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,21 @@
 void		print_input_lst(t_input	*input);
 //______________________PARSING_______________________//
 t_input		*parse(char *str);
+
 //___________________PARSING_UTILS____________________//
 int			is_white_space(char c);
 int			is_not_sep(char c);
 int			closed_quotes(char *str);
 int			check_for_pipe(char *str);
 int			get_token_type(char *c, int start);
+
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token);
 t_input		*create_node(char *str, int type);
 void 		set_input(t_input *cmd, char *token, int type);
 
 char	*pick_title();
+void		print_input_lst(t_input	*input);
 
 //_______________________SIGNAL________________________//
 void ctrl_c(int num);
@@ -59,7 +62,6 @@ void strarray_free(char **built);
 int	send_error(int flag);
 void close_pipes(int *pipe[2], int size);
 
-void		print_input_lst(t_input	*input);
 //______________________PARSING_______________________//
 t_input		*parse(char *str);
 
@@ -107,4 +109,7 @@ int			parse_error(char *str);
 
 int			replace_or_append(char *var, char *content, int append, t_env *envp);
 char		*get_env_var(t_env *envp, char *var);
+char 	**get_env(t_env *envp);
+char	*ft_stradd(char *s1, char const *s2);
+
 #endif

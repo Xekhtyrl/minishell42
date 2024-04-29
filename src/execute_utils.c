@@ -6,11 +6,68 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/28 22:07:15 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 17:10:10 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*ft_stradd(char *s1, char const *s2)
+{
+	size_t		j;
+	size_t		i;
+	char		*p;
+
+	if (!s1 && !s2)
+		return (0);
+	p = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	i = 0;
+	j = 0;
+	if (p == NULL)
+		return (free(s1), NULL);
+	while (s1 && i < ft_strlen(s1))
+	{
+		p[i] = s1[i];
+		i++;
+	}
+	free(s1);
+	while (s2 && j < ft_strlen(s2))
+	{
+		p[i + j] = s2[j];
+		j++;
+	}
+	p[i + j] = '\0';
+	return (p);
+}
+
+char **get_env(t_env *envp)
+{
+	char *p;
+	char **env;
+
+	env = 0;
+	p = 0;
+	p = ft_stradd(p, envp->var);
+	if (envp->content)
+	{
+		p = ft_stradd(p, " ");
+		p = ft_stradd(p, envp->content);
+	}
+	while (envp)
+	{
+		p = ft_stradd(p, " ");
+		p = ft_stradd(p, envp->var);
+		if (envp->content)
+		{
+			p = ft_stradd(p, "=");
+			p = ft_stradd(p, envp->content);
+		}
+		envp = envp->next;
+	}
+	env = ft_split(p, ' ');
+	free(p);
+	return (env);
+}
 
 int	in_list(char *str,char **lst)
 {
@@ -45,49 +102,6 @@ int trad_input(t_input *cmd)
 		tmp = tmp->next;
 	}
 	return (strarray_free(built), 1);
-}
-
-char	**get_our_path(t_env *envp)
-{
-	char	**path;
-	t_env	*tmp;
-
-	tmp = envp;
-	while (tmp)
-	{
-		if (tmp->var && !ft_strncmp(tmp->var, "PATH",ft_strlen(tmp->var)))
-		{
-			path = ft_split(tmp->content, ':');
-			if (!path)
-				return (send_error(-1), NULL);
-			return (path);
-			strarray_free(path);
-		}
-		tmp=tmp->next;
-	}
-	return (0);
-}
-
-char *get_cmd_path(t_env *envp, t_input *input)
-{
-	char	**path;
-	char	*cmd;
-	char	*cm_path;
-	int		i;
-	
-	i = -1;
-	path = get_our_path(envp);
-	if (!path)
-		return (send_error(-1), NULL);
-	cmd = ft_strjoin("/", input->token);
-	while (path && path[++i])
-	{
-		cm_path = ft_strjoin(path[i], cmd);
-		if (access(cm_path, F_OK | R_OK) == 0)
-			return (strarray_free(path), free(cmd), cm_path);
-		free(cm_path);
-	}
-	return (strarray_free(path), free(cmd), NULL);
 }
 
 void	mini_cls_fd(int fd1, int fd2, int fd3)

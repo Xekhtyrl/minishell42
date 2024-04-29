@@ -3,71 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 01:24:39 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 18:28:41 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_stradd(char *s1, char const *s2)
-{
-	size_t		j;
-	size_t		i;
-	char		*p;
-
-	if (!s1 && !s2)
-		return (0);
-	p = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	i = 0;
-	j = 0;
-	if (p == NULL)
-		return (free(s1), NULL);
-	while (s1 && i < ft_strlen(s1))
-	{
-		p[i] = s1[i];
-		i++;
-	}
-	free(s1);
-	while (s2 && j < ft_strlen(s2))
-	{
-		p[i + j] = s2[j];
-		j++;
-	}
-	p[i + j] = '\0';
-	return (p);
-}
-
-char *get_all_cmd(t_input *cmd)
+char **get_all_cmd(t_input *cmd)
 {
 	t_arg_lst *tmp;
-	char *res;
+	char **res;
+	int len;
+	int i;
 
 	res = 0;
-	res = ft_strdup(cmd->token);
+	len = ft_lstsize((t_list *)cmd->arg);
+	// printf("len %d\n",len);
+	res = malloc((len + 2) * sizeof(char *));
+	if (!res)
+		return (0);
+	res[len + 1] = NULL;
+	res[0] = ft_strdup(cmd->token);
 	tmp = cmd->arg;
-	if (tmp)
-		res = ft_stradd(res, " ");
+	i = 1;
 	while (tmp)
 	{
-		res = ft_stradd(res, tmp->token);
+		res[i] = ft_strdup(tmp->token);
 		tmp = tmp->next;
+		i++;
 	}
 	return (res);
 }
 
 void exec_cmd_ve(t_input *cmd, char **envp, char *path)
 {	
-	char *cmd_cplt;
+	char **cmd_cplt;
+	
+	// pipe[0]++;
+	// pipe[0]--;
 
 	cmd_cplt = get_all_cmd(cmd);
-	printf("%s\n", path);
-	ft_printf("%s\n", cmd_cplt);
-	
-	execve(&path, cmd_cplt, envp);
-
+	// (void)path;
+	// (void)envp;
+	// int i=0;
+	// while (cmd_cplt[i])
+	// 	printf("%s\n", cmd_cplt[i++]);
+	execve(path, cmd_cplt, envp);
 	exit(EXIT_FAILURE);
 }
 
@@ -124,7 +108,7 @@ pid_t exec_cmd(t_input *cmd,t_cmd_info *inf, int n_cmd, int *pipe[2])
 		if (cmd->type == WORD_TK)
 			exec_cmd_ve(cmd, envp, path);
 		else if (cmd->type == BUILT_TK)
-			exec_builtin(cmd, inf->env);
+			exec_builtin(cmd, envp);
 		exit(0);
 	}
 	return (proc);
@@ -163,10 +147,10 @@ int	execute_command(t_env *envp, t_input *cmd, int *pipe[2])
 			send_error(-1), 0);
 	while (tmp)
 	{
-		if (pipe[0])
-			printf("%s in %d\n", tmp->token, pipe[0][n_cmd]);
-		if (pipe[1])
-			printf("%s out %d\n", tmp->token, pipe[1][n_cmd]);
+		// if (pipe[0])
+		// 	printf("%s in %d\n", tmp->token, pipe[0][n_cmd]);
+		// if (pipe[1])
+		// 	printf("%s out %d\n", tmp->token, pipe[1][n_cmd]);
 		inf.proc[n_cmd] = exec_cmd(tmp, &inf, n_cmd, pipe);
 		tmp = tmp->next;
 		n_cmd++;

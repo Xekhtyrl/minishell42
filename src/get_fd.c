@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 00:19:35 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 18:21:42 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int fill_fd(int *pipe[2], t_input *input)
 	int size;
 
 	size = ft_lstsize((t_list *)input);
-	printf("size = %d\n", size);
+	//printf("size = %d\n", size);
 	pipe[1] = get_fd_outfiles(input, size);
 	if (!pipe[1])
 		return (0);
