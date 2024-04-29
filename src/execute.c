@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 20:22:36 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 23:18:41 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,31 @@ void exec_cmd_ve(t_input *cmd, char **envp, char *path, int pipe[2])
 	char **cmd_cplt;
 	
 
-	pipe[0]++;
-	pipe[0]--;
-	// close(pipe[0]);
-	// close(pipe[1]);
-
+	// pipe[0]++;
+	// pipe[0]--;
+	
 	cmd_cplt = get_all_cmd(cmd);
+	
+	// int i =0;
+	// while (i < 2 && cmd_cplt[i])
+	// 	ft_printf("%s\n", cmd_cplt[i++]);
+	if (pipe[0] > 1)
+		close(pipe[0]);
+	if (pipe[1] > 1)
+		close(pipe[1]);
 	execve(path, cmd_cplt, envp);
 	exit(EXIT_FAILURE);
 }
 
 
-int exec_builtin(t_input *cmd, char **envp)
+int exec_builtin(t_input *cmd, t_env *envp)
 {
 	char **built;
 	int f;
 
 	printf("builtin %s\n", cmd->token);
 	f = 0;
-	built = ft_split("cd pwd env echo exit unset export", ' ');
+	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", 0};
 	if (!built)
 		return (-1);
 	while (built[f] && strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
@@ -56,10 +62,10 @@ int exec_builtin(t_input *cmd, char **envp)
 	// if (f == 6)
 	// 	ft_export();
 	exit(0);
-	return (strarray_free(built), 1);
+	return (1);
 }
 
-pid_t exec_cmd(t_input *cmd,t_cmd_info *inf, int n_cmd, int **pipe)
+pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char *path;
 	char **envp;
@@ -70,22 +76,25 @@ pid_t exec_cmd(t_input *cmd,t_cmd_info *inf, int n_cmd, int **pipe)
 	{
 		path = get_cmd_path(inf->env, cmd);
 		if (path == 0)
-			return (close_pipes(pipe, inf->size), -1); //error path
+			return (close_pipes(pipe_fd, inf->size), -1); //error path
 		envp = get_env(inf->env);
 	}
+	if (n_cmd < inf->size - 1 && inf->size > 1)
+		if (pipe(inf->pipe) < 0)
+			send_error(-6);
 	proc = fork();
 	if (!proc)
 	{
-		mini_dup(pipe, n_cmd);
+		mini_dup(pipe_fd, n_cmd, inf);
 		if (cmd->type == WORD_TK)
-			exec_cmd_ve(cmd, envp, path, pipe[n_cmd]);
+			exec_cmd_ve(cmd, envp, path, pipe_fd[n_cmd]);
 		else if (cmd->type == BUILT_TK)
-			exec_builtin(cmd, envp);
+			exec_builtin(cmd, inf->env);
 	}
 	return (proc);
 }
 
-void wait_proc(t_cmd_info * info)
+void wait_proc(t_cmd_info *info)
 {
 	int i;
 	int *bugs;
@@ -93,6 +102,8 @@ void wait_proc(t_cmd_info * info)
 	i = 0;
 	bugs = 0;
 	bugs = malloc(sizeof(int) * info->size);
+	if (!bugs)
+		send_error(-1);
 	while (i < info->size)
 	{
 		waitpid(info->proc[i], bugs, 0);
@@ -102,9 +113,9 @@ void wait_proc(t_cmd_info * info)
 
 int	execute_command(t_env *envp, t_input *cmd, int **pipe_fd)
 {
+	t_cmd_info inf;
 	t_input *tmp;
 	int n_cmd;
-	t_cmd_info inf;
 	
 	tmp = cmd;
 	n_cmd = 0;

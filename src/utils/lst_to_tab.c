@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 19:21:49 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 23:25:27 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,26 @@ char **get_all_cmd(t_input *cmd)
 
 	res = 0;
 	len = ft_lstsize((t_list *)cmd->arg);
-	// printf("len %d\n",len);
 	res = malloc((len + 2) * sizeof(char *));
 	if (!res)
 		return (0);
-	res[len + 1] = NULL;
 	res[0] = cmd->token;
 	tmp = cmd->arg;
 	i = 1;
 	while (tmp)
 	{
-		res[i] = tmp->token;
-		tmp = tmp->next;
-		i++;
+		if (tmp->type == READ_TK || tmp->type == WRITE_TK
+			|| tmp->type == SPACE_TK)
+			tmp = tmp->next->next;
+		else
+		{
+			res[i] = tmp->token;
+			tmp = tmp->next;
+			i++;
+		}
+		
 	}
+	res[i] = 0;
 	return (res);
 }
 

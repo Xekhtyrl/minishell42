@@ -6,34 +6,36 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 20:10:57 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 23:03:03 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
-
-int open_outfile(t_arg_lst *tmp)
+int *get_fd_infiles(t_input *input, int size)
 {
-	int fd;
+	t_input		*tmp;
+	int			*fd;
+	int			i;
 
-	fd = 1;
-	while (tmp && tmp->next && fd != -1)
+	i = 0;
+	fd = malloc(sizeof(int) * size);
+	if (!fd)
+		return (0);
+	tmp = input;
+	while (i < size)
 	{
-		if (tmp->type == 15 && tmp->next)
+		fd[i] = 0;
+		if (tmp)
 		{
-			if (fd != 1 && fd != -1)
-				close(fd);
-			if (tmp->next && tmp->next->type == SPACE_TK)
-				tmp = tmp->next;
-			fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_TRUNC,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+			fd[i] = open_infile(tmp->arg);
+			// printf("fdin[%d] = %d\n",i,  fd[i]);
+			if (fd[i] == -1)
+				send_error(-2);
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
+		i++;
 	}
-	if (fd == -1)
-		ft_printf("\"%s\" ", tmp->next->token);
 	return (fd);
 }
 
@@ -64,6 +66,30 @@ int *get_fd_outfiles(t_input *input, int size)
 	return (fd);
 }
 
+int open_outfile(t_arg_lst *tmp)
+{
+	int fd;
+
+	fd = 1;
+	while (tmp && tmp->next && fd != -1)
+	{
+		if (tmp->type == 15)
+		{
+			if (fd != 1 && fd != -1)
+				close(fd);
+			if (tmp->next && tmp->next->type == SPACE_TK)
+				tmp = tmp->next;
+			printf("tok out%s\n", tmp->next->token);
+			fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_TRUNC,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		}
+		tmp = tmp->next;
+	}
+	if (fd == -1)
+		ft_printf("\"%s\" ", tmp->next->token);
+	return (fd);
+}
+
 int open_infile(t_arg_lst *tmp)
 {
 	int fd;
@@ -77,39 +103,13 @@ int open_infile(t_arg_lst *tmp)
 				tmp = tmp->next;
 			if (fd != 0 && fd != -1)
 				close(fd);
+			printf("tok in %s\n", tmp->next->token);
 			fd = open(tmp->next->token, O_RDONLY);
 		}
 		tmp = tmp->next;
 	}
 	if (fd == -1)
 		ft_printf("\"%s\" ", tmp->next->token);
-	return (fd);
-}
-
-int *get_fd_infiles(t_input *input, int size)
-{
-	t_input		*tmp;
-	int			*fd;
-	int			i;
-
-	i = 0;
-	fd = malloc(sizeof(int) * size);
-	if (!fd)
-		return (0);
-	tmp = input;
-	while (i < size)
-	{
-		fd[i] = 0;
-		if (tmp)
-		{
-			fd[i] = open_infile(tmp->arg);
-			// printf("fdin[%d] = %d\n",i,  fd[i]);
-			if (fd[i] == -1)
-				send_error(-2);
-			tmp = tmp->next;
-		}
-		i++;
-	}
 	return (fd);
 }
 
@@ -133,8 +133,6 @@ int **fill_fd(t_input *input, int size)
 		pipe_fd[i][0] = open_infile(input->arg);
 		if (pipe_fd[i][0] == -1)
 			return (0);
-		if (i > 1 && pipe_fd[i - 1][1] == 1 && pipe_fd[i][0] == 0)
-			pipe((int[2]){pipe_fd[i - 1][1], pipe_fd[i][0]});
 		i++;
 		input = input->next;
 	}
