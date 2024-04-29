@@ -3,3 +3,6 @@ src/*.o
 *.a
 */*.a
 */*/*.a
+minishell
+test.c
+test

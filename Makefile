@@ -73,7 +73,7 @@ $(NAME): $(MY_OBJECTS)
 	@gcc $(CFLAGS) -I $(INCLUDES) -c $< -o $@
 
 add:
-	git add Makefile src includes main.c
+	git add Makefile src includes main.c .gitignore
 
 clean:
 	@rm -rf $(MY_OBJECTS) $(MY_OBJ_BONUS)
