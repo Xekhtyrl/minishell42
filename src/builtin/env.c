@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 19:04:52 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 19:53:05 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,16 @@ char	*replace_str_env_var(char *str, t_env *envp)
 
 	start = ft_strleng(str, '$');
 	if (start == (int)ft_strlen(str))
-		return (printf("%s\n", "SAME LENGTH"), str);
-	i = start;
+		return (str);
+	i = start + 1;
 	new = ft_substr(str, 0, start);
-	while (str[i] && !is_white_space(str[i]))
+	while (str[i] && ft_isalnum(str[i]))
 		i++;
 	tmp = ft_substr(str, start+1, i - start - 1);
-	printf("%i\n%s\n", i - start, tmp);
 	new = ft_stradd(new, get_env_var(envp, tmp));
 	tmp = ft_substr(str, i, ft_strlen(str + i));
-	new = ft_stradd(new, tmp); // souci ici
+	new = ft_stradd(new, tmp);
 	free(tmp);
-	printf(">>> %s\n", new);
 	return (new);
 }
 
@@ -77,7 +75,7 @@ char	*get_env_var(t_env *envp, char *var)
 	}
 	if (!envp)
 		return (0);
-	printf("%s\n", envp->content);
+	// printf("%s\n", envp->content);
 	return (envp->content);
 }
 

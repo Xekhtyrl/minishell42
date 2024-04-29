@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 18:57:44 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 20:07:48 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "./includes/minishell.h"
 #include <time.h>
 // #include <termios.h>
 
@@ -119,8 +119,7 @@ int main(int argc, char **argv, char **envp)
 		if (!str)
 			ctrl_d();
 		add_history(str);
-		str = replace_str_env_var(str, m_env);
-		input = parse(str);
+		input = parse(str, m_env);
 		free(str);
 		if (fill_fd(pipe, input) == -1)
 			printf("yolo\n");
