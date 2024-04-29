@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 21:50:56 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/29 17:42:07 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,28 +87,28 @@ typedef struct s_env
 }	t_env;
 
 void		print_input_lst(t_input	*input);
-//______________________PARSING_______________________//
+/*_______________________PARSING_______________________*/
 t_input		*parse(char *str);
-//___________________PARSING_UTILS____________________//
+/*____________________PARSING_UTILS____________________*/
 int			is_white_space(char c);
 int			is_not_sep(char c);
 int			closed_quotes(char *str);
 int			check_for_pipe(char *str);
 int			get_token_type(char *c, int start);
 int			parse_error(char *str);
-//____________________PARSING_LST_____________________//
+/*_____________________PARSING_LST_____________________*/
 t_arg_lst	*arg_node(int type, char *token);
 t_input		*create_node(char *str, int type);
 
 char		*pick_title();
 
-//_______________________SIGNAL________________________//
+/*_______________________SIGNAL________________________*/
 void		ctrl_c(int num);
 void		ctrl_d(void);
 void		set_signals(void);
 int			main_loop(void);
 
-//_______________________UTILS________________________//
+/*________________________UTILS________________________*/
 void		push(t_env **lst1, t_env **lst2);
 void		rotate(t_env **lst1);
 void		sort_lst(t_env **lsta);
@@ -120,7 +120,8 @@ t_env		*create_env_node(char *var, char *content, int flag, t_env *prev);
 int			split_cmd(t_input **cmd, char *str, int start);
 void		update_shell_lvl(t_env *envp);
 int			replace_or_append(char *var, char *content, int append, t_env *envp);
-char		*get_env_var(t_env *envp, char *var)
+char		*get_env_var(t_env *envp, char *var);
+char		*replace_str_env_var(char *str, t_env *envp);
 
 #endif
 

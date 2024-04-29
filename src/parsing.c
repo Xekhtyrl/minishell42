@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 17:57:35 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/29 17:47:32 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,9 @@ t_input	*parse(char *str)
 	t_input	*input;
 
 	input = NULL;
-	if (!str || parse_error(str))
+	if (!str)
+		return (ft_putstr_fd("NO STR\n", 2), NULL);
+	if (parse_error(str))
 		return (ft_putstr_fd("parse error\n !!! HAS TO BE CHANGED", 2), NULL);
 	get_input_struct(&input, str);
 	return (input);
