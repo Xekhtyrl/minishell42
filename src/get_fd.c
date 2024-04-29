@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 18:21:42 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 20:10:57 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,17 +113,30 @@ int *get_fd_infiles(t_input *input, int size)
 	return (fd);
 }
 
-int fill_fd(int *pipe[2], t_input *input)
+int **fill_fd(t_input *input, int size)
 {
-	int size;
+	int i;
+	int **pipe_fd;
 
-	size = ft_lstsize((t_list *)input);
-	//printf("size = %d\n", size);
-	pipe[1] = get_fd_outfiles(input, size);
-	if (!pipe[1])
+	i = 0;
+	pipe_fd = malloc(sizeof(int*) * size);
+	if (!pipe_fd)
 		return (0);
-	pipe[0] = get_fd_infiles(input, size);
-	if (!pipe[0])
-		return (0);
-	return (1);
+	while (i < size)
+	{
+		pipe_fd[i] = malloc(sizeof(int) * 2);
+		if (!pipe_fd[i])
+			return (0);
+		pipe_fd[i][1] = open_outfile(input->arg);
+		if (pipe_fd[i][1]== -1)
+			return (0);
+		pipe_fd[i][0] = open_infile(input->arg);
+		if (pipe_fd[i][0] == -1)
+			return (0);
+		if (i > 1 && pipe_fd[i - 1][1] == 1 && pipe_fd[i][0] == 0)
+			pipe((int[2]){pipe_fd[i - 1][1], pipe_fd[i][0]});
+		i++;
+		input = input->next;
+	}
+	return (pipe_fd);
 }

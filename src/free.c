@@ -3,30 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/28 23:34:58 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 20:22:01 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void close_pipes(int *pipe[2], int size)
+void close_pipes(int **pipe, int size)
 {
 	int	i;
 
 	i = 0;
 	while (i < size && pipe[i])
 	{
-		printf("%d %d\n",pipe[0][i], pipe[1][i]);
-		if (pipe[0] && pipe[0][i] > 0)
-			close(pipe[0][i]);
+		printf("%d %d\n",pipe[i][0], pipe[i][1]);
+		if (pipe[i][0] > 0)
+			close(pipe[i][0]);
 
-		if (pipe[1] && pipe[1][i] > 1)
-			close(pipe[1][i]);
+		if (pipe[i][1] > 1)
+			close(pipe[i][1]);
+		free(pipe[i]);
 		i++;
 	}
+	free(pipe);
 }
 
 void strarray_free(char **built)

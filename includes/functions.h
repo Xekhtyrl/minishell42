@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 19:21:53 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 20:22:13 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void ctrl_d(void);
 void set_signals(void);
 
 //______________________EXECUTE________________________//
-int	fill_fd(int *pipe[2], t_input *input);
+int	**fill_fd(t_input *input, int size);
 int	execute_command(t_env *envp, t_input *cmd, int *pipe[2]);
 
 //______________________EXECUTE2_______________________//
@@ -60,7 +60,7 @@ int open_outfile(t_arg_lst *tmp);
 //________________________FREE_________________________//
 void strarray_free(char **built);
 int	send_error(int flag);
-void close_pipes(int *pipe[2], int size);
+void close_pipes(int **pipe, int size);
 
 //______________________PARSING_______________________//
 t_input		*parse(char *str);

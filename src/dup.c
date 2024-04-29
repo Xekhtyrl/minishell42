@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 19:42:39 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/29 20:17:44 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,24 @@ int	mini_dup(int *fd_in_out[2], int cur)
 {
 	int prev = cur - 1;
 
-	if (cur == 0 && fd_in_out[0][0] != 0 && fd_in_out[1][0] != 1)
-		uni_dup(fd_in_out[0][0], fd_in_out[1][0]);
-	else if (cur > 0)
+	if (cur == 0)
+		uni_dup(fd_in_out[0][0], fd_in_out[0][1]);
+	else
 	{
-		if (fd_in_out[1][prev] == 1 && fd_in_out[0][cur] == 0)
+		if (fd_in_out[prev][1] == 1 && fd_in_out[cur][1] == 0)
 		{
-			if (uni_dup(fd_in_out[1][prev], fd_in_out[1][cur]) == -1)
+			if (uni_dup(fd_in_out[prev][1], fd_in_out[cur][1]) == -1)
 				return (-1);
 			else
-				mini_cls_fd(fd_in_out[1][prev], fd_in_out[0][cur],
+				mini_cls_fd(fd_in_out[prev][1], fd_in_out[cur][0],
 					fd_in_out[cur][1]);
 		}
-		else if (fd_in_out[0][cur] > 1 && fd_in_out[1][cur] > 1)
+		else if (fd_in_out[cur][0] > 1 && fd_in_out[cur][1] > 1)
 		{
-			if (uni_dup(fd_in_out[0][cur], fd_in_out[1][0]) == -1)
+			if (uni_dup(fd_in_out[cur][0], fd_in_out[cur][1]) == -1)
 				return (-1);
 			else
-				mini_cls_fd(fd_in_out[0][cur], fd_in_out[1][cur], 0);
+				mini_cls_fd(fd_in_out[cur][0], fd_in_out[cur][1], 0);
 		}
 	}
 	return (1);
