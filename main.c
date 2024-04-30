@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 20:07:48 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:47:02 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int main(int argc, char **argv, char **envp)
 	static char 	*str;
 	t_input	*input;
 	t_env	*m_env;
-	int		*pipe[2];
+	int		**pipe;
 
 	str = NULL;
 	(void)argc;
@@ -109,8 +109,7 @@ int main(int argc, char **argv, char **envp)
 	//ft_env(m_env);
 	using_history();
 	set_signals();
-	pipe[0] = 0;
-	pipe[1] = 0;
+	pipe = 0;
 	while (1)
 	{
 		str = readline(pick_title());
@@ -121,7 +120,8 @@ int main(int argc, char **argv, char **envp)
 		add_history(str);
 		input = parse(str, m_env);
 		free(str);
-		if (fill_fd(pipe, input) == -1)
+		pipe = fill_fd(input, ft_lstsize((t_list *)input));
+		if (!pipe)
 			printf("yolo\n");
 		execute_command(m_env, input, pipe);
 		print_input_lst(input);

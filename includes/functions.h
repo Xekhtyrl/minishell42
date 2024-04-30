@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 22:27:41 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:53:39 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 //______________________PARSING_______________________//
 t_input		*parse(char *str, t_env *envp);
-// int			split_cmd(t_input **cmd, char *str, int start);
+int			split_cmd(t_input **cmd, char *str, int start, t_env *envp);
 
 //___________________PARSING_UTILS____________________//
 int			is_white_space(char c);
@@ -43,7 +43,7 @@ void		ctrl_d(void);
 void		set_signals(void);
 
 //______________________EXECUTE________________________//
-int			fill_fd(int *pipe[2], t_input *input);
+int			**fill_fd(t_input *input, int size);
 int			execute_command(t_env *envp, t_input *cmd, int *pipe[2]);
 
 //______________________EXECUTE2_______________________//
@@ -51,7 +51,7 @@ int			in_list(char *str,char **lst);
 int			trad_input(t_input *cmd);
 char		**get_our_path(t_env *envp);
 char		*get_cmd_path(t_env *envp, t_input *input);
-void		mini_cls_fd(int fd1, int fd2, int fd3);
+void		mini_cls_fd(int fd1, int fd2);
 
 //_______________________GET_FD________________________//
 int			*get_fd_infiles(t_input *input, int size);
@@ -62,14 +62,15 @@ int			open_outfile(t_arg_lst *tmp);
 //________________________FREE_________________________//
 void		strarray_free(char **built);
 int			send_error(int flag);
-void		close_pipes(int *pipe[2], int size);
-
+void		close_pipes(int **pipe, int size);
 
 //_______________________UTILS________________________//
 void		push(t_env **lst1, t_env **lst2);
 void		rotate(t_env **lst1);
 void		sort_lst(t_env **lsta);
 char		*ft_stradd(char *s1, char const *s2);
+char		**lst_to_tab(t_list *lst);
+char		**get_all_cmd(t_input *cmd);
 
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);
@@ -82,7 +83,7 @@ char		**get_env(t_env *envp);
 
 //_______________________BUILT________________________//
 void		ft_env(t_env *envp);
-int			ft_echo();
+int			ft_echo(t_input *cmd);
 void		ft_cd(t_env *envp, char *path);
 void		ft_pwd();
 int			ft_exit();
@@ -91,6 +92,8 @@ void		ft_export(t_arg_lst *arg, t_env *envp);
 
 //________________________DUP_________________________//
 int			uni_dup(int fd_in, int fd_out);
-int			mini_dup(int *fd_in_out[2], int cur);
+int			mini_dup(int *fd_in_out[2], int cur, t_cmd_info * inf);
+int			mini_dup2(int *fd_in_out[2], int cur, t_cmd_info * inf);
+int			check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf);
 
 #endif

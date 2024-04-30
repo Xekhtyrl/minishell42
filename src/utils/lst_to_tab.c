@@ -3,14 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   lst_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:27:52 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/30 14:56:54 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char **get_all_cmd(t_input *cmd)
+{
+	t_arg_lst *tmp;
+	char **res;
+	int len;
+	int i;
+
+	res = 0;
+	len = ft_lstsize((t_list *)cmd->arg);
+	res = malloc((len + 2) * sizeof(char *));
+	if (!res)
+		return (0);
+	res[0] = cmd->token;
+	tmp = cmd->arg;
+	i = 1;
+	while (tmp)
+	{
+		if (tmp->type == READ_TK || tmp->type == WRITE_TK
+			|| tmp->type == SPACE_TK)
+			tmp = tmp->next;
+		else
+		{
+			res[i] = tmp->token;
+			tmp = tmp->next;
+			i++;
+		}
+		
+	}
+	res[i] = 0;
+	return (res);
+}
 
 char	**lst_to_tab(t_list *lst)
 {
@@ -20,7 +52,7 @@ char	**lst_to_tab(t_list *lst)
 
 	len = ft_lstsize(lst);
 	tabl = malloc(sizeof(char *) * (len + 1));
-	if (!tabl);
+	if (!tabl)
 		return(0);
 	i = -1;
 	while (++i < len)
