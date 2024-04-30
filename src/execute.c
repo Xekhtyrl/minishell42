@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/30 01:03:31 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/30 14:59:52 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	// while (i < 2 && cmd_cplt[i])
 	// 	ft_printf("%s\n", cmd_cplt[i++]);
 	if (pipe[0] > 2)
-		close(pipe[0]);
+		{printf("close in %d\n", pipe[0]);close(pipe[0]);}
 	if (pipe[1] > 2)
-		close(pipe[1]);
+		{printf("close out %d\n", pipe[0]);close(pipe[1]);}
 	execve(path, cmd_cplt, envp);
 	exit(EXIT_FAILURE);
 }
@@ -134,9 +134,12 @@ int	execute_command(t_env *envp, t_input *cmd, int **pipe_fd)
 		// 	printf("%s out %d\n", tmp->token, pipe_fd[n_cmd][1]);
 		// }
 		inf.proc[n_cmd] = exec_cmd(tmp, &inf, n_cmd, pipe_fd);
-		if (check_next_pipe(pipe_fd, n_cmd, &inf))
-			pipe_fd[n_cmd + 1][0] = inf.pipe[0];
 		mini_cls_fd(pipe_fd[n_cmd][0],pipe_fd[n_cmd][1]);
+		if (check_next_pipe(pipe_fd, n_cmd, &inf))
+		{
+			close(inf.pipe[1]);
+			pipe_fd[n_cmd + 1][0] = inf.pipe[0];
+		}
 		//waitpid(inf.proc[n_cmd], 0, 0);
 		tmp = tmp->next;
 		n_cmd++;
