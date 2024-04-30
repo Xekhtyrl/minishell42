@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 19:41:33 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/30 17:18:07 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,30 @@ int	in_list(char *str,char **lst)
 	return (1);
 }
 
-int trad_input(t_input *cmd)
+int trad_input(t_input *cmd, t_env *envp)
 {
 	t_input *tmp;
 	char **built;
+	char *path;
 
-	built = ft_split("cd pwd env echo exit unset export", ' ');
-	if (!built)
-		return (0);
+	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", 0};
+	path = 0;
 	tmp = cmd;
 	while (tmp)
 	{
 		if (in_list(tmp->token, built))
 			tmp->type = BUILT_TK;
+		else
+		{
+			path = get_cmd_path(tmp, envp);
+			if (path)
+			{
+				tmp->type = CMD_TK;
+				free(path);
+			}
+		}
 		tmp = tmp->next;
 	}
-	return (strarray_free(built), 1);
+	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/30 14:59:52 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/30 17:17:05 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	path = 0;
 	if (cmd->type == WORD_TK)
 	{
-		path = get_cmd_path(inf->env, cmd);
+		path = get_cmd_path(cmd, inf->env);
 		if (path == 0)
 			return (close_pipes(pipe_fd, inf->size), -1); //error path
 		envp = get_env(inf->env);
@@ -123,22 +123,20 @@ int	execute_command(t_env *envp, t_input *cmd, int **pipe_fd)
 	inf.size = ft_lstsize((t_list *)cmd);
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
 	inf.env = envp;
-	if (!trad_input(cmd))
+	if (!trad_input(cmd, envp))
 		return (close_pipes(pipe_fd, inf.size),
 			send_error(-1), 0);
 	while (tmp)
 	{
-		// if (pipe_fd[n_cmd])
-		// {
-		// 	printf("%s in %d\n", tmp->token, pipe_fd[n_cmd][0]);
-		// 	printf("%s out %d\n", tmp->token, pipe_fd[n_cmd][1]);
-		// }
-		inf.proc[n_cmd] = exec_cmd(tmp, &inf, n_cmd, pipe_fd);
-		mini_cls_fd(pipe_fd[n_cmd][0],pipe_fd[n_cmd][1]);
-		if (check_next_pipe(pipe_fd, n_cmd, &inf))
+		if (tmp->type == CMD_TK || tmp->type == BUILT_TK)
 		{
-			close(inf.pipe[1]);
-			pipe_fd[n_cmd + 1][0] = inf.pipe[0];
+			inf.proc[n_cmd] = exec_cmd(tmp, &inf, n_cmd, pipe_fd);
+			mini_cls_fd(pipe_fd[n_cmd][0],pipe_fd[n_cmd][1]);
+			if (check_next_pipe(pipe_fd, n_cmd, &inf))
+			{
+				close(inf.pipe[1]);
+				pipe_fd[n_cmd + 1][0] = inf.pipe[0];
+			}
 		}
 		//waitpid(inf.proc[n_cmd], 0, 0);
 		tmp = tmp->next;

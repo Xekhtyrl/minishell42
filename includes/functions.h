@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/30 00:54:11 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/30 17:17:29 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int	execute_command(t_env *envp, t_input *cmd, int *pipe[2]);
 
 //______________________EXECUTE2_______________________//
 int	in_list(char *str,char **lst);
-int trad_input(t_input *cmd);
+int trad_input(t_input *cmd, t_env *envp);
 char	**get_our_path(t_env *envp);
-char *get_cmd_path(t_env *envp, t_input *input);
+char *get_cmd_path(t_input *input, t_env *envp);
 void	mini_cls_fd(int fd1, int fd2);
 
 //_______________________GET_FD________________________//

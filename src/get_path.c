@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:50:34 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 16:51:02 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/04/30 17:13:20 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**get_our_path(t_env *envp)
 	return (0);
 }
 
-char *get_cmd_path(t_env *envp, t_input *input)
+char *get_cmd_path(t_input *input, t_env *envp)
 {
 	char	**path;
 	char	*cmd;
