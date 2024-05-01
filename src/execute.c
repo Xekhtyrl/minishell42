@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/30 16:57:35 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/01 22:20:09 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,24 @@ void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	exit(EXIT_FAILURE);
 }
 
-int exec_builtin(t_input *cmd, t_env *envp)
+int exec_builtin(t_input *cmd, t_env **envp)
 {
 	char	**built;
 	int		f;
 
-	printf("builtin %s\n", cmd->token);
 	f = 0;
 	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", 0};
 	if (!built)
 		return (-1);
+	printf("builtin %s\n", cmd->token);
 	while (built[f] && strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
 		f++;
 	if (f == 0)
-		ft_cd(envp, cmd->arg->token);
+		ft_cd(*envp, cmd->arg);
 	if (f == 1)
 		ft_pwd();
 	if (f == 2)
-		ft_env(envp);
+		ft_env(*envp);
 	if (f == 3)
 		ft_echo(cmd);
 	if (f == 4)
@@ -58,8 +58,8 @@ int exec_builtin(t_input *cmd, t_env *envp)
 	if (f == 5)
 		ft_unset(envp, cmd->arg);
 	if (f == 6)
-		ft_export(cmd->arg, envp);
-	exit(0);
+		ft_export(cmd->arg, *envp);
+	// exit(0);
 	return (/*strarray_free(built),*/ 1);
 }
 
@@ -72,10 +72,10 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	path = 0;
 	if (cmd->type == WORD_TK)
 	{
-		path = get_cmd_path(inf->env, cmd);
+		path = get_cmd_path(*(inf->env), cmd);
 		if (path == 0)
 			return (close_pipes(pipe_fd, inf->size), -1); //error path
-		envp = get_env(inf->env);
+		envp = get_env(*(inf->env));
 	}
 	if (n_cmd < inf->size - 1 && inf->size > 1
 		&& check_next_pipe(pipe_fd, n_cmd, inf) && pipe(inf->pipe) < 0)
@@ -86,8 +86,8 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		mini_dup(pipe_fd, n_cmd, inf);
 		if (cmd->type == WORD_TK)
 			exec_cmd_ve(get_all_cmd(cmd), envp, path, pipe_fd[n_cmd]);
-		else if (cmd->type == BUILT_TK)
-			exec_builtin(cmd, inf->env);
+		// else if (cmd->type == BUILT_TK)
+		// 	exec_builtin(cmd, env);
 	}
 	return (proc);
 }
@@ -109,7 +109,7 @@ void wait_proc(t_cmd_info *info)
 	}
 }
 
-int	execute_command(t_env *envp, t_input *cmd, int **pipe_fd)
+int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 {
 	t_cmd_info inf;
 	t_input *tmp;
@@ -130,7 +130,10 @@ int	execute_command(t_env *envp, t_input *cmd, int **pipe_fd)
 		// 	printf("%s in %d\n", tmp->token, pipe_fd[n_cmd][0]);
 		// 	printf("%s out %d\n", tmp->token, pipe_fd[n_cmd][1]);
 		// }
-		inf.proc[n_cmd] = exec_cmd(tmp, &inf, n_cmd, pipe_fd);
+		if (cmd->type == BUILT_TK)
+			exec_builtin(cmd, envp);
+		else
+			inf.proc[n_cmd] = exec_cmd(tmp, &inf, n_cmd, pipe_fd);
 		mini_cls_fd(pipe_fd[n_cmd][0],pipe_fd[n_cmd][1]);
 		if (check_next_pipe(pipe_fd, n_cmd, &inf))
 		{

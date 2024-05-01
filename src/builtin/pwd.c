@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:10:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 23:09:17 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/04/30 19:34:51 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	ft_pwd()
 {
 	char	*pwd;
 	
-	pwd = NULL;
-	printf("%s", getcwd(pwd, 0));
+	pwd = getcwd(NULL, 0);
+	printf("%s", pwd);
 	if (pwd)
 		printf("\n");
 	free(pwd);

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/30 16:53:39 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/01 22:20:42 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		set_signals(void);
 
 //______________________EXECUTE________________________//
 int			**fill_fd(t_input *input, int size);
-int			execute_command(t_env *envp, t_input *cmd, int *pipe[2]);
+int			execute_command(t_env **envp, t_input *cmd, int *pipe[2]);
 
 //______________________EXECUTE2_______________________//
 int			in_list(char *str,char **lst);
@@ -75,6 +75,7 @@ char		**get_all_cmd(t_input *cmd);
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);
 t_env		*create_env_node(char *var, char *content, int flag, t_env *prev);
+void		create_new_envar(char *var, char *content, int append, t_env *envp);
 void		update_shell_lvl(t_env *envp);
 int			replace_or_append(char *var, char *content, int append, t_env *envp);
 char		*get_env_var(t_env *envp, char *var);
@@ -84,10 +85,10 @@ char		**get_env(t_env *envp);
 //_______________________BUILT________________________//
 void		ft_env(t_env *envp);
 int			ft_echo(t_input *cmd);
-void		ft_cd(t_env *envp, char *path);
+void		ft_cd(t_env *envp, t_arg_lst *arg);
 void		ft_pwd();
 int			ft_exit();
-void		ft_unset(t_env	*envp, t_arg_lst *arg);
+void		ft_unset(t_env	**envp, t_arg_lst *arg);
 void		ft_export(t_arg_lst *arg, t_env *envp);
 
 //________________________DUP_________________________//

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/30 16:47:02 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/01 22:00:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,13 @@ char *pick_title()
 	if (getenv("SHLVL"))
 		lvl = atoi(getenv("SHLVL")) - 1;
 	path = getcwd(NULL, 0);
+	if (!path)
+		path = ft_strdup("/.");
 	if (lvl < 10)
 		str = ft_strjoin("Minishell ", ft_strrchr(path, '/'));
 	else
 		str = ft_strjoin("Mini hell ", ft_strrchr(path, '/'));
+	printf("%s\n", str);
 	len = ft_strlen(str);
 	if (lvl > 10)
 		lvl = 10;
@@ -119,12 +122,12 @@ int main(int argc, char **argv, char **envp)
 			ctrl_d();
 		add_history(str);
 		input = parse(str, m_env);
+		// print_input_lst(input);
 		free(str);
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
 			printf("yolo\n");
-		execute_command(m_env, input, pipe);
-		print_input_lst(input);
+		execute_command(&m_env, input, pipe);
 	}
 	clear_history();
 	return (0);

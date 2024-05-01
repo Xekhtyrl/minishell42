@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 19:53:05 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/01 20:29:26 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,32 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 	return (new);
 }
 
-t_env	*create_simple_env(t_env *start)
+void	check_absent_envar(t_env **envp)
 {
-	t_env	*prev;
-	t_env	*new;
+	t_env	*start;
+	int		flag;
 
-	new = create_env_node("OLDPWD", 0, 0, NULL);
-	ft_lstadd_back((t_list **)&start, (t_list *)new);
-	prev = new;
-	new = create_env_node("PWD", getcwd(NULL, 0), 3, prev);
-	ft_lstadd_back((t_list **)&start, (t_list *)new);
-	prev = new;
-	new = create_env_node("SHLVL", "0", 0, prev);
-	ft_lstadd_back((t_list **)&start, (t_list *)new);
-	return (start);
+	start = *envp;
+	flag = 0;
+	while (start && start->next)
+	{
+		if (!ft_strncmp(start->var, "PWD", ft_strlen(start->var)))
+			flag += 1;
+		if (!ft_strncmp(start->var, "OLDPWD", ft_strlen(start->var)))
+			flag += 2;
+		if (!ft_strncmp(start->var, "SHLVL", ft_strlen(start->var)))
+			flag += 4;
+		start = start->next;
+	}
+	if (!(flag % 2) || !flag)
+		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("PWD", getcwd(NULL, 0), 3,
+			(t_env *)ft_lstlast((t_list *)*envp)));
+	if (!(flag == 2 || flag == 3 || flag == 6 || flag == 7))
+		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("OLDPWD", NULL, 0,
+			(t_env *)ft_lstlast((t_list *)*envp)));
+	if (flag < 4)
+		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("SHLVL", "0", 0,
+			(t_env *)ft_lstlast((t_list *)*envp)));
 }
 
 t_env	*env_lst(char **envp)
@@ -121,9 +133,7 @@ t_env	*env_lst(char **envp)
 	prev = NULL;
 	start = NULL;
 	len = 0;
-	if (!envp || !*envp)
-		return (create_simple_env(start));
-	while (*envp)
+	while (envp && *envp)
 	{
 		var = ft_substr(*envp, 0, ft_strlen(*envp)
 				- ft_strlen(ft_strchr(*envp, '=')));
@@ -134,13 +144,16 @@ t_env	*env_lst(char **envp)
 			len = ft_strlen(var);
 		envp++;
 	}
+	check_absent_envar(&start);
+	while (start && start->prev)
+		start = start->prev;
 	sort_lst(&start);
 	return (start);
 }
 
 void	ft_env(t_env *envp)
 {
-	replace_or_append("_", "/usr/bin/env", 0, envp);
+	create_new_envar("_", "/usr/bin/env", 0, envp);
 	if (!envp)
 		return ;
 	while (envp)
