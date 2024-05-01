@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/01 20:29:26 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/01 22:39:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,34 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 	return (new);
 }
 
+void	set_home_var(t_env **envp)
+{
+	t_env	*start;
+	char	*str;
+	int		i;
+	int		flag;
+
+	start = *envp;
+	i = -1;
+	flag = 0;
+	while (start && start->next)
+	{
+		if (!ft_strncmp(start->var, "HOME", ft_strlen(start->var)))
+			return ;
+		start = start->next;
+	}
+	str = getcwd(NULL, 0);
+	while (str[++i])
+	{
+		if (str[i] == '/')
+			flag += 1;
+		if (flag == 3)
+			break ;
+	}
+	ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("HOME", ft_substr(str, 0, i), 3,
+		(t_env *)ft_lstlast((t_list *)*envp)));
+}
+
 void	check_absent_envar(t_env **envp)
 {
 	t_env	*start;
@@ -120,6 +148,7 @@ void	check_absent_envar(t_env **envp)
 	if (flag < 4)
 		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("SHLVL", "0", 0,
 			(t_env *)ft_lstlast((t_list *)*envp)));
+	set_home_var(envp);
 }
 
 t_env	*env_lst(char **envp)
