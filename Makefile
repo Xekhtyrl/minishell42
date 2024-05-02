@@ -18,12 +18,14 @@ MY_SOURCES =	main.c					\
 				src/builtin/unset.c		\
 				src/builtin/exit.c		\
 				src/utils/sort_list.c 	\
+				src/utils/lst_to_tab.c	\
+				src/env/env_var_utils.c	\
+				src/env/setup_env.c		\
 				src/execute.c 			\
 				src/execute_utils.c 	\
 				src/get_fd.c 			\
 				src/get_path.c 			\
 				src/dup.c				\
-				src/utils/lst_to_tab.c	\
 				src/free.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
@@ -34,7 +36,7 @@ C_RED = \033[0;31m
 
 C_BLUE = \033[0;34m
 
-C_YEL = \033[0;34m
+C_BPURP = \033[1;35m
 
 C_END=\033[0m
 
@@ -55,18 +57,18 @@ all: $(NAME)
 $(NAME): $(MY_OBJECTS)
 	@make -C $(LIBFT)
 	@gcc $(CFLAGS) $(LFLAGS) -o $(NAME) $(MY_OBJECTS) $(LIBFT)/libft.a
-	@echo "$(C_GREEN)$(NAME) compiled with $(CFLAGS)$(C_END)"
+	@echo "$(C_GREEN)$(NAME) compiled with $(C_BPURP)$(CFLAGS)$(C_END)"
 	@echo "$(C_RED)Welcome in our mini hell$(C_END)"
-	@echo "$(C_GREEN)****      ***   *******   *****    ***   ******** $(C_END)$(C_YEL)                 $(C_RED)***     ***    *********   ****        ***         $(C_END)"
-	@echo "$(C_GREEN)*--**    *+-*   ***-***   *---**   *-*   ***+-*** $(C_END)$(C_YEL)                 $(C_RED)*-*     *-*    *-*******   *--*        *-*         $(C_END)"
-	@echo "$(C_GREEN)*-++*   **--*     *-*     *-+****  *-*      *-*   $(C_END)$(C_YEL)        |        $(C_RED)*-*     *-*    *-*         *--*        *-*         $(C_END)"
-	@echo "$(C_GREEN)*-* ** **-*-*     *-*     *-*  *** *-*      *-*   $(C_END)$(C_YEL)     |  |  |     $(C_RED)*-*******-*    *-*******   *--*        *-*         $(C_END)"
-	@echo "$(C_GREEN)*-* ***** *-*     *-*     *-*   ****-*      *-*   $(C_END)$(C_YEL)     |  |  |     $(C_RED)*-*******-*    *-*******   *--*        *-*         $(C_END)"
-	@echo "$(C_GREEN)*-*  ***  *-*     *-*     *-*    **--*      *-*   $(C_END)$(C_YEL)  |  |  |  |  |  $(C_RED)*-*     *-*    *-*         *--*        *-*         $(C_END)"
-	@echo "$(C_GREEN)*-*       *-*   ***-***   *-*     **-*   ***+-*** $(C_END)$(C_YEL)  |  |  |  |  |  $(C_RED)*-*     *-*    *-*******   *--*******  *-********  $(C_END)"
-	@echo "$(C_GREEN)***       ***   *******   ***      ***   ******** $(C_END)$(C_YEL)  |  |  |  |  |  $(C_RED)***     ***    *********   **********  **********  $(C_END)"
-	@echo "                                                    $(C_YEL)|  |     |  |   	                   "
-	@echo "                                                    $(C_YEL)|           |                 "
+	@echo "$(C_GREEN)****      ***   *******   *****    ***   ******** $(C_END)$(C_BLUE)                 $(C_RED)***     ***    *********   ****        ***         $(C_END)"
+	@echo "$(C_GREEN)*--**    *+-*   ***-***   *---**   *-*   ***+-*** $(C_END)$(C_BLUE)                 $(C_RED)*-*     *-*    *-*******   *--*        *-*         $(C_END)"
+	@echo "$(C_GREEN)*-++*   **--*     *-*     *-+****  *-*      *-*   $(C_END)$(C_BLUE)        |        $(C_RED)*-*     *-*    *-*         *--*        *-*         $(C_END)"
+	@echo "$(C_GREEN)*-* ** **-*-*     *-*     *-*  *** *-*      *-*   $(C_END)$(C_BLUE)     |  |  |     $(C_RED)*-*******-*    *-*******   *--*        *-*         $(C_END)"
+	@echo "$(C_GREEN)*-* ***** *-*     *-*     *-*   ****-*      *-*   $(C_END)$(C_BLUE)     |  |  |     $(C_RED)*-*******-*    *-*******   *--*        *-*         $(C_END)"
+	@echo "$(C_GREEN)*-*  ***  *-*     *-*     *-*    **--*      *-*   $(C_END)$(C_BLUE)  |  |  |  |  |  $(C_RED)*-*     *-*    *-*         *--*        *-*         $(C_END)"
+	@echo "$(C_GREEN)*-*       *-*   ***-***   *-*     **-*   ***+-*** $(C_END)$(C_BLUE)  |  |  |  |  |  $(C_RED)*-*     *-*    *-*******   *--*******  *-********  $(C_END)"
+	@echo "$(C_GREEN)***       ***   *******   ***      ***   ******** $(C_END)$(C_BLUE)  |  |  |  |  |  $(C_RED)***     ***    *********   **********  **********  $(C_END)"
+	@echo "                                                    $(C_BLUE)|  |     |  |   	                   "
+	@echo "                                                    $(C_BLUE)|           |                 "
 	@echo "$(C_GREEN)                                                         *****                                                        $(C_END)"  
 	@echo "$(C_GREEN)                                                        ********                                                      $(C_END)"  
 	@echo "$(C_GREEN)                                                  ***   *-*   ***                                                     $(C_END)"  
