@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/01 22:20:09 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/02 20:37:41 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int exec_builtin(t_input *cmd, t_env **envp)
 	if (f == 2)
 		ft_env(*envp);
 	if (f == 3)
-		ft_echo(cmd);
+		ft_echo(cmd->arg);
 	if (f == 4)
 		ft_exit(/**/);
 	if (f == 5)
@@ -62,7 +62,7 @@ int exec_builtin(t_input *cmd, t_env **envp)
 	// exit(0);
 	return (/*strarray_free(built),*/ 1);
 }
-
+void print_env(char **envp);
 pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char *path;
@@ -75,7 +75,8 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		path = get_cmd_path(*(inf->env), cmd);
 		if (path == 0)
 			return (close_pipes(pipe_fd, inf->size), -1); //error path
-		envp = get_env(*(inf->env));
+		envp = get_env2(*(inf->env));
+		print_env(envp);
 	}
 	if (n_cmd < inf->size - 1 && inf->size > 1
 		&& check_next_pipe(pipe_fd, n_cmd, inf) && pipe(inf->pipe) < 0)

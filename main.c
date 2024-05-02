@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/01 22:00:38 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/02 20:25:29 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,11 @@ int only_space(char *str)
 	return (0);
 }
 
-#include <fcntl.h>
+void print_env(char **envp)
+{
+	while (*envp)
+		printf("%s\n", *envp++);
+}
 int main(int argc, char **argv, char **envp)
 {
 	static char 	*str;
@@ -107,6 +111,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)m_env;
+	// print_env(envp);
 	m_env = env_lst(envp);
 	update_shell_lvl(m_env);
 	//ft_env(m_env);

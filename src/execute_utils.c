@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 19:41:33 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/02 20:39:15 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,32 @@ char **get_env(t_env *envp)
 	env = ft_split(p, ' ');
 	free(p);
 	return (env);
+}
+
+char	**get_env2(t_env *envp)
+{
+	char	**new;
+	int		size;
+	int		i;
+
+	size = ft_lstsize((t_list *)envp);
+	new = malloc(sizeof(char *) * (size + 1));
+	if (!new)
+		return (0);
+	i = -1;
+	while (++i < size)
+	{
+		if (envp && envp->content)
+		{
+			new[i] = ft_stradd(envp->var, "=");
+			new[i] = ft_stradd(new[i], envp->content);
+		}
+		else if (envp)
+			new[i] = ft_strdup(envp->var);
+		envp = envp->next;
+	}
+	new[i] = 0;
+	return (new);
 }
 
 int	in_list(char *str,char **lst)
