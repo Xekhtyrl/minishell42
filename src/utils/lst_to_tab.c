@@ -6,36 +6,44 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 19:08:25 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 22:23:27 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char **get_all_cmd(t_input *cmd)
+static int set_res(char ***res, t_arg_lst **tmp, int len, t_input *cmd)
+{
+	*res = malloc((len + 2) * sizeof(char *));
+	if (!res)
+		return (0);
+	*res[0] = cmd->token;
+	*tmp = cmd->arg;
+	return (1);
+}
+
+char **get_all_cmd(t_input *cmd, int len)
 {
 	t_arg_lst *tmp;
 	char **res;
-	int len;
 	int i;
 
-	res = 0;
-	len = ft_lstsize((t_list *)cmd->arg);
-	res = malloc((len + 2) * sizeof(char *));
-	if (!res)
+	if (!set_res(&res, &tmp, len, cmd))
 		return (0);
-	res[0] = cmd->token;
-	tmp = cmd->arg;
 	i = 1;
 	while (tmp)
 	{
 		if (!in_int_array(tmp->type, (int[]){READ_TK, WRITE_TK, SPACE_TK}, 3))
 		{
-			res[i++] = trim_quote(tmp->token);
-			if (!res[i])
+			res[i] = trim_quote(tmp->token);
+			if (!res[i++])
 				return(strarray_free(res), NULL);
 		}
-		tmp = tmp->next;
+		else if (in_int_array(tmp->type, (int[]){READ_TK, WRITE_TK}, 2))
+			while (tmp->type != WORD_TK)
+				tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 	res[i] = 0;
 	return (res);

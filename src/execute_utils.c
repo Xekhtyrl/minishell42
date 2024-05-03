@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 19:48:41 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 22:40:01 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int trad_input(t_input *cmd, t_env **envp)
 	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", 0};
 	path = 0;
 	tmp = cmd;
-	while (tmp)
+	while (tmp && tmp->token)
 	{
 		if (in_str_array(tmp->token, built) && ft_strncmp(tmp->token, "unset", 4)
 			&& ft_strncmp(tmp->token, "export", 7))

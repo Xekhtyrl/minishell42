@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 17:09:16 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 23:41:22 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "token.h"
 # include "functions.h"
 # include "structures.h"
+# include "ee/ee.h"
 
 # include <stdio.h>
 # define READLINE_LIBRARY 1

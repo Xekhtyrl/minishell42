@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 19:05:21 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 22:06:23 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void		rotate(t_env **lst1);
 void		sort_lst(t_env **lsta);
 char		*ft_stradd(char *s1, char const *s2);
 char		**lst_to_tab(t_list *lst);
-char		**get_all_cmd(t_input *cmd);
+char		**get_all_cmd(t_input *cmd, int len);
 
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);

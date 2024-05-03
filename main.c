@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:12:32 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 20:12:17 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 22:53:33 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ int main(int argc, char **argv, char **envp)
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
 			printf("yoloooo\n");
+		// print_input_lst(input);
 		execute_command(&m_env, input, pipe);
-		print_input_lst(input);
 	}
 	clear_history();
 	return (0);

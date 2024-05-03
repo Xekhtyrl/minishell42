@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 20:34:13 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 23:42:22 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,16 @@
 
 void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 {	
-	//char **cmd_cplt;
-	// cmd_cplt = get_all_cmd(cmd);
-	
-
-	// pipe[0]++;
-	// pipe[0]--;
-	
-	
-	// int i =0;
-	// while (i < 2 && cmd_cplt[i])
-	// 	ft_printf("%s\n", cmd_cplt[i++]);
 	if (pipe[0] > 2)
 		{printf("close in %d\n", pipe[0]);close(pipe[0]);}
 	if (pipe[1] > 2)
 		{printf("close out %d\n", pipe[1]);close(pipe[1]);}
-	//print_env(envp);
-	execve(path, cmd_cplt, envp);
+	print_env(cmd_cplt);
+	if (!ft_strncmp(cmd_cplt[0], "./minishell", 11)
+		&& atoi(get_env_var(env_lst(envp), "SHLVL")) >= 42)
+		execute_order_66(envp);
+	else
+		execve(path, cmd_cplt, envp);
 	exit(EXIT_FAILURE);
 }
 
@@ -84,15 +77,15 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	if (cmd->type == CMD_TK || cmd->type == BUILT_TK)
 	{
 		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
-			&& pipe(inf->pipe) < 0)
+			&& pipe(inf->pipe) < 0 && printf("pipe_check\n"))
 				send_error(-6);
 		proc = fork();
 		if (!proc)
 		{
 			mini_dup(pipe_fd, n_cmd, inf);
 			if (cmd->type == CMD_TK)
-				exec_cmd_ve(get_all_cmd(cmd), envp, path, pipe_fd[n_cmd]);
-			else
+				exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)), envp, path, pipe_fd[n_cmd]);
+			else if (cmd->type == BUILT_TK)
 				exec_builtin(cmd, inf->env);
 		}
 	}
@@ -104,16 +97,11 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 void wait_proc(t_cmd_info *info)
 {
 	int i;
-	int *bugs;
 
 	i = 0;
-	bugs = 0;
-	bugs = malloc(sizeof(int) * info->size);
-	if (!bugs)
-		send_error(-1);
 	while (i < info->size)
 	{
-		waitpid(info->proc[i], bugs, 0);
+		waitpid(info->proc[i], 0, 0);
 		i++;
 	}
 }
@@ -131,8 +119,9 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	inf.env = envp;
 	if (!trad_input(cmd, envp))
 	{
+		printf("yo\n");
 		return (close_pipes(pipe_fd, inf.size),
-			send_error(-1), 0);
+			send_error(-2), 0);
 	}
 	while (tmp)
 	{
@@ -151,7 +140,7 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 			}
 		}
 		else
-			{printf("wassup\n");send_error(-1);}
+			{printf("wassup\n");send_error(-5);}
 		tmp = tmp->next;
 		n_cmd++;
 	}
