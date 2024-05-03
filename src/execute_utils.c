@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 16:59:01 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 21:39:59 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int trad_input(t_input *cmd)
 	t_input *tmp;
 	char **built;
 
-	built = ft_split("cd pwd env echo exit unset export", ' ');
+	built = ft_split("cd pwd env echo exit unset export exporto_patronum", ' ');
 	if (!built)
 		return (0);
 	tmp = cmd;

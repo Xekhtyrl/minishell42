@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:52:28 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/01 17:13:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 18:22:56 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,4 @@ void ft_unset(t_env **envp, t_arg_lst *arg)
 			arg = arg->next;
 		}
 	}
-	ft_env(*envp);
 }

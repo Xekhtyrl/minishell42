@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 16:59:28 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 22:05:22 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		ft_cd(t_env *envp, t_arg_lst *arg);
 void		ft_pwd();
 int			ft_exit();
 void		ft_unset(t_env	**envp, t_arg_lst *arg);
-void		ft_export(t_arg_lst *arg, t_env *envp);
+void		ft_export(t_arg_lst *arg, t_env *envp, int flag);
 
 //________________________DUP_________________________//
 int			uni_dup(int fd_in, int fd_out);

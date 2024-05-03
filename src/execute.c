@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 16:59:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 22:04:58 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ int exec_builtin(t_input *cmd, t_env **envp)
 	int		f;
 
 	f = 0;
-	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", 0};
+	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", "exporto_patronum", 0};
 	if (!built)
 		return (-1);
-	printf("builtin %s\n", cmd->token);
 	while (built[f] && strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
 		f++;
 	if (f == 0)
@@ -57,12 +56,11 @@ int exec_builtin(t_input *cmd, t_env **envp)
 		ft_exit(/**/);
 	if (f == 5)
 		ft_unset(envp, cmd->arg);
-	if (f == 6)
-		ft_export(cmd->arg, *envp);
-	// exit(0);
-	return (/*strarray_free(built),*/ 1);
+	if (f == 6 || f == 7)
+		ft_export(cmd->arg, *envp, f - 6);
+	return (1);
 }
-void print_env(char **envp);
+
 pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char *path;
@@ -76,7 +74,6 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		if (path == 0)
 			return (close_pipes(pipe_fd, inf->size), -1); //error path
 		envp = get_env(*(inf->env));
-		print_env(envp);
 	}
 	if (n_cmd < inf->size - 1 && inf->size > 1
 		&& check_next_pipe(pipe_fd, n_cmd, inf) && pipe(inf->pipe) < 0)
