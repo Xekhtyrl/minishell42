@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 18:42:04 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 19:48:41 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,10 @@ int trad_input(t_input *cmd, t_env **envp)
 	tmp = cmd;
 	while (tmp)
 	{
-		if (in_str_array(tmp->token, built))
+		if (in_str_array(tmp->token, built) && ft_strncmp(tmp->token, "unset", 4)
+			&& ft_strncmp(tmp->token, "export", 7))
 			tmp->type = BUILT_TK;
-		if (tmp->type == BUILT_TK && (!ft_strncmp(tmp->token, "env", 4)
+		else if (in_str_array(tmp->token, built) && (!ft_strncmp(tmp->token, "unset", 4)
 			|| !ft_strncmp(tmp->token, "export", 7)))
 			tmp->type = ENV_TK;
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 20:14:38 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 20:16:05 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	split_cmd_redir(t_input **cmd, char *str, int start, t_env *envp)
 			if (arg)
 				ft_lstadd_back((t_list **)&lst, (t_list *)arg);
 		}
-		if ((str[start] == '<' || str[start] == '>'))
+		if (((str[start] == '<' || str[start] == '>')) && !*cmd)
 			token = 0;
 		else
 			token++;

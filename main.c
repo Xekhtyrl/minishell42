@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:12:32 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 18:52:56 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 20:12:17 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_input_lst(t_input	*i)
 	printf("____________________________________________________________\n");
 	while (input)
 	{
-		printf("%scmd%s = %s\n", RED, NC, input->token);
+		printf("%scmd%s = %s type > %d\n", RED, NC, input->token, input->type);
 		if (input->arg)
 		{
 			while (input->arg)
@@ -136,12 +136,12 @@ int main(int argc, char **argv, char **envp)
 		add_history(str);
 		input = parse(str, m_env);
 		//print_input_lst(input);
-		// print_input_lst(input);
 		free(str);
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
-			printf("yolo\n");
+			printf("yoloooo\n");
 		execute_command(&m_env, input, pipe);
+		print_input_lst(input);
 	}
 	clear_history();
 	return (0);

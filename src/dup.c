@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/04/30 15:03:06 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 20:36:03 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void	mini_cls_fd(int fd1, int fd2)
 {
-	if (fd1 > 1 && printf("close 1 %d\n", fd1) &&  close(fd1) == -1)
+	printf("fd1 = %d\n", fd1);
+	printf("fd2 = %d\n", fd2);
+	if (fd1 > 1 && printf("close 1 = %d\n", fd1) && close(fd1) == -1)
 		perror("close1");
-	if (fd2 > 2 && printf("close 2 %d\n", fd1) &&  close(fd2) == -1)
+	if (fd2 > 2 && printf("close 2 = %d\n", fd2) && close(fd2) == -1)
 		perror("close2");
 }
 

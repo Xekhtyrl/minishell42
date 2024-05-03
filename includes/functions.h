@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 17:53:12 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 19:05:21 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,8 @@ int			uni_dup(int fd_in, int fd_out);
 int			mini_dup(int *fd_in_out[2], int cur, t_cmd_info * inf);
 int			mini_dup2(int *fd_in_out[2], int cur, t_cmd_info * inf);
 int			check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf);
+
+//_______________________ECHO_________________________//
+char	*trim_quote(char *str);
 
 #endif

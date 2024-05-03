@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 18:57:40 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 19:08:25 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ char **get_all_cmd(t_input *cmd)
 	{
 		if (!in_int_array(tmp->type, (int[]){READ_TK, WRITE_TK, SPACE_TK}, 3))
 		{
-			res[i] = tmp->token;
-			i++;
+			res[i++] = trim_quote(tmp->token);
+			if (!res[i])
+				return(strarray_free(res), NULL);
 		}
 		tmp = tmp->next;
 	}
