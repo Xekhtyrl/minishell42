@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 15:14:08 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:57:45 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ char	*ft_stradd(char *s1, char const *s2)
 	p[i + j] = '\0';
 	return (p);
 }
-
+void print_envp(char **envp)
+{
+	while (*envp)
+		printf("%s\n", *envp++);
+}
 char **get_env(t_env *envp)
 {
 	char *p;
@@ -66,6 +70,7 @@ char **get_env(t_env *envp)
 	}
 	env = ft_split(p, ' ');
 	free(p);
+	print_envp(env);
 	return (env);
 }
 
