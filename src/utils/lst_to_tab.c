@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/30 14:56:54 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:39:44 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,17 @@ char **get_all_cmd(t_input *cmd)
 	i = 1;
 	while (tmp)
 	{
-		if (tmp->type == READ_TK || tmp->type == WRITE_TK
-			|| tmp->type == SPACE_TK)
-			tmp = tmp->next;
-		else
+		printf("yi %s\n", res[i-1]);
+		if (!(tmp->type == READ_TK || tmp->type == WRITE_TK
+			|| tmp->type == SPACE_TK))
 		{
 			res[i] = tmp->token;
-			tmp = tmp->next;
 			i++;
 		}
-		
+		tmp = tmp->next;
 	}
 	res[i] = 0;
+	printf("yi %d\n", i);
 	return (res);
 }
 

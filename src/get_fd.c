@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 23:03:03 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:26:22 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,6 @@ int **fill_fd(t_input *input, int size)
 		i++;
 		input = input->next;
 	}
+	// printf("vous etes ici\n");
 	return (pipe_fd);
 }

@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:50:34 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/30 17:13:20 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:45:27 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char *get_cmd_path(t_input *input, t_env *envp)
 	int		i;
 	
 	i = -1;
+	if (access(input->token, F_OK | R_OK) == 0)
+		return (ft_strdup(input->token));
 	path = get_our_path(envp);
 	if (!path)
 		return (send_error(-1), NULL);

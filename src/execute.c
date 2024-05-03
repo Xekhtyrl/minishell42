@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/30 17:17:05 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:46:30 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 		{printf("close in %d\n", pipe[0]);close(pipe[0]);}
 	if (pipe[1] > 2)
 		{printf("close out %d\n", pipe[0]);close(pipe[1]);}
+	printf("%s exec fail\n", path);
 	execve(path, cmd_cplt, envp);
 	exit(EXIT_FAILURE);
 }
@@ -73,7 +74,7 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	pid_t proc;
 
 	path = 0;
-	if (cmd->type == WORD_TK)
+	if (cmd->type == CMD_TK)
 	{
 		path = get_cmd_path(cmd, inf->env);
 		if (path == 0)
@@ -87,7 +88,7 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	if (!proc)
 	{
 		mini_dup(pipe_fd, n_cmd, inf);
-		if (cmd->type == WORD_TK)
+		if (cmd->type == CMD_TK)
 			exec_cmd_ve(get_all_cmd(cmd), envp, path, pipe_fd[n_cmd]);
 		else if (cmd->type == BUILT_TK)
 			exec_builtin(cmd, inf->env);
@@ -124,8 +125,10 @@ int	execute_command(t_env *envp, t_input *cmd, int **pipe_fd)
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
 	inf.env = envp;
 	if (!trad_input(cmd, envp))
+	{
 		return (close_pipes(pipe_fd, inf.size),
 			send_error(-1), 0);
+	}
 	while (tmp)
 	{
 		if (tmp->type == CMD_TK || tmp->type == BUILT_TK)
@@ -138,6 +141,8 @@ int	execute_command(t_env *envp, t_input *cmd, int **pipe_fd)
 				pipe_fd[n_cmd + 1][0] = inf.pipe[0];
 			}
 		}
+		else
+			send_error(-1);
 		//waitpid(inf.proc[n_cmd], 0, 0);
 		tmp = tmp->next;
 		n_cmd++;

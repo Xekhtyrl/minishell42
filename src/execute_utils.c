@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/30 17:18:07 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:14:08 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int trad_input(t_input *cmd, t_env *envp)
 		else
 		{
 			path = get_cmd_path(tmp, envp);
-			if (path)
+			if (path || !access(tmp->token, X_OK))
 			{
 				tmp->type = CMD_TK;
 				free(path);
