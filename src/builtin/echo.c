@@ -6,14 +6,14 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:16:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/02 19:13:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:51:08 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 
-static char	*trim_quote(char *str)
+char	*trim_quote(char *str)
 {
 	char	*new;
 
@@ -59,13 +59,13 @@ int ft_echo(t_arg_lst *arg)
 			break ;
 		arg = arg->next;
 	}
-	if (arg->type == SPACE_TK)
+	if (arg && arg->type == SPACE_TK)
 		arg = arg->next;
 	while (arg && arg->token)
 	{
 		if (arg->token[0] == '\'')
 			arg->token = ft_strtrim(arg->token, "\'");
-		if (arg->token[0] == '\"')
+		else if (arg->token[0] == '\"')
 			arg->token = ft_strtrim(arg->token, "\"");
 		ft_putstr_fd(arg->token, 1);
 		arg = arg->next;

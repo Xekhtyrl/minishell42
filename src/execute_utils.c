@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/02 20:39:15 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:59:01 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,36 +40,7 @@ char	*ft_stradd(char *s1, char const *s2)
 	return (p);
 }
 
-char **get_env(t_env *envp)
-{
-	char *p;
-	char **env;
-
-	env = 0;
-	p = 0;
-	p = ft_stradd(p, envp->var);
-	if (envp->content)
-	{
-		p = ft_stradd(p, " ");
-		p = ft_stradd(p, envp->content);
-	}
-	while (envp)
-	{
-		p = ft_stradd(p, " ");
-		p = ft_stradd(p, envp->var);
-		if (envp->content)
-		{
-			p = ft_stradd(p, "=");
-			p = ft_stradd(p, envp->content);
-		}
-		envp = envp->next;
-	}
-	env = ft_split(p, ' ');
-	free(p);
-	return (env);
-}
-
-char	**get_env2(t_env *envp)
+char	**get_env(t_env *envp)
 {
 	char	**new;
 	int		size;

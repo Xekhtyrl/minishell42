@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/02 15:48:02 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:46:23 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*combine_arg(t_arg_lst *arg)
 	{
 		if (arg->token[0] == '\'')
 			arg->token = ft_strtrim(arg->token, "\'");
-		if (arg->token[0] == '\"')
+		else if (arg->token[0] == '\"')
 			arg->token = ft_strtrim(arg->token, "\"");
 		str = ft_stradd(str, arg->token);
 		arg = arg->next;
@@ -75,7 +75,7 @@ static void	export_sub(t_env *envp, t_arg_lst* arg, int flag)
 	
 	if (arg->token[0] == '\'')
 		arg->token = ft_strtrim(arg->token, "\'");
-	if (arg->token[0] == '\"')
+	else if (arg->token[0] == '\"')
 		arg->token = ft_strtrim(arg->token, "\"");
 	var = ft_substr(arg->token, 0, ft_strleng(arg->token, '='));
 	if(flag > 0 && ft_strchr(arg->token, '='))

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:50:34 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/02 20:19:19 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:52:48 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char *get_cmd_path(t_env *envp, t_input *input)
 	
 	i = -1;
 	if (access(input->token, F_OK | X_OK) == 0)
-		return (input->token);
+		return (ft_strdup(input->token));
 	path = get_our_path(envp);
 	if (!path)
 		return (send_error(-1), NULL);

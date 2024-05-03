@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/02 20:37:20 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:59:28 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int			trad_input(t_input *cmd);
 char		**get_our_path(t_env *envp);
 char		*get_cmd_path(t_env *envp, t_input *input);
 void		mini_cls_fd(int fd1, int fd2);
-char		**get_env2(t_env *envp);
 
 //_______________________GET_FD________________________//
 int			*get_fd_infiles(t_input *input, int size);
