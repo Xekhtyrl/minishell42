@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 23:42:22 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 23:45:04 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,9 @@ int exec_builtin(t_input *cmd, t_env **envp)
 	int		f;
 
 	f = 0;
-	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", 0};
+	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", "exporto_patronum", 0};
 	if (!built)
 		return (-1);
-	printf("builtin %s\n", cmd->token);
 	while (built[f] && strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
 		f++;
 	if (f == 0)
@@ -51,13 +50,12 @@ int exec_builtin(t_input *cmd, t_env **envp)
 		ft_exit(/**/);
 	if (f == 5)
 		ft_unset(envp, cmd->arg);
-	if (f == 6)
-		ft_export(cmd->arg, *envp);
+	if (f == 6 || f == 7)
+		ft_export(cmd->arg, *envp, f - 6);
 	if (f < 5)
 		exit(0);
-	return (1);
+	return (/*strarray_free(built),*/ 1);
 }
-
 pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char *path;

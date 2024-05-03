@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 20:16:05 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 23:46:36 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	split_cmd_redir(t_input **cmd, char *str, int start, t_env *envp)
 			if (arg)
 				ft_lstadd_back((t_list **)&lst, (t_list *)arg);
 		}
-		if (((str[start] == '<' || str[start] == '>')) && !*cmd)
+		if ((str[start] == '<' || str[start] == '>') && !*cmd)
 			token = 0;
 		else
 			token++;
@@ -155,7 +155,7 @@ t_input	*parse(char *str, t_env *envp)
 	if (!str)
 		return (ft_putstr_fd("NO STR\n", 2), NULL);
 	if (parse_error(str))
-		return (ft_putstr_fd("parse error\n !!! HAS TO BE CHANGED", 2), NULL);
+		return (NULL);
 	get_input_struct(&input, str, envp);
 	return (input);
 }

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 22:40:01 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 23:45:36 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int trad_input(t_input *cmd, t_env **envp)
 	char *path;
 
 	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", 0};
-	path = 0;
 	tmp = cmd;
 	while (tmp && tmp->token)
 	{

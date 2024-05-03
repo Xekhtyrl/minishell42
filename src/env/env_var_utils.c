@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/02 15:48:12 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 18:03:09 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*replace_str_env_var(char *str, t_env *envp)
 	new = ft_substr(str, 0, start);
 	while (str[i] && ft_isalnum(str[i]))
 		i++;
-	tmp = ft_substr(str, start+1, i - start - 1);
+	tmp = ft_substr(str, start+1, i - start);
 	new = ft_stradd(new, get_env_var(envp, tmp));
 	tmp = ft_substr(str, i, ft_strlen(str + i));
 	new = ft_stradd(new, tmp);
@@ -73,21 +73,18 @@ char	*replace_str_env_var(char *str, t_env *envp)
 
 char	*get_env_var(t_env *envp, char *var)
 {
-	// if (var && var[0] == '$')
-	// 	var = var + 1;
 	if (var && var[0] == '?')
-		return (0);  // var globale
+		return (NULL);  // var globale
 	else
 	{
 		while (envp)
 		{
-			if (!ft_strncmp(envp->var, var, ft_strlen(var)))
+			if (!ft_strncmp(envp->var, var, ft_strlen(envp->var)))
 				break ;
 			envp = envp->next;
 		}
 	}
 	if (!envp)
 		return (0);
-	// printf("%s\n", envp->content);
 	return (envp->content);
 }

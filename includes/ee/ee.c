@@ -6,11 +6,11 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 23:41:56 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 23:42:27 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 23:48:42 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "ee.h"
 
 void execute_order_66(char **envp)
 {

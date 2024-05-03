@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 16:46:23 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/03 22:40:32 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static char	*combine_arg(t_arg_lst *arg)
 	return (str);
 }
 
-static void	export_sub(t_env *envp, t_arg_lst* arg, int flag)
+static void	exporto_patronum(t_env *envp, t_arg_lst* arg, int flag)
 {
 	char	*var;
 	char	*content;
@@ -85,14 +85,37 @@ static void	export_sub(t_env *envp, t_arg_lst* arg, int flag)
 	create_new_envar(var, content, (flag >= 4), envp);
 }
 
-void	ft_export(t_arg_lst *arg, t_env *envp)
+void	print_exporto_patronum(void)
 {
-	int		flag;
+	int 	fd;
+	char	*str;
 
+	fd = open("./src/utils/exporto_patronum", O_RDONLY);
+	while (1)
+	{
+		str = get_next_line(fd);
+		if (str)
+			printf("%s", str);
+		else
+			return(printf("\n"), free(str), (void)close(fd));
+		free(str);
+		usleep(5000);
+	}
+	close(fd);
+}
+
+void	ft_export(t_arg_lst *arg, t_env *envp, int flag)
+{
+	if (flag)
+		print_exporto_patronum();
 	if (!arg)
 		print_no_arg(envp);
 	while (arg)
 	{
+		while (arg && arg->type != WORD_TK)
+			arg = arg->next;
+		if (!arg)
+			break ;
 		if (!ft_strncmp(arg->token, "_", ft_strlen(arg->token)) || arg->type == SPACE_TK)
 			arg = arg->next;
 		if (arg->next && arg->next->type != SPACE_TK)
@@ -101,7 +124,7 @@ void	ft_export(t_arg_lst *arg, t_env *envp)
 			break ;
 		flag = checkarg(arg->token);
 		if (flag > -1)
-			export_sub(envp, arg, flag);
+			exporto_patronum(envp, arg, flag);
 		while (arg && arg->type != SPACE_TK)
 			arg = arg->next;
 	}
