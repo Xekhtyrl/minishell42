@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 16:57:45 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 17:03:03 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,39 +39,31 @@ char	*ft_stradd(char *s1, char const *s2)
 	p[i + j] = '\0';
 	return (p);
 }
-void print_envp(char **envp)
-{
-	while (*envp)
-		printf("%s\n", *envp++);
-}
+
 char **get_env(t_env *envp)
 {
-	char *p;
-	char **env;
+	char	**new;
+	int		size;
+	int		i;
 
-	env = 0;
-	p = 0;
-	p = ft_stradd(p, envp->var);
-	if (envp->content)
+	size = ft_lstsize((t_list *)envp);
+	new = malloc(sizeof(char *) * (size + 1));
+	if (!new)
+		return (0);
+	i = -1;
+	while (++i < size)
 	{
-		p = ft_stradd(p, " ");
-		p = ft_stradd(p, envp->content);
-	}
-	while (envp)
-	{
-		p = ft_stradd(p, " ");
-		p = ft_stradd(p, envp->var);
-		if (envp->content)
+		if (envp && envp->content)
 		{
-			p = ft_stradd(p, "=");
-			p = ft_stradd(p, envp->content);
+			new[i] = ft_stradd(envp->var, "=");
+			new[i] = ft_stradd(new[i], envp->content);
 		}
+		else if (envp)
+			new[i] = ft_strdup(envp->var);
 		envp = envp->next;
 	}
-	env = ft_split(p, ' ');
-	free(p);
-	print_envp(env);
-	return (env);
+	new[i] = 0;
+	return (new);
 }
 
 int	in_list(char *str,char **lst)

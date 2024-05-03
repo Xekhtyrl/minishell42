@@ -6,27 +6,36 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 21:41:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/28 16:12:06 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:31:54 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_cd(t_env *envp, char *path, char **erf)
+char	*replace_home_path(t_arg_lst *arg, t_env *envp)
 {
-	char *new_path;
-	char *pwd;
+	if (!arg)
+		return (get_env_var(envp, "HOME"));
+	return (ft_strjoin(get_env_var(envp, "HOME"), arg->token + 1));
+}
 
+void	ft_cd(t_env *envp, t_arg_lst *arg)
+{
+	char	*new_path;
+	char	*pwd;
+	char	*path;
+
+	if (!arg || (arg->token && arg->token[0] == '~'))
+		path = replace_home_path(arg, envp);
+	else
+		path = arg->token;
 	pwd = getcwd(NULL, 0);
 	chdir(path);
 	new_path = getcwd(NULL, 0);
-	if (!ft_strncmp(path, "..", ft_strlen(path)) && !ft_strncmp(path, new_path, ft_strlen(path)))
-		chdir(ft_getenv("HOME", envp));
-	ft_update_env("PWD", new_path, envp);
-	ft_update_env("OLD_PWD", pwd, envp);
+	if (!new_path)
+		chdir(get_env_var(envp, "HOME"));
+	replace_or_append("PWD", new_path, 0, envp);
+	replace_or_append("OLDPWD", pwd, 0, envp);
+	if (arg && ft_strncmp(path, arg->token, ft_strlen(path)))
+		free(path);
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	ft_cd(NULL, argv[1], &argv[2]);
-// }

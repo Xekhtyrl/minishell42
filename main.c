@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
 /*   Updated: 2024/05/03 15:31:00 by Gfinet           ###   ########.fr       */
+=======
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
+/*   Updated: 2024/05/02 20:25:29 by lvodak           ###   ########.fr       */
+>>>>>>> Leo
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "./includes/minishell.h"
 #include <time.h>
 // #include <termios.h>
 
@@ -65,10 +72,13 @@ char *pick_title()
 	if (getenv("SHLVL"))
 		lvl = atoi(getenv("SHLVL")) - 1;
 	path = getcwd(NULL, 0);
+	if (!path)
+		path = ft_strdup("/.");
 	if (lvl < 10)
 		str = ft_strjoin("Minishell ", ft_strrchr(path, '/'));
 	else
 		str = ft_strjoin("Mini hell ", ft_strrchr(path, '/'));
+	printf("%s\n", str);
 	len = ft_strlen(str);
 	if (lvl > 10)
 		lvl = 10;
@@ -92,7 +102,11 @@ int only_space(char *str)
 	return (0);
 }
 
-#include <fcntl.h>
+void print_env(char **envp)
+{
+	while (*envp)
+		printf("%s\n", *envp++);
+}
 int main(int argc, char **argv, char **envp)
 {
 	static char 	*str;
@@ -104,6 +118,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)m_env;
+	// print_env(envp);
 	m_env = env_lst(envp);
 	update_shell_lvl(m_env);
 	//ft_env(m_env);
@@ -118,14 +133,13 @@ int main(int argc, char **argv, char **envp)
 		if (!str)
 			ctrl_d();
 		add_history(str);
-		str = replace_str_env_var(str, m_env);
-		input = parse(str);
+		input = parse(str, m_env);
+		// print_input_lst(input);
 		free(str);
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
 			printf("yolo\n");
-		execute_command(m_env, input, pipe);
-		print_input_lst(input);
+		execute_command(&m_env, input, pipe);
 	}
 	clear_history();
 	return (0);

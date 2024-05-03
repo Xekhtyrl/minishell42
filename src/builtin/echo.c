@@ -3,21 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:16:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/28 15:58:06 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:51:08 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int echo(int *pipe[2], t_input *cmd)
-{
-	size_t size;
 
-	size = ft_strlen(cmd->token);
-	if (ft_strlen("echo") != size || ft_strncmp(cmd->token, "echo", size))
+char	*trim_quote(char *str)
+{
+	char	*new;
+
+	if (str[0] == '\'')
+		new = ft_strtrim(str, "\'");
+	else if (str[0] == '\"')
+		new = ft_strtrim(str, "\"");
+	else
+		new = ft_strdup(str);
+	return (new);
+}
+
+static int	check_n_arg(t_arg_lst *arg, int *flag)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (arg->type == SPACE_TK)
+		return (1);
+	str = trim_quote(arg->token);
+	if (!str)
 		return (0);
-	
+	if (str[i++] != '-')
+		return (free(str), 0);
+	while (str[i])
+		if (str[i++] != 'n')
+			return (free(str), 0);
+	if (arg->next && arg->next->type != SPACE_TK)
+		return (free(str), 0);
+	*flag = 1;
+	return (free(str), 1);
+}
+
+int ft_echo(t_arg_lst *arg)
+{
+	int	flag;
+
+	flag = 0;
+	while (arg)
+	{
+		if (!check_n_arg(arg, &flag))
+			break ;
+		arg = arg->next;
+	}
+	if (arg && arg->type == SPACE_TK)
+		arg = arg->next;
+	while (arg && arg->token)
+	{
+		if (arg->token[0] == '\'')
+			arg->token = ft_strtrim(arg->token, "\'");
+		else if (arg->token[0] == '\"')
+			arg->token = ft_strtrim(arg->token, "\"");
+		ft_putstr_fd(arg->token, 1);
+		arg = arg->next;
+	}
+	if (!flag)
+		ft_putchar_fd('\n', 1);
+	return (1);
 }
