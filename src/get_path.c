@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:50:34 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 17:08:45 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 18:46:49 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**get_our_path(t_env *envp)
 	return (0);
 }
 
-char *get_cmd_path(t_input *input, t_env *envp)
+char *get_cmd_path(t_env *envp, t_input * input)
 {
 	char	**path;
 	char	*cmd;

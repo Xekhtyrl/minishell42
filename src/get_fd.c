@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 15:26:22 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 18:21:00 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ int open_infile(t_arg_lst *tmp)
 			if (fd != 0 && fd != -1)
 				close(fd);
 			printf("tok in %s\n", tmp->next->token);
-			fd = open(tmp->next->token, O_RDONLY);
+			if (tmp->next->type == WORD_TK)
+				fd = open(tmp->next->token, O_RDONLY);
 		}
 		tmp = tmp->next;
 	}

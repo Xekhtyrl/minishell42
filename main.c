@@ -3,26 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 15:31:00 by Gfinet           ###   ########.fr       */
-=======
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/02 20:25:29 by lvodak           ###   ########.fr       */
->>>>>>> Leo
+/*   Created: 2024/05/03 17:12:32 by gfinet            #+#    #+#             */
+/*   Updated: 2024/05/03 18:52:56 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "./includes/minishell.h"
 #include <time.h>
 // #include <termios.h>
 
-void	print_input_lst(t_input	*input)
+void	print_input_lst(t_input	*i)
 {
+	t_input *input;
+
+	input = i;
 	printf("____________________________________________________________\n");
 	while (input)
 	{
@@ -104,8 +101,11 @@ int only_space(char *str)
 
 void print_env(char **envp)
 {
-	while (*envp)
-		printf("%s\n", *envp++);
+	int i;
+
+	i = 0;
+	while (envp[i])
+		printf("lst %s\n", envp[i++]);
 }
 int main(int argc, char **argv, char **envp)
 {
@@ -117,7 +117,7 @@ int main(int argc, char **argv, char **envp)
 	str = NULL;
 	(void)argc;
 	(void)argv;
-	(void)m_env;
+	// (void)m_env;
 	// print_env(envp);
 	m_env = env_lst(envp);
 	update_shell_lvl(m_env);
@@ -127,6 +127,7 @@ int main(int argc, char **argv, char **envp)
 	pipe = 0;
 	while (1)
 	{
+		printf("\n\n---other cmd---\n");
 		str = readline(pick_title());
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
 			str = readline(pick_title());
@@ -134,6 +135,7 @@ int main(int argc, char **argv, char **envp)
 			ctrl_d();
 		add_history(str);
 		input = parse(str, m_env);
+		//print_input_lst(input);
 		// print_input_lst(input);
 		free(str);
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));

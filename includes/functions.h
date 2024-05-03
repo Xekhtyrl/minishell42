@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/30 17:17:29 by Gfinet           ###   ########.fr       */
-=======
-/*   Updated: 2024/05/03 16:59:28 by lvodak           ###   ########.fr       */
->>>>>>> Leo
+/*   Updated: 2024/05/03 17:53:12 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef FUNCTIONS_H
 # define FUNCTIONS_H
@@ -51,19 +48,12 @@ int			**fill_fd(t_input *input, int size);
 int			execute_command(t_env **envp, t_input *cmd, int *pipe[2]);
 
 //______________________EXECUTE2_______________________//
-<<<<<<< HEAD
-int	in_list(char *str,char **lst);
-int trad_input(t_input *cmd, t_env *envp);
-char	**get_our_path(t_env *envp);
-char *get_cmd_path(t_input *input, t_env *envp);
-void	mini_cls_fd(int fd1, int fd2);
-=======
-int			in_list(char *str,char **lst);
-int			trad_input(t_input *cmd);
+int			in_str_array(char *str,char **lst);
+int			in_int_array(int t, int *l, int size);
+int			trad_input(t_input *cmd, t_env **env);
 char		**get_our_path(t_env *envp);
 char		*get_cmd_path(t_env *envp, t_input *input);
 void		mini_cls_fd(int fd1, int fd2);
->>>>>>> Leo
 
 //_______________________GET_FD________________________//
 int			*get_fd_infiles(t_input *input, int size);
@@ -93,6 +83,7 @@ int			replace_or_append(char *var, char *content, int append, t_env *envp);
 char		*get_env_var(t_env *envp, char *var);
 char		*replace_str_env_var(char *str, t_env *envp);
 char		**get_env(t_env *envp);
+void		print_env(char **envp);
 
 //_______________________BUILT________________________//
 void		ft_env(t_env *envp);

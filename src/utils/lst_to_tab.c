@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 15:39:44 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 18:57:40 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ char **get_all_cmd(t_input *cmd)
 	i = 1;
 	while (tmp)
 	{
-		printf("yi %s\n", res[i-1]);
-		if (!(tmp->type == READ_TK || tmp->type == WRITE_TK
-			|| tmp->type == SPACE_TK))
+		if (!in_int_array(tmp->type, (int[]){READ_TK, WRITE_TK, SPACE_TK}, 3))
 		{
 			res[i] = tmp->token;
 			i++;
@@ -39,7 +37,6 @@ char **get_all_cmd(t_input *cmd)
 		tmp = tmp->next;
 	}
 	res[i] = 0;
-	printf("yi %d\n", i);
 	return (res);
 }
 

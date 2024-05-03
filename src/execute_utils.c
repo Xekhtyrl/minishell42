@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 17:03:03 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/03 18:42:04 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char **get_env(t_env *envp)
 	{
 		if (envp && envp->content)
 		{
-			new[i] = ft_stradd(envp->var, "=");
+			new[i] = ft_strjoin(envp->var, "=");
 			new[i] = ft_stradd(new[i], envp->content);
 		}
 		else if (envp)
@@ -66,7 +66,7 @@ char **get_env(t_env *envp)
 	return (new);
 }
 
-int	in_list(char *str,char **lst)
+int	in_str_array(char *str,char **lst)
 {
 	int		i;
 	size_t	size;
@@ -83,7 +83,18 @@ int	in_list(char *str,char **lst)
 	return (1);
 }
 
-int trad_input(t_input *cmd, t_env *envp)
+int in_int_array(int t, int *l, int size)
+{
+	int i;
+
+	i = -1;
+	while (l && i + 1 < size && l[++i])
+		if (t == l[i])
+			return (1);
+	return (0);
+}
+
+int trad_input(t_input *cmd, t_env **envp)
 {
 	t_input *tmp;
 	char **built;
@@ -94,11 +105,14 @@ int trad_input(t_input *cmd, t_env *envp)
 	tmp = cmd;
 	while (tmp)
 	{
-		if (in_list(tmp->token, built))
+		if (in_str_array(tmp->token, built))
 			tmp->type = BUILT_TK;
+		if (tmp->type == BUILT_TK && (!ft_strncmp(tmp->token, "env", 4)
+			|| !ft_strncmp(tmp->token, "export", 7)))
+			tmp->type = ENV_TK;
 		else
 		{
-			path = get_cmd_path(tmp, envp);
+			path = get_cmd_path(*envp, tmp);
 			if (path || !access(tmp->token, X_OK))
 			{
 				tmp->type = CMD_TK;
