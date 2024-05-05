@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 22:41:42 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 23:11:35 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int pipe_heredoc(int *fd_in_out[2], int cur, t_arg_lst *arg)
 		printf("pipe = %d %d\n", p[0], p[1]);
 	ft_putstr_fd(tmp->token, p[1]);
 	close(p[1]);
+	// if (fd_in_out[cur][0] > 2)
+	// 	close(fd_in_out[cur][0]);
 	fd_in_out[cur][0] = p[0];
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 22:38:03 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 23:09:34 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 {	
 	if (pipe[0] > 2)
-		{printf("close in %d\n", pipe[0]);close(pipe[0]);}
+		{close(pipe[0]);}
 	if (pipe[1] > 2)
 		{printf("close out %d\n", pipe[1]);close(pipe[1]);}
-	print_env(cmd_cplt);
+	//print_env(cmd_cplt);
 	if (!ft_strncmp(cmd_cplt[0], "./minishell", 11)
 		&& atoi(get_env_var(env_lst(envp), "SHLVL")) >= 42)
 		execute_order_66(envp);
@@ -124,8 +124,8 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	while (tmp)
 	{
 		if (pipe_fd && pipe_fd[n_cmd])
-			printf("pipe in  : %d\n", pipe_fd[n_cmd][0]);
-			printf("pipe out : %d\n", pipe_fd[n_cmd][1]);
+			printf("ex pipe in  : %d\n", pipe_fd[n_cmd][0]);
+			printf("ex pipe out : %d\n", pipe_fd[n_cmd][1]);
 		if (in_int_array(tmp->type, (int[]){CMD_TK, BUILT_TK, ENV_TK}, 3))
 		{
 			printf("launch cmd %s %d\n", tmp->token, tmp->type);

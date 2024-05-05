@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 22:40:32 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/05 17:30:54 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ void	print_exporto_patronum(void)
 	int 	fd;
 	char	*str;
 
-	fd = open("./src/utils/exporto_patronum", O_RDONLY);
+	fd = open("/Users/lvodak/exporto_patronum", O_RDONLY);
+	if (fd < 0)
+		return ;
 	while (1)
 	{
 		str = get_next_line(fd);

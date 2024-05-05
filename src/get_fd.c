@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 17:36:07 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 23:01:58 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int open_outfile(t_arg_lst *tmp)
 				close(fd);
 			if (tmp->next && tmp->next->type == SPACE_TK)
 				tmp = tmp->next;
-			printf("tok out%s\n", tmp->next->token);
+			// printf("tok out%s\n", tmp->next->token);
 			fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_TRUNC,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		}
