@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 18:21:00 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 17:36:07 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,11 @@ int open_infile(t_arg_lst *tmp)
 			printf("tok in %s\n", tmp->next->token);
 			if (tmp->next->type == WORD_TK)
 				fd = open(tmp->next->token, O_RDONLY);
+		}
+		if (tmp->type == HEREDOC_TK && fd > 0)
+		{
+			close(fd);
+			fd = 0;
 		}
 		tmp = tmp->next;
 	}

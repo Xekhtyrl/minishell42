@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 20:22:01 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:15:54 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,14 @@ int	send_error(int flag)
 	else if (flag == -10)
 		perror("PATH not found");
 	return (errno);
+}
+
+void	mini_cls_fd(int fd1, int fd2)
+{
+	printf("fd1 = %d\n", fd1);
+	printf("fd2 = %d\n", fd2);
+	if (fd1 > 1 && printf("close 1 = %d\n", fd1) && close(fd1) == -1)
+		perror("close1");
+	if (fd2 > 2 && printf("close 2 = %d\n", fd2) && close(fd2) == -1)
+		perror("close2");
 }

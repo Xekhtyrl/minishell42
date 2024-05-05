@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 23:45:58 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:25:00 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,17 @@ void		ft_export(t_arg_lst *arg, t_env *envp, int flag);
 
 //________________________DUP_________________________//
 int			uni_dup(int fd_in, int fd_out);
-int			mini_dup(int *fd_in_out[2], int cur, t_cmd_info * inf);
+int			mini_dup(int *fd_in_out[2], int cur, t_cmd_info * inf, t_arg_lst *arg);
 int			mini_dup2(int *fd_in_out[2], int cur, t_cmd_info * inf);
 int			check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf);
 
 //_______________________ECHO_________________________//
 char	*trim_quote(char *str);
+
+//_____________________HEREDOC_________________________//
+int detect_all_heredocs(t_input *input);
+int detect_heredoc(t_arg_lst *args);
+char *get_heredoc(t_arg_lst *arg);
+int heredoc(t_input *input);
 
 #endif

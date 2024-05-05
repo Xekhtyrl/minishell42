@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 23:46:09 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:25:47 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ int main(int argc, char **argv, char **envp)
 			str = readline(pick_title());
 		if (!str)
 			ctrl_d();
+		else
+		{
 		add_history(str);
 		input = parse(str, m_env);
 		//print_input_lst(input);
@@ -140,8 +142,12 @@ int main(int argc, char **argv, char **envp)
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
 			printf("yoloooo\n");
-		// print_input_lst(input);
+		if (detect_all_heredocs(input))
+			heredoc(input);
+		//clear_args_fd();
 		execute_command(&m_env, input, pipe);
+		print_input_lst(input);
+		}
 	}
 	clear_history();
 	return (0);

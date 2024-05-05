@@ -5,6 +5,7 @@ INCLUDES = ./includes
 LIBFT = $(INCLUDES)/libft
 
 MY_SOURCES =	main.c					\
+				includes/ee/ee.c		\
 				src/parsing.c			\
 				src/parsing_utils.c		\
 				src/parsing_utils2.c	\
@@ -26,7 +27,7 @@ MY_SOURCES =	main.c					\
 				src/get_fd.c 			\
 				src/get_path.c 			\
 				src/dup.c				\
-				includes/ee/ee.c		\
+				src/heredoc.c			\
 				src/free.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)

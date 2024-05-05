@@ -6,21 +6,11 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 20:36:03 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:41:42 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	mini_cls_fd(int fd1, int fd2)
-{
-	printf("fd1 = %d\n", fd1);
-	printf("fd2 = %d\n", fd2);
-	if (fd1 > 1 && printf("close 1 = %d\n", fd1) && close(fd1) == -1)
-		perror("close1");
-	if (fd2 > 2 && printf("close 2 = %d\n", fd2) && close(fd2) == -1)
-		perror("close2");
-}
 
 int uni_dup(int fd_in, int fd_out)
 {
@@ -46,8 +36,33 @@ int check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf)
 	return (1);
 }
 
-int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf)
+int pipe_heredoc(int *fd_in_out[2], int cur, t_arg_lst *arg)
 {
+	int p[2];
+	t_arg_lst *tmp;
+
+	if (pipe(p) < 0)
+		return (send_error(-6), 0);
+	tmp = arg;
+	while (tmp && tmp->type != HEREDOC_TK)
+		tmp = tmp->next;
+		printf("pipe = %d %d\n", p[0], p[1]);
+	ft_putstr_fd(tmp->token, p[1]);
+	close(p[1]);
+	fd_in_out[cur][0] = p[0];
+	return (1);
+}
+
+int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf, t_arg_lst *arg)
+{
+	if (detect_heredoc(arg))
+	{
+		printf("HERE\n");
+		if ((cur == 0 && fd_in_out[cur][0] == 0) || (cur > 0 && fd_in_out[cur][0]))
+			pipe_heredoc(fd_in_out, cur, arg); // pipe et heredoc
+	}
+	printf("pipe in  : %d\n", fd_in_out[cur][0]);
+	printf("pipe out : %d\n", fd_in_out[cur][1]);
 	if (fd_in_out[cur][0] > 1 && fd_in_out[cur][1] > 1) //infile + outfile
 	{
 		if (uni_dup(fd_in_out[cur][0], fd_in_out[cur][1]) == -1)
@@ -63,6 +78,7 @@ int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf)
 		if (uni_dup(fd_in_out[cur][0], 0) == -1)
 			return (-1);
 	}
+	
 	if (check_next_pipe(fd_in_out, cur, inf))
 		return (mini_dup2(fd_in_out, cur, inf));
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 17:10:56 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 20:35:27 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void ctrl_c(int num)
 void ctrl_d(void)
 {
 	printf("exit\n");
+	//system(("leaks minishell"));
 	exit(130);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 23:45:04 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:38:03 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	if (cmd->type == CMD_TK || cmd->type == BUILT_TK)
 	{
 		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
-			&& pipe(inf->pipe) < 0 && printf("pipe_check\n"))
+			&& printf("pipe_check\n") && pipe(inf->pipe) < 0)
 				send_error(-6);
 		proc = fork();
 		if (!proc)
 		{
-			mini_dup(pipe_fd, n_cmd, inf);
+			mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
 			if (cmd->type == CMD_TK)
 				exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)), envp, path, pipe_fd[n_cmd]);
 			else if (cmd->type == BUILT_TK)
