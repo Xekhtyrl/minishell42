@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:16:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 18:47:41 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:26:43 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,11 @@ int ft_echo(t_arg_lst *arg)
 	{
 		if (!check_n_arg(arg, &flag))
 			break ;
-		if (arg->type == WRITE_TK || arg->type == READ_TK || arg->type
-			== APPEN_TK || arg->type == HEREDOC_TK)
+		if (arg->type == HEREDOC_TK)
 			arg = arg->next;
 		arg = arg->next;
 	}
-	while (arg && arg->token && (arg->type == WORD_TK))
+	while (arg && arg->token)
 	{
 		if (arg->token[0] == '\'')
 			arg->token = ft_strtrim(arg->token, "\'");

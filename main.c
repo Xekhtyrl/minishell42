@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 22:08:10 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:39:31 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,12 @@ int main(int argc, char **argv, char **envp)
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
 			printf("yolo\n");
-		clear_args_fd(&input->arg);
-		print_input_lst(input);
-		execute_command(&m_env, input, pipe);
+		else
+		{
+			clear_args_fd(&input->arg);
+			// print_input_lst(input);
+			execute_command(&m_env, input, pipe);
+		}
 	}
 	clear_history();
 	return (0);

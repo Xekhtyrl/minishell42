@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 21:39:59 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/05 22:33:05 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**get_env(t_env *envp)
 	{
 		if (envp && envp->content)
 		{
-			new[i] = ft_stradd(envp->var, "=");
+			new[i] = ft_strjoin(envp->var, "=");
 			new[i] = ft_stradd(new[i], envp->content);
 		}
 		else if (envp)
