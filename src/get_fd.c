@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/04/29 23:03:03 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/05 18:34:27 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int open_outfile(t_arg_lst *tmp)
 				close(fd);
 			if (tmp->next && tmp->next->type == SPACE_TK)
 				tmp = tmp->next;
-			printf("tok out%s\n", tmp->next->token);
+			// printf("tok out%s\n", tmp->next->token);
 			fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_TRUNC,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		}
@@ -103,7 +103,7 @@ int open_infile(t_arg_lst *tmp)
 				tmp = tmp->next;
 			if (fd != 0 && fd != -1)
 				close(fd);
-			printf("tok in %s\n", tmp->next->token);
+			// printf("tok in %s\n", tmp->next->token);
 			fd = open(tmp->next->token, O_RDONLY);
 		}
 		tmp = tmp->next;

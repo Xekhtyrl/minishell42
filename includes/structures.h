@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:06:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/01 16:45:36 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/05 19:15:04 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ typedef struct s_env
 {
 	struct s_env	*next;
 	char			*var;
+	int				flag;
 	struct s_env	*prev;
 	char			*content;
-	int				flag;
 }	t_env;
 
 typedef struct s_arg_lst

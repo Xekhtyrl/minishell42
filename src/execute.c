@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 22:04:58 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/05 18:33:51 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	// while (i < 2 && cmd_cplt[i])
 	// 	ft_printf("%s\n", cmd_cplt[i++]);
 	if (pipe[0] > 2)
-		{printf("close in %d\n", pipe[0]);close(pipe[0]);}
+		{close(pipe[0]);}
 	if (pipe[1] > 2)
-		{printf("close out %d\n", pipe[0]);close(pipe[1]);}
+		{close(pipe[1]);}
 	execve(path, cmd_cplt, envp);
 	exit(EXIT_FAILURE);
 }
