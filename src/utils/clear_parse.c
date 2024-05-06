@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 18:52:09 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 15:44:58 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 16:13:45 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ t_arg_lst	*find_start(t_arg_lst *lst)
 {
 	while (lst)
 	{
-		if (in_int_array(lst->type, (int[]){READ_TK, WRITE_TK, APPEN_TK}, 3)) //is_redir_tk(lst->type))
+		if (in_int_array(lst->type, (int[]){READ_TK, WRITE_TK, APPEN_TK}, 3) && lst) //is_redir_tk(lst->type))
 		{
 			lst = lst->next;
-			if (lst->type == SPACE_TK)
+			if (lst && lst->type == SPACE_TK)
 				lst = lst->next;
-			if (lst->type == WORD_TK)
+			if (lst && lst->type == WORD_TK)
 				lst = lst->next;
-			if (lst->type == SPACE_TK)
+			if (lst && lst->type == SPACE_TK)
 				lst = lst->next;
 		}
 		else

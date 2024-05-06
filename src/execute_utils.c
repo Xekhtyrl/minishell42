@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/06 15:17:44 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 16:10:40 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,17 @@ int trad_input(t_input *cmd, t_env **envp)
 {
 	t_input *tmp;
 	char **built;
+	char **env;
 	char *path;
 
-	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", 0};
+	built = (char*[]){"pwd","env","echo","exit", 0};
+	env = (char*[]){"cd","unset","export","exporto_patronum", 0};
 	tmp = cmd;
 	while (tmp && tmp->token)
 	{
-		if (in_str_array(tmp->token, built) && ft_strncmp(tmp->token, "unset", 4)
-			&& ft_strncmp(tmp->token, "export", 7))
+		if (in_str_array(tmp->token, built))
 			tmp->type = BUILT_TK;
-		else if (in_str_array(tmp->token, built) && (!ft_strncmp(tmp->token, "unset", 4)
-			|| !ft_strncmp(tmp->token, "export", 7)))
+		else if (in_str_array(tmp->token, env))
 			tmp->type = ENV_TK;
 		else
 		{

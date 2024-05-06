@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 15:45:20 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 16:12:41 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,9 @@ int main(int argc, char **argv, char **envp)
 			printf("yoloooo\n");
 		if (detect_all_heredocs(input))
 			heredoc(input);
-		print_input_lst(input);
+		//print_input_lst(input);
 		clear_arg(&input->arg);
+		print_input_lst(input);
 		execute_command(&m_env, input, pipe);
 	}
 	clear_history();
