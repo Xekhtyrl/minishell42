@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 16:12:41 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:54:17 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,14 +141,15 @@ int main(int argc, char **argv, char **envp)
 		input = parse(str, m_env);
 		// print_input_lst(input);
 		free(str);
+		print_input_lst(input);
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
 			printf("yoloooo\n");
+		print_input_lst(input);
 		if (detect_all_heredocs(input))
 			heredoc(input);
-		//print_input_lst(input);
-		clear_arg(&input->arg);
-		print_input_lst(input);
+		empty_args(input);
+		//clear_arg(&input->arg);
 		execute_command(&m_env, input, pipe);
 	}
 	clear_history();

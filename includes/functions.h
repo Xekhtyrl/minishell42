@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/06 15:45:45 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:49:05 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char		*ft_stradd(char *s1, char const *s2);
 char		**lst_to_tab(t_list *lst);
 char		**get_all_cmd(t_input *cmd, int len);
 void		clear_arg(t_arg_lst **lst);
+void		empty_args(t_input *input);
 
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);
