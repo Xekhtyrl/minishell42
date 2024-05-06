@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 23:10:21 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:45:20 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,13 +125,13 @@ int main(int argc, char **argv, char **envp)
 	m_env = env_lst(envp);
 	// print_env(get_env(m_env));
 	update_shell_lvl(m_env);
+	//printf("cmd %s\n", *envp);//(m_env)->content);
 	//ft_env(m_env);
 	using_history();
 	set_signals();
 	pipe = 0;
 	while (1)
 	{
-		printf("\n\n---other cmd---\n");
 		str = readline(pick_title());
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
 			str = readline(pick_title());
@@ -144,14 +144,11 @@ int main(int argc, char **argv, char **envp)
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
 			printf("yoloooo\n");
-		else
-		{
-			if (detect_all_heredocs(input))
-				heredoc(input);
-			clear_args_fd(&input->arg);
-			execute_command(&m_env, input, pipe);
-			print_input_lst(input);
-		}
+		if (detect_all_heredocs(input))
+			heredoc(input);
+		print_input_lst(input);
+		clear_arg(&input->arg);
+		execute_command(&m_env, input, pipe);
 	}
 	clear_history();
 	return (0);

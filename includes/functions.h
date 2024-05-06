@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 22:52:23 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:45:45 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void		sort_lst(t_env **lsta);
 char		*ft_stradd(char *s1, char const *s2);
 char		**lst_to_tab(t_list *lst);
 char		**get_all_cmd(t_input *cmd, int len);
-void		clear_args_fd(t_arg_lst **lst);
+void		clear_arg(t_arg_lst **lst);
 
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);

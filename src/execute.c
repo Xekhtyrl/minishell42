@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 23:09:34 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:52:55 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	if (pipe[1] > 2)
 		{printf("close out %d\n", pipe[1]);close(pipe[1]);}
 	//print_env(cmd_cplt);
+	
 	if (!ft_strncmp(cmd_cplt[0], "./minishell", 11)
 		&& atoi(get_env_var(env_lst(envp), "SHLVL")) >= 42)
 		execute_order_66(envp);
@@ -27,31 +28,31 @@ void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	exit(EXIT_FAILURE);
 }
 
-int exec_builtin(t_input *cmd, t_env **envp)
+int exec_builtin(t_input *cmd, t_cmd_info *inf)
 {
 	char	**built;
 	int		f;
 
 	f = 0;
-	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", "exporto_patronum", 0};
+	built = (char*[]){"pwd","env", "echo", "exit", "cd", "unset", "export", "exporto_patronum", 0};
 	if (!built)
 		return (-1);
 	while (built[f] && strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
 		f++;
+	if (f == 4 && inf->size < 1)
+		ft_cd(*inf->env, cmd->arg);
 	if (f == 0)
-		ft_cd(*envp, cmd->arg);
-	if (f == 1)
 		ft_pwd();
+	if (f == 1)
+		ft_env(*inf->env);
 	if (f == 2)
-		ft_env(*envp);
-	if (f == 3)
 		ft_echo(cmd->arg);
-	if (f == 4)
+	if (f == 3)
 		ft_exit(/**/);
 	if (f == 5)
-		ft_unset(envp, cmd->arg);
+		ft_unset(inf->env, cmd->arg);
 	if (f == 6 || f == 7)
-		ft_export(cmd->arg, *envp, f - 6);
+		ft_export(cmd->arg, *inf->env, f - 6);
 	if (f < 5)
 		exit(0);
 	return (/*strarray_free(built),*/ 1);
@@ -84,7 +85,7 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			if (cmd->type == CMD_TK)
 				exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)), envp, path, pipe_fd[n_cmd]);
 			else if (cmd->type == BUILT_TK)
-				exec_builtin(cmd, inf->env);
+				exec_builtin(cmd, inf);
 		}
 	}
 	else
@@ -121,6 +122,7 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 		return (close_pipes(pipe_fd, inf.size),
 			send_error(-2), 0);
 	}
+	printf("cmd %s\n", (*inf.env)->content);
 	while (tmp)
 	{
 		if (pipe_fd && pipe_fd[n_cmd])

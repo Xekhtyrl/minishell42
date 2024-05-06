@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 18:52:09 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 22:12:49 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:44:58 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_arg_lst	*find_start(t_arg_lst *lst)
 {
 	while (lst)
 	{
-		if (is_redir_tk(lst->type))
+		if (in_int_array(lst->type, (int[]){READ_TK, WRITE_TK, APPEN_TK}, 3)) //is_redir_tk(lst->type))
 		{
 			lst = lst->next;
 			if (lst->type == SPACE_TK)
@@ -50,7 +50,7 @@ t_arg_lst	*find_start(t_arg_lst *lst)
 	return (lst);
 }
 
-void	clear_args_fd(t_arg_lst **lst)
+void	clear_arg(t_arg_lst **lst)
 {
 	t_arg_lst	*start;
 	t_arg_lst	*prev;

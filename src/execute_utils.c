@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 22:50:20 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:17:44 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char **get_env(t_env *envp)
 	{
 		if (envp && envp->content)
 		{
-			new[i] = ft_stradd(envp->var, "=");
+			new[i] = ft_strjoin(envp->var, "=");
 			new[i] = ft_stradd(new[i], envp->content);
 		}
 		else if (envp)
