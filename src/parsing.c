@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 23:46:36 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 19:59:57 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ static int	split_cmd_redir(t_input **cmd, char *str, int start, t_env *envp)
 			if (arg)
 				ft_lstadd_back((t_list **)&lst, (t_list *)arg);
 		}
-		if ((str[start] == '<' || str[start] == '>') && !*cmd)
-			token = 0;
+		if ((str[start] == '<' || str[start] == '>'))
+			{printf("char< : %d\n", str[start]);token=0;}
 		else
-			token++;
+			{printf("char  : %d\n", str[start]);token++;}
 	}
-	if (token <= 2)
+	if (token <= 2 && !*cmd)
 		*cmd = create_node(NULL, 0, envp);
 	(*cmd)->arg = lst;
 	return (start);

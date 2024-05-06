@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 18:54:17 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 19:54:59 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	clear_args_fd(t_arg_lst **lst);
 
 int main(int argc, char **argv, char **envp)
 {
-	static char 	*str;
+	char 	*str;
 	t_input	*input;
 	t_env	*m_env;
 	int		**pipe;
@@ -127,7 +127,6 @@ int main(int argc, char **argv, char **envp)
 	update_shell_lvl(m_env);
 	//printf("cmd %s\n", *envp);//(m_env)->content);
 	//ft_env(m_env);
-	using_history();
 	set_signals();
 	pipe = 0;
 	while (1)
