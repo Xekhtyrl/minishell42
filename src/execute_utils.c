@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/06 15:00:28 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:10:17 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ int trad_input(t_input *cmd, t_env **envp)
 	tmp = cmd;
 	while (tmp && tmp->token)
 	{
-		if (in_str_array(tmp->token, built) && ft_strncmp(tmp->token, "unset", 4)
-			&& ft_strncmp(tmp->token, "export", 7 && ft_strncmp(tmp->token, "exporto_patronum", 17)))
+		if (in_str_array(tmp->token, built) && ft_strncmp(tmp->token, "unset", 6)
+			&& ft_strncmp(tmp->token, "export", 7 && ft_strncmp(tmp->token, "exporto_patronum", 17) && ft_strncmp(tmp->token, "cd", 3)))
 			tmp->type = BUILT_TK;
-		else if (in_str_array(tmp->token, built) && (!ft_strncmp(tmp->token, "unset", 4)
-			|| !ft_strncmp(tmp->token, "export", 7) || !ft_strncmp(tmp->token, "exporto_patronum", 17)))
+		else if (in_str_array(tmp->token, built) && (!ft_strncmp(tmp->token, "unset", 6)
+			|| !ft_strncmp(tmp->token, "export", 7) || !ft_strncmp(tmp->token, "exporto_patronum", 17) || !ft_strncmp(tmp->token, "cd", 3)))
 			tmp->type = ENV_TK;
 		else
 		{

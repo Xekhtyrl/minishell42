@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 23:09:34 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:12:01 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int exec_builtin(t_input *cmd, t_env **envp)
 		ft_unset(envp, cmd->arg);
 	if (f == 6 || f == 7)
 		ft_export(cmd->arg, *envp, f - 6);
-	if (f < 5)
+	if (f < 5 && f)
 		exit(0);
 	return (/*strarray_free(built),*/ 1);
 }

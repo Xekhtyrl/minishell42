@@ -75,10 +75,10 @@ $(NAME): $(MY_OBJECTS)
 	@echo "$(C_GREEN)                                                         *****                                                        $(C_END)"  
 	@echo "$(C_GREEN)                                                        ********                                                      $(C_END)"  
 	@echo "$(C_GREEN)                                                  ***   *-*   ***                                                     $(C_END)"  
-	@echo "$(C_GREEN)                                                  .**   ****   **                                                     $(C_END)"  
-	@echo "$(C_GREEN)                                                   ***   *-*   ***                                                    $(C_END)"  
-	@echo "$(C_GREEN)                                                    *** **-*                                                          $(C_END)"  
-	@echo "$(C_GREEN)                                 .      *       .    *******         *   .$(C_END)"
+	@echo "$(C_GREEN)                                                  .**   ****   *                                                     $(C_END)"  
+	@echo "$(C_GREEN)                                                   ***   *-*                                                       $(C_END)"  
+	@echo "$(C_GREEN)                                                    *** **-*    	*                                                      $(C_END)"  
+	@echo "$(C_GREEN)                                 .      *       .    *******        * *   .$(C_END)"
 
 %.o:	%.c
 	@gcc $(CFLAGS) -I $(INCLUDES) -c $< -o $@
