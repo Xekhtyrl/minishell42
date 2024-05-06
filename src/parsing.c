@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 19:59:57 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 20:13:18 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ static int	split_cmd_redir(t_input **cmd, char *str, int start, t_env *envp)
 				ft_lstadd_back((t_list **)&lst, (t_list *)arg);
 		}
 		if ((str[start] == '<' || str[start] == '>'))
-			{printf("char< : %d\n", str[start]);token=0;}
+			token = 0;
 		else
-			{printf("char  : %d\n", str[start]);token++;}
+			token++;
 	}
-	if (token <= 2 && !*cmd)
+	if (!*cmd)
 		*cmd = create_node(NULL, 0, envp);
 	(*cmd)->arg = lst;
 	return (start);
@@ -123,6 +123,7 @@ static void	get_input_struct(t_input **start, char *str, t_env *envp)
 	int		i;
 
 	i = -1;
+	cmd = 0;
 	while (++i < (int)ft_strlen(str))
 	{
 		if (i == 0 || str[i] == '|' || (str[i - 1] == '|' && i > 1))

@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 18:52:09 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 18:49:34 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 20:37:41 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ void jump_free_arg(t_arg_lst **start, t_arg_lst *prev)
 	if (is_redir_tk((*start)->type)) // READ_TK, WRITE_TK, APPEN_TK
 	{
 		free_and_relink_node(start, prev);
-		if (start && (*start)->type == SPACE_TK)
+		if (*start && (*start)->type == SPACE_TK)
 			free_and_relink_node(start, prev);
-		if (start && (*start)->type == WORD_TK)
+		if (*start && (*start)->type == WORD_TK)
 			free_and_relink_node(start, prev);
-		if (start && (*start)->type == SPACE_TK)
+		if (*start && (*start)->type == SPACE_TK)
 			free_and_relink_node(start, prev);
 	}
 	else
