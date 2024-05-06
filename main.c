@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 23:10:21 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:06:05 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "./includes/minishell.h"
-#include <time.h>
-// #include <termios.h>
 
 void	print_input_lst(t_input	*i)
 {
@@ -120,18 +118,14 @@ int main(int argc, char **argv, char **envp)
 	str = NULL;
 	(void)argc;
 	(void)argv;
-	// (void)m_env;
-	// print_env(envp);
 	m_env = env_lst(envp);
-	// print_env(get_env(m_env));
 	update_shell_lvl(m_env);
-	//ft_env(m_env);
 	using_history();
 	set_signals();
 	pipe = 0;
 	while (1)
 	{
-		printf("\n\n---other cmd---\n");
+		// printf("\n\n---other cmd---\n");
 		str = readline(pick_title());
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
 			str = readline(pick_title());
@@ -139,7 +133,6 @@ int main(int argc, char **argv, char **envp)
 			ctrl_d();
 		add_history(str);
 		input = parse(str, m_env);
-		// print_input_lst(input);
 		free(str);
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
@@ -150,8 +143,8 @@ int main(int argc, char **argv, char **envp)
 				heredoc(input);
 			clear_args_fd(&input->arg);
 			execute_command(&m_env, input, pipe);
-			print_input_lst(input);
 		}
+			print_input_lst(input);
 	}
 	clear_history();
 	return (0);

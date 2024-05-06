@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 17:30:54 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:55:18 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,12 @@ void	print_exporto_patronum(void)
 		if (str)
 			printf("%s", str);
 		else
-			return(printf("\n"), free(str), (void)close(fd));
+			break ;
 		free(str);
 		usleep(5000);
 	}
+	printf("\n");
+	free(str);
 	close(fd);
 }
 
@@ -112,6 +114,7 @@ void	ft_export(t_arg_lst *arg, t_env *envp, int flag)
 		print_exporto_patronum();
 	if (!arg)
 		print_no_arg(envp);
+	flag = 0;
 	while (arg)
 	{
 		while (arg && arg->type != WORD_TK)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 22:50:20 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:00:28 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char **get_env(t_env *envp)
 	{
 		if (envp && envp->content)
 		{
-			new[i] = ft_stradd(envp->var, "=");
+			new[i] = ft_strjoin(envp->var, "=");
 			new[i] = ft_stradd(new[i], envp->content);
 		}
 		else if (envp)
@@ -100,15 +100,15 @@ int trad_input(t_input *cmd, t_env **envp)
 	char **built;
 	char *path;
 
-	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", 0};
+	built = (char*[]){"cd","pwd","env","echo","exit","unset","export","exporto_patronum", 0};
 	tmp = cmd;
 	while (tmp && tmp->token)
 	{
 		if (in_str_array(tmp->token, built) && ft_strncmp(tmp->token, "unset", 4)
-			&& ft_strncmp(tmp->token, "export", 7))
+			&& ft_strncmp(tmp->token, "export", 7 && ft_strncmp(tmp->token, "exporto_patronum", 17)))
 			tmp->type = BUILT_TK;
 		else if (in_str_array(tmp->token, built) && (!ft_strncmp(tmp->token, "unset", 4)
-			|| !ft_strncmp(tmp->token, "export", 7)))
+			|| !ft_strncmp(tmp->token, "export", 7) || !ft_strncmp(tmp->token, "exporto_patronum", 17)))
 			tmp->type = ENV_TK;
 		else
 		{
