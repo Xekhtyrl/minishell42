@@ -1,30 +1,30 @@
 NAME = minishell
 
-MY_SOURCES =	main.c					\
-				includes/ee/ee.c		\
-				src/parsing.c			\
-				src/parsing_utils.c		\
-				src/parsing_utils2.c	\
-				src/parsing_lst.c		\
-				src/signal.c			\
-				src/builtin/env.c		\
-				src/builtin/export.c	\
-				src/builtin/cd.c		\
-				src/builtin/pwd.c		\
-				src/builtin/echo.c		\
-				src/builtin/unset.c		\
-				src/builtin/exit.c		\
-				src/utils/sort_list.c 	\
-				src/utils/lst_to_tab.c	\
-				src/utils/clear_parse.c	\
-				src/env/env_var_utils.c	\
-				src/env/setup_env.c		\
-				src/execute.c 			\
-				src/execute_utils.c 	\
-				src/get_fd.c 			\
-				src/get_path.c 			\
-				src/dup.c				\
-				src/heredoc.c			\
+MY_SOURCES =	main.c							\
+				includes/ee/ee.c				\
+				src/parsing/parsing.c			\
+				src/parsing/parsing_utils.c		\
+				src/parsing/parsing_utils2.c	\
+				src/parsing/parsing_lst.c		\
+				src/signal.c					\
+				src/builtin/env.c				\
+				src/builtin/export.c			\
+				src/builtin/cd.c				\
+				src/builtin/pwd.c				\
+				src/builtin/echo.c				\
+				src/builtin/unset.c				\
+				src/builtin/exit.c				\
+				src/utils/sort_list.c 			\
+				src/utils/lst_to_tab.c			\
+				src/utils/clear_parse.c			\
+				src/env/env_var_utils.c			\
+				src/env/setup_env.c				\
+				src/execute.c 					\
+				src/execute_utils.c 			\
+				src/get_fd.c 					\
+				src/get_path.c 					\
+				src/dup.c						\
+				src/heredoc.c					\
 				src/free.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)

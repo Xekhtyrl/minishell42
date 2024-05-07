@@ -6,11 +6,11 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 14:47:31 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 18:51:56 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 t_input	*create_node(char *str, int type, t_env *envp)
 {

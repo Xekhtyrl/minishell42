@@ -6,11 +6,11 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:17:12 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 14:49:47 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 18:52:05 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	parse_error(char *str)
 {

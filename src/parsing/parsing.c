@@ -6,11 +6,11 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 15:46:19 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 18:52:11 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 // dans le cas de quotes ouvertes il semblerait qu'il faudrait un readline
 // pour chaque ligne d'input a la suite tant que la deuxieme quotes n'est pas

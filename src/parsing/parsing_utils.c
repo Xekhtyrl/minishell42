@@ -6,11 +6,11 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 14:48:31 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 18:52:01 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_white_space(char c)
 {
