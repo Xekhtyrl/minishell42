@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/29 20:14:10 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 19:17:18 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_arg_lst	*arg_node(int type, char *token, t_env *envp)
 	node = malloc(sizeof(t_arg_lst));
 	if (!node)
 		return (0);
-	if (token && token[0] != '\'')
+	if (envp && token && token[0] != '\'')
 		token = replace_str_env_var(token, envp);
 	node->token = token;
 	node->type = type;

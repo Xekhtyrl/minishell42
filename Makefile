@@ -21,6 +21,7 @@ MY_SOURCES =	main.c					\
 				src/utils/sort_list.c 	\
 				src/utils/lst_to_tab.c	\
 				src/utils/clear_parse.c	\
+				src/clear_parse2.c	\
 				src/env/env_var_utils.c	\
 				src/env/setup_env.c		\
 				src/execute.c 			\

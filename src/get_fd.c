@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 23:01:58 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 18:01:07 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,24 @@ int *get_fd_outfiles(t_input *input, int size)
 int open_outfile(t_arg_lst *tmp)
 {
 	int fd;
+	int type;
 
 	fd = 1;
 	while (tmp && tmp->next && fd != -1)
 	{
-		if (tmp->type == 15)
+		if (tmp->type == 15 || tmp->type == 16)
 		{
+			type = tmp->type;
 			if (fd != 1 && fd != -1)
 				close(fd);
 			if (tmp->next && tmp->next->type == SPACE_TK)
 				tmp = tmp->next;
-			// printf("tok out%s\n", tmp->next->token);
-			fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_TRUNC,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+			if (type == 15)
+				fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_TRUNC,
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+			else
+				fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_APPEND,
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		}
 		tmp = tmp->next;
 	}
