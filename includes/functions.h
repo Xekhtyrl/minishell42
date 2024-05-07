@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 22:52:23 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:46:30 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef FUNCTIONS_H
 # define FUNCTIONS_H
@@ -19,7 +18,8 @@
 
 //______________________PARSING_______________________//
 t_input		*parse(char *str, t_env *envp);
-int			split_cmd(t_input **cmd, char *str, int start, t_env *envp);
+int			split_cmd(t_input **cmd, char *str, int i, t_env *env);
+char		*split_token(char *str, int	*start, char quote);
 
 //___________________PARSING_UTILS____________________//
 int			is_white_space(char c);
@@ -32,10 +32,12 @@ int			parse_error(char *str);
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token, t_env *envp);
 t_input		*create_node(char *str, int type, t_env *envp);
-void 		set_input(t_input *cmd, char *token, int type);
+void		set_input(t_input *cmd, char *token, int type);
+int			create_and_add_node(char *str, int data[2], t_arg_lst **lst,
+				t_env *envp);
 
 //________________________MAIN_________________________//
-char		*pick_title();
+char		*pick_title(void);
 void		print_input_lst(t_input	*input);
 
 //_______________________SIGNAL________________________//
@@ -48,7 +50,7 @@ int			**fill_fd(t_input *input, int size);
 int			execute_command(t_env **envp, t_input *cmd, int *pipe[2]);
 
 //______________________EXECUTE2_______________________//
-int			in_str_array(char *str,char **lst);
+int			in_str_array(char *str, char **lst);
 int			in_int_array(int t, int *l, int size);
 int			trad_input(t_input *cmd, t_env **env);
 char		**get_our_path(t_env *envp);
@@ -80,7 +82,8 @@ t_env		*env_lst(char **envp);
 t_env		*create_env_node(char *var, char *content, int flag, t_env *prev);
 void		create_new_envar(char *var, char *content, int append, t_env *envp);
 void		update_shell_lvl(t_env *envp);
-int			replace_or_append(char *var, char *content, int append, t_env *envp);
+int			replace_or_append(char *var, char *content, int append,
+				t_env *envp);
 char		*get_env_var(t_env *envp, char *var);
 char		*replace_str_env_var(char *str, t_env *envp);
 char		**get_env(t_env *envp);
@@ -90,24 +93,25 @@ void		print_env(char **envp);
 void		ft_env(t_env *envp);
 int			ft_echo(t_arg_lst *arg);
 void		ft_cd(t_env *envp, t_arg_lst *arg);
-void		ft_pwd();
-int			ft_exit();
+void		ft_pwd(void);
+int			ft_exit(void);
 void		ft_unset(t_env	**envp, t_arg_lst *arg);
 void		ft_export(t_arg_lst *arg, t_env *envp, int flag);
 
 //________________________DUP_________________________//
 int			uni_dup(int fd_in, int fd_out);
-int			mini_dup(int *fd_in_out[2], int cur, t_cmd_info * inf, t_arg_lst *arg);
-int			mini_dup2(int *fd_in_out[2], int cur, t_cmd_info * inf);
+int			mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf,
+				t_arg_lst *arg);
+int			mini_dup2(int *fd_in_out[2], int cur, t_cmd_info *inf);
 int			check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf);
 
 //_______________________ECHO_________________________//
-char	*trim_quote(char *str);
+char		*trim_quote(char *str);
 
 //_____________________HEREDOC_________________________//
-int detect_all_heredocs(t_input *input);
-int detect_heredoc(t_arg_lst *args);
-char *get_heredoc(t_arg_lst *arg);
-int heredoc(t_input *input);
+int			detect_all_heredocs(t_input *input);
+int			detect_heredoc(t_arg_lst *args);
+char		*get_heredoc(t_arg_lst *arg);
+int			heredoc(t_input *input);
 
 #endif

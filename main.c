@@ -6,16 +6,15 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 15:06:05 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 18:19:41 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "./includes/minishell.h"
 
 void	print_input_lst(t_input	*i)
 {
-	t_input *input;
+	t_input	*input;
 
 	input = i;
 	printf("____________________________________________________________\n");
@@ -26,7 +25,8 @@ void	print_input_lst(t_input	*i)
 		{
 			while (input->arg)
 			{
-				printf("\t%sarg%s = %s\t type > %i\n", LBLUE, NC, input->arg->token, input->arg->type);
+				printf("\t%sarg%s = %s\t type > %i\n", LBLUE, NC,
+					input->arg->token, input->arg->type);
 				input->arg = input->arg->next;
 			}
 		}
@@ -36,13 +36,14 @@ void	print_input_lst(t_input	*i)
 
 char	*ft_strjoinsup(char **tabl)
 {
-	int	i;
-	int	j;
-	int	len;
+	int		i;
+	int		j;
+	int		len;
 	char	*final;
 
 	i = -1;
-	len = ft_strlen(GREEN) + ft_strlen(RED) + ft_strlen(NC) + ft_strlen(tabl[1]) + ft_strlen(tabl[3]) + 1;
+	len = ft_strlen(GREEN) + ft_strlen(RED) + ft_strlen(NC) + ft_strlen(tabl[1])
+		+ ft_strlen(tabl[3]) + 1;
 	final = malloc(sizeof(char) * (len + 1));
 	len = 0;
 	while (++i < 5)
@@ -52,10 +53,10 @@ char	*ft_strjoinsup(char **tabl)
 			final[len++] = tabl[i][j++];
 	}
 	final[len] = 0;
-	return final;
+	return (final);
 }
 
-char *pick_title()
+char	*pick_title(void)
 {
 	char	*str;
 	char	*path;
@@ -73,19 +74,18 @@ char *pick_title()
 		str = ft_strjoin("Minishell ", ft_strrchr(path, '/'));
 	else
 		str = ft_strjoin("Mini hell ", ft_strrchr(path, '/'));
-	printf("%s\n", str);
 	len = ft_strlen(str);
 	if (lvl > 10)
 		lvl = 10;
 	free(path);
 	path = ft_substr(str, 0, (float)(len * (10 - lvl) / 10));
-	str2 =  ft_substr(str, (float)(len * (10 - lvl) / 10), len);
+	str2 = ft_substr(str, (float)(len * (10 - lvl) / 10), len);
 	free(str);
 	str = ft_strjoinsup((char *[5]){GREEN, path, RED, str2, NC" "});
 	return (free(path), free(str2), str);
 }
 
-int only_space(char *str)
+int	only_space(char *str)
 {
 	int	i;
 
@@ -97,9 +97,9 @@ int only_space(char *str)
 	return (0);
 }
 
-void print_env(char **envp)
+void	print_env(char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (envp[i])
@@ -108,14 +108,13 @@ void print_env(char **envp)
 
 void	clear_args_fd(t_arg_lst **lst);
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	static char 	*str;
-	t_input	*input;
-	t_env	*m_env;
-	int		**pipe;
+	static char		*str = NULL;
+	t_input			*input;
+	t_env			*m_env;
+	int				**pipe;
 
-	str = NULL;
 	(void)argc;
 	(void)argv;
 	m_env = env_lst(envp);
@@ -125,7 +124,6 @@ int main(int argc, char **argv, char **envp)
 	pipe = 0;
 	while (1)
 	{
-		// printf("\n\n---other cmd---\n");
 		str = readline(pick_title());
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
 			str = readline(pick_title());
@@ -142,9 +140,9 @@ int main(int argc, char **argv, char **envp)
 			if (detect_all_heredocs(input))
 				heredoc(input);
 			clear_args_fd(&input->arg);
+		// print_input_lst(input);
 			execute_command(&m_env, input, pipe);
 		}
-			print_input_lst(input);
 	}
 	clear_history();
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 15:12:01 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 18:47:12 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		if (!proc)
 		{
 			mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
+			close (inf->pipe[0]);	
+			close (inf->pipe[1]);
 			if (cmd->type == CMD_TK)
 				exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)), envp, path, pipe_fd[n_cmd]);
 			else if (cmd->type == BUILT_TK)
@@ -142,8 +144,8 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 		tmp = tmp->next;
 		n_cmd++;
 	}
-	wait_proc(&inf);
 	close_pipes(pipe_fd, inf.size);
+	wait_proc(&inf);
 	return (0);
 }
 

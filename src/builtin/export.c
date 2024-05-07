@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 14:55:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:08:34 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static int	checkarg(char *arg)
 			flag += 4;
 		else if (arg[i] == '+')
 			return (printf("export: `%s': not a valid identifier", arg), -1);
-		else if (ft_isdigit(arg[0]) || !(ft_isalnum(arg[i]) || arg[i] == '_' || arg[i] == '\"' || arg[i] == '\''))
+		else if (ft_isdigit(arg[0]) || !(ft_isalnum(arg[i]) || arg[i] == '_'
+				|| arg[i] == '\"' || arg[i] == '\''))
 			return (printf("export: `%s': not a valid identifier", arg), -1);
 		i++;
 	}
@@ -68,44 +69,21 @@ static char	*combine_arg(t_arg_lst *arg)
 	return (str);
 }
 
-static void	exporto_patronum(t_env *envp, t_arg_lst* arg, int flag)
+static void	exporto_patronum(t_env *envp, t_arg_lst *arg, int flag)
 {
 	char	*var;
 	char	*content;
-	
+
 	if (arg->token[0] == '\'')
 		arg->token = ft_strtrim(arg->token, "\'");
 	else if (arg->token[0] == '\"')
 		arg->token = ft_strtrim(arg->token, "\"");
 	var = ft_substr(arg->token, 0, ft_strleng(arg->token, '='));
-	if(flag > 0 && ft_strchr(arg->token, '='))
+	if (flag > 0 && ft_strchr(arg->token, '='))
 		content = ft_strchr(arg->token, '=') + 1;
 	else
 		content = NULL;
 	create_new_envar(var, content, (flag >= 4), envp);
-}
-
-void	print_exporto_patronum(void)
-{
-	int 	fd;
-	char	*str;
-
-	fd = open("/Users/lvodak/exporto_patronum", O_RDONLY);
-	if (fd < 0)
-		return ;
-	while (1)
-	{
-		str = get_next_line(fd);
-		if (str)
-			printf("%s", str);
-		else
-			break ;
-		free(str);
-		usleep(5000);
-	}
-	printf("\n");
-	free(str);
-	close(fd);
 }
 
 void	ft_export(t_arg_lst *arg, t_env *envp, int flag)
@@ -121,7 +99,8 @@ void	ft_export(t_arg_lst *arg, t_env *envp, int flag)
 			arg = arg->next;
 		if (!arg)
 			break ;
-		if (!ft_strncmp(arg->token, "_", ft_strlen(arg->token)) || arg->type == SPACE_TK)
+		if (!ft_strncmp(arg->token, "_", ft_strlen(arg->token))
+			|| arg->type == SPACE_TK)
 			arg = arg->next;
 		if (arg->next && arg->next->type != SPACE_TK)
 			arg->token = combine_arg(arg);

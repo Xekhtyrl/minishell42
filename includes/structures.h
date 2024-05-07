@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:06:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 22:48:41 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:21:36 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_arg_lst
 	int					type;
 }	t_arg_lst;
 
-typedef	struct s_input
+typedef struct s_input
 {
 	struct s_input		*next;
 	char				*token;
@@ -39,11 +39,10 @@ typedef	struct s_input
 
 typedef struct s_cmd_info
 {
-	int size;
-	int pipe[2];
-	t_env **env;
-	pid_t *proc;
+	int		size;
+	int		pipe[2];
+	t_env	**env;
+	pid_t	*proc;
 }	t_cmd_info;
-
 
 #endif

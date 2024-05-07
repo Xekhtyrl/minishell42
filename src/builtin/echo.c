@@ -6,12 +6,11 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:16:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 22:26:43 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:11:02 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 char	*trim_quote(char *str)
 {
@@ -48,7 +47,7 @@ static int	check_n_arg(t_arg_lst *arg, int *flag)
 	return (free(str), 1);
 }
 
-int ft_echo(t_arg_lst *arg)
+int	ft_echo(t_arg_lst *arg)
 {
 	int	flag;
 

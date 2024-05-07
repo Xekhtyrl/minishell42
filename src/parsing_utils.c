@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/19 15:32:05 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 14:48:31 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int is_white_space(char c)
+int	is_white_space(char c)
 {
 	return (((c >= 9 && c <= 13) || c == 32));
 }
@@ -20,9 +20,9 @@ int is_white_space(char c)
 int	is_not_sep(char c)
 {
 	return (!(is_white_space(c) || c == 34 || c == 36 || c == 39 || c == 45
-				|| c == 60 || c == 62 || c == 124));
+			|| c == 60 || c == 62 || c == 124));
 }
-// " $ ' 
+
 int	closed_quotes(char *str)
 {
 	int	i;
@@ -51,16 +51,14 @@ int	closed_quotes(char *str)
 	}
 	return (1);
 }
-// si une commande d'un pipe est inccorrecte les autres peuvent s'executer; si une pipe est suivi d'une autre sans espace
-// seule les commande precedentes seront execute; si un espace se trouve entre deux pipe, rien ne fonctionne(?) mais le fichier
-// devrait se creer normalement (?);
+
 int	check_for_pipe(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
-		if (str[i++] == '|') // checker si pipe est entre des quotes, car est char si entre '"
+		if (str[i++] == '|')
 			break ;
 	if (!str[i])
 		return (0);

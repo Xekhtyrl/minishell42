@@ -6,16 +6,16 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:10:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/30 19:34:51 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:04:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_pwd()
+void	ft_pwd(void)
 {
 	char	*pwd;
-	
+
 	pwd = getcwd(NULL, 0);
 	printf("%s", pwd);
 	if (pwd)

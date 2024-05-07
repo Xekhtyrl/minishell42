@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 18:52:09 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 22:12:49 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:44:51 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ t_arg_lst	*find_start(t_arg_lst *lst)
 		if (is_redir_tk(lst->type))
 		{
 			lst = lst->next;
-			if (lst->type == SPACE_TK)
+			if (lst && lst->type == SPACE_TK)
 				lst = lst->next;
-			if (lst->type == WORD_TK)
+			if (lst && lst->type == WORD_TK)
 				lst = lst->next;
-			if (lst->type == SPACE_TK)
+			if (lst && lst->type == SPACE_TK)
 				lst = lst->next;
 		}
 		else
