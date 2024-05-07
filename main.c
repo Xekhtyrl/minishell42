@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 02:47:30 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 16:23:08 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ int main(int argc, char **argv, char **envp)
 		if (detect_all_heredocs(input))
 			heredoc(input);
 		empty_args(input);
+		print_input_lst(input);
 		//clear_arg(&input->arg);
 		print_input_lst(input);
 		execute_command(&m_env, input, pipe);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/07 03:03:56 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 17:13:50 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int add_here(char **buff, char **res, char *word)
 	add = ft_strncmp(*buff, word, ft_strlen(*buff));
 	if (!add)
 	{
-		*res = ft_strdup("");
+		if (!*res)
+			*res = ft_strdup("");
 		if (!*res)
 			return (0);
 		return (1);

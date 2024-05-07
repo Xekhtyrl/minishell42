@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   clear_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 18:52:09 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 04:46:44 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 17:37:16 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	is_redir_tk(int type)
-{
-	return ((type == READ_TK || type == WRITE_TK || type == APPEN_TK));
-}
 
 void	free_and_relink_node(t_arg_lst **lst, t_arg_lst *prev)
 {
@@ -30,29 +25,9 @@ void	free_and_relink_node(t_arg_lst **lst, t_arg_lst *prev)
 	free(temp);
 }
 
-t_arg_lst	*find_start(t_arg_lst *lst)
-{
-	while (lst)
-	{
-		if (lst && is_redir_tk(lst->type)) // READ_TK, WRITE_TK, APPEN_TK
-		{
-			lst = lst->next;
-			if (lst && lst->type == SPACE_TK)
-				lst = lst->next;
-			if (lst && lst->type == WORD_TK)
-				lst = lst->next;
-			if (lst && lst->type == SPACE_TK)
-				lst = lst->next;
-		}
-		else
-			break ;
-	}
-	return (lst);
-}
-
 void jump_free_arg(t_arg_lst **start, t_arg_lst *prev)
 {
-	if (*start && is_redir_tk((*start)->type)) // READ_TK, WRITE_TK, APPEN_TK
+	if (*start && (*start)->type != WORD_TK) // READ_TK, WRITE_TK, APPEN_TK
 	{
 		free_and_relink_node(start, prev);
 		if (*start && (*start)->type == SPACE_TK)
@@ -69,38 +44,56 @@ void jump_free_arg(t_arg_lst **start, t_arg_lst *prev)
 	}
 }
 
-void empty_args(t_input *input)
+void free_heredoc(t_arg_lst **start, t_arg_lst **prev, int flag)
+{
+	if (flag)
+	{
+		while (*start && (*start)->type != HEREDOC_TK)
+			*start = (*start)->next;
+	}
+	if (*start && (*start)->type == HEREDOC_TK)
+	{
+		*prev = *start;
+		*start = (*start)->next;
+		free_and_relink_node(start, *prev);
+		start = prev;
+		if (detect_token(*start, READ_TK))
+			free_and_relink_node(start, 0);
+	}
+}
+
+void free_to_heredoc(t_arg_lst **start, t_arg_lst **prev, int token1, int token2)
+{
+	while (*start && (*start)->type != token1 && (*start)->type != token2)
+		jump_free_arg(start, *prev);
+	free_heredoc(start, prev, 0);
+}
+
+void empty_args(t_input * input)
 {
 	t_input		*tmp;
 	t_arg_lst	*start;
 	t_arg_lst	*prev;
 
 	tmp = input;
-	
 	while (tmp)
 	{
 		start = tmp->arg;
-		printf("tok %s\n", tmp->arg->token);
+		while (start && start->type != WORD_TK) // empty all if infile after heredoc or all to heredoc before cmd
+		{
+			prev= 0;
+			free_to_heredoc(&start, &prev, HEREDOC_TK, WORD_TK);
+		}
+		tmp->arg = start;
 		while (start && detect_token(start, READ_TK))
 		{
-			printf("wsh\n");
-
-			if (detect_token(start, READ_TK))
-			{
-				if (start->type == HEREDOC_TK)
-				{
-					free_and_relink_node(&start, 0);
-					free_and_relink_node(&start, 0);
-				}
-				else if (start->type == WORD_TK)
-					start = start->next;
-			}
-			prev = NULL;
-			while (start && start->type != HEREDOC_TK && start->type != WORD_TK)
-				jump_free_arg(&start, prev);
-			if (prev)
-				tmp->arg = prev; /////////////////////////////////////
+			prev= 0;
+			while (start && (start->type == WORD_TK || start->type == SPACE_TK))
+				start = start->next;
+			free_to_heredoc(&start, &prev, HEREDOC_TK, 99);
 		}
+		printf("%s\n", start->token);
+		free_heredoc(&start, &prev, 1);
 		tmp = tmp->next;
 	}
 }
