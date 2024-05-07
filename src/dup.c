@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 23:11:35 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 03:04:48 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int pipe_heredoc(int *fd_in_out[2], int cur, t_arg_lst *arg)
 
 int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf, t_arg_lst *arg)
 {
-	if (detect_heredoc(arg))
+	if (detect_token(arg, HEREDOC_TK))
 	{
 		printf("HERE\n");
 		if ((cur == 0 && fd_in_out[cur][0] == 0) || (cur > 0 && fd_in_out[cur][0]))

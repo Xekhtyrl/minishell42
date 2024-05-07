@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 20:25:17 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 02:47:30 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,8 @@ int main(int argc, char **argv, char **envp)
 			heredoc(input);
 		empty_args(input);
 		//clear_arg(&input->arg);
-		execute_command(&m_env, input, pipe);
 		print_input_lst(input);
+		execute_command(&m_env, input, pipe);
 	}
 	clear_history();
 	return (0);

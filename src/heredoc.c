@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/05 21:18:22 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 03:03:56 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int detect_heredoc(t_arg_lst *args)
+int detect_token(t_arg_lst *args, int token)
 {
 	t_arg_lst *arg;
 
 	arg = args;
 	while (arg)
 	{
-		if (arg->type == HEREDOC_TK)
+		if (arg->type == token)
 			return (1);
 		arg = arg->next;
 	}
@@ -33,7 +33,7 @@ int detect_all_heredocs(t_input *input)
 	tmp = input;
 	while (tmp)
 	{
-		if (detect_heredoc(tmp->arg))
+		if (detect_token(tmp->arg, HEREDOC_TK))
 			return (1);
 		tmp = tmp->next;
 	}
@@ -48,7 +48,12 @@ int add_here(char **buff, char **res, char *word)
 	*buff = readline("> ");
 	add = ft_strncmp(*buff, word, ft_strlen(*buff));
 	if (!add)
+	{
+		*res = ft_strdup("");
+		if (!*res)
+			return (0);
 		return (1);
+	}
 	if (!*res)
 		*res = ft_strdup(*buff);
 	else if (*res)

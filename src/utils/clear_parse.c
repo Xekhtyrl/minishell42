@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 18:52:09 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 20:39:47 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 04:46:44 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	free_and_relink_node(t_arg_lst **lst, t_arg_lst *prev)
 	t_arg_lst	*temp;
 
 	temp = *lst;
-	if (temp->type == WORD_TK)
-		free(temp->token);
+	printf("FREE %s %d\n", temp->token, temp->type);
+	free(temp->token);
 	if (prev)
 		prev->next = (*lst)->next;
 	*lst = (*lst)->next;
@@ -34,7 +34,7 @@ t_arg_lst	*find_start(t_arg_lst *lst)
 {
 	while (lst)
 	{
-		if (is_redir_tk(lst->type) && lst) //is_redir_tk(lst->type))
+		if (lst && is_redir_tk(lst->type)) // READ_TK, WRITE_TK, APPEN_TK
 		{
 			lst = lst->next;
 			if (lst && lst->type == SPACE_TK)
@@ -52,7 +52,7 @@ t_arg_lst	*find_start(t_arg_lst *lst)
 
 void jump_free_arg(t_arg_lst **start, t_arg_lst *prev)
 {
-	if (is_redir_tk((*start)->type)) // READ_TK, WRITE_TK, APPEN_TK
+	if (*start && is_redir_tk((*start)->type)) // READ_TK, WRITE_TK, APPEN_TK
 	{
 		free_and_relink_node(start, prev);
 		if (*start && (*start)->type == SPACE_TK)
@@ -76,13 +76,31 @@ void empty_args(t_input *input)
 	t_arg_lst	*prev;
 
 	tmp = input;
+	
 	while (tmp)
 	{
 		start = tmp->arg;
-		tmp->arg = find_start(tmp->arg);
-		prev = NULL;
-		while (start)
-			jump_free_arg(&start, prev);
+		printf("tok %s\n", tmp->arg->token);
+		while (start && detect_token(start, READ_TK))
+		{
+			printf("wsh\n");
+
+			if (detect_token(start, READ_TK))
+			{
+				if (start->type == HEREDOC_TK)
+				{
+					free_and_relink_node(&start, 0);
+					free_and_relink_node(&start, 0);
+				}
+				else if (start->type == WORD_TK)
+					start = start->next;
+			}
+			prev = NULL;
+			while (start && start->type != HEREDOC_TK && start->type != WORD_TK)
+				jump_free_arg(&start, prev);
+			if (prev)
+				tmp->arg = prev; /////////////////////////////////////
+		}
 		tmp = tmp->next;
 	}
 }

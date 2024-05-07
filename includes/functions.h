@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/06 18:49:05 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 03:04:07 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*trim_quote(char *str);
 
 //_____________________HEREDOC_________________________//
 int detect_all_heredocs(t_input *input);
-int detect_heredoc(t_arg_lst *args);
+int detect_token(t_arg_lst *args, int token);
 char *get_heredoc(t_arg_lst *arg);
 int heredoc(t_input *input);
 
