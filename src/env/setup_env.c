@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/06 00:08:21 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/08 18:17:56 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	set_home_var(t_env **envp)
 		if (flag == 3)
 			break ;
 	}
-	ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("HOME", ft_substr(str, 0, i), 3,
-		(t_env *)ft_lstlast((t_list *)*envp)));
+	ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("HOME",
+			ft_substr(str, 0, i), 3, (t_env *)ft_lstlast((t_list *)*envp)));
 }
 
 void	check_absent_envar(t_env **envp)
@@ -97,14 +97,14 @@ void	check_absent_envar(t_env **envp)
 		start = start->next;
 	}
 	if (!(flag % 2) || !flag)
-		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("PWD", getcwd(NULL, 0), 3,
-			(t_env *)ft_lstlast((t_list *)*envp)));
+		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("PWD",
+				getcwd(NULL, 0), 3, (t_env *)ft_lstlast((t_list *)*envp)));
 	if (!(flag == 2 || flag == 3 || flag == 6 || flag == 7))
-		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("OLDPWD", NULL, 0,
-			(t_env *)ft_lstlast((t_list *)*envp)));
+		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("OLDPWD",
+				NULL, 0, (t_env *)ft_lstlast((t_list *)*envp)));
 	if (flag < 4)
-		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("SHLVL", "0", 0,
-			(t_env *)ft_lstlast((t_list *)*envp)));
+		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("SHLVL", "0",
+				0, (t_env *)ft_lstlast((t_list *)*envp)));
 	set_home_var(envp);
 }
 

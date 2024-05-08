@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 20:48:41 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/25 19:56:38 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 14:50:41 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,16 @@ void	sort_lst(t_env **lsta)
 {
 	while ((*lsta)->next)
 	{
-		if ((*lsta)->next && ft_strncmp((*lsta)->var, (*lsta)->next->var, ft_strlen((*lsta)->var)) > 0)
+		if ((*lsta)->next && ft_strncmp((*lsta)->var, (*lsta)->next->var,
+				ft_strlen((*lsta)->var)) > 0)
 		{
 			swap(lsta);
 			while ((*lsta)->prev)
-				*lsta = (*lsta)->prev; 
+				*lsta = (*lsta)->prev;
 		}
 		else
 			*lsta = (*lsta)->next;
 	}
 	while ((*lsta)->prev)
-		*lsta = (*lsta)->prev; 
+		*lsta = (*lsta)->prev;
 }

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 21:41:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/02 15:31:54 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 18:32:20 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void	ft_cd(t_env *envp, t_arg_lst *arg)
 	pwd = getcwd(NULL, 0);
 	chdir(path);
 	new_path = getcwd(NULL, 0);
-	if (!new_path)
-		chdir(get_env_var(envp, "HOME"));
 	replace_or_append("PWD", new_path, 0, envp);
-	replace_or_append("OLDPWD", pwd, 0, envp);
+	if (ft_strncmp(pwd, new_path, ft_strlen(pwd)))
+		replace_or_append("OLDPWD", pwd, 0, envp);
 	if (arg && ft_strncmp(path, arg->token, ft_strlen(path)))
 		free(path);
 }

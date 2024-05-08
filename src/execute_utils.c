@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/06 16:10:40 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/08 21:28:23 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int trad_input(t_input *cmd, t_env **envp)
 	tmp = cmd;
 	while (tmp && tmp->token)
 	{
-		if (in_str_array(tmp->token, built))
+		if (in_str_array(tmp->token, built) || (!(ft_strncmp(tmp->token, "export", 7)) && !tmp->arg))
 			tmp->type = BUILT_TK;
 		else if (in_str_array(tmp->token, env))
 			tmp->type = ENV_TK;
@@ -114,13 +114,11 @@ int trad_input(t_input *cmd, t_env **envp)
 		{
 			path = get_cmd_path(*envp, tmp);
 			if (path || !access(tmp->token, X_OK))
-			{
 				tmp->type = CMD_TK;
+			if (path)
 				free(path);
-			}
 		}
 		tmp = tmp->next;
 	}
 	return (1);
 }
-

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 23:09:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/05 22:35:26 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:12:46 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	ft_strlen(const char *str)
 
 	i = 0;
 	if (!str)
-		return 0;
+		return (0);
 	while (str[i] != '\0')
 		i++;
 	return (i);

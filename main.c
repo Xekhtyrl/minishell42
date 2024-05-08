@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 20:21:30 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/08 18:36:30 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "./includes/minishell.h"
-#include <time.h>
-// #include <termios.h>
 
+// REMOVE
 void	print_input_lst(t_input	*i)
 {
-	t_input *input;
+	t_input	*input;
 
 	input = i;
 	printf("____________________________________________________________\n");
@@ -28,7 +26,8 @@ void	print_input_lst(t_input	*i)
 		{
 			while (input->arg)
 			{
-				printf("\t%sarg%s = %s\t type > %i\n", LBLUE, NC, input->arg->token, input->arg->type);
+				printf("\t%sarg%s = %s\t type > %i\n", LBLUE, NC,
+					input->arg->token, input->arg->type);
 				input->arg = input->arg->next;
 			}
 		}
@@ -36,28 +35,7 @@ void	print_input_lst(t_input	*i)
 	}
 }
 
-char	*ft_strjoinsup(char **tabl)
-{
-	int	i;
-	int	j;
-	int	len;
-	char	*final;
-
-	i = -1;
-	len = ft_strlen(GREEN) + ft_strlen(RED) + ft_strlen(NC) + ft_strlen(tabl[1]) + ft_strlen(tabl[3]) + 1;
-	final = malloc(sizeof(char) * (len + 1));
-	len = 0;
-	while (++i < 5)
-	{
-		j = 0;
-		while (tabl[i][j])
-			final[len++] = tabl[i][j++];
-	}
-	final[len] = 0;
-	return final;
-}
-
-char *pick_title()
+char	*pick_title(void)
 {
 	char	*str;
 	char	*path;
@@ -75,58 +53,39 @@ char *pick_title()
 		str = ft_strjoin("Minishell ", ft_strrchr(path, '/'));
 	else
 		str = ft_strjoin("Mini hell ", ft_strrchr(path, '/'));
-	printf("%s\n", str);
 	len = ft_strlen(str);
 	if (lvl > 10)
 		lvl = 10;
 	free(path);
 	path = ft_substr(str, 0, (float)(len * (10 - lvl) / 10));
-	str2 =  ft_substr(str, (float)(len * (10 - lvl) / 10), len);
+	str2 = ft_substr(str, (float)(len * (10 - lvl) / 10), len);
 	free(str);
 	str = ft_strjoinsup((char *[5]){GREEN, path, RED, str2, NC" "});
 	return (free(path), free(str2), str);
 }
 
-int only_space(char *str)
+// REMOVE
+void	print_env(char **envp)
 {
 	int	i;
-
-	i = 0;
-	while (str && str[i] == ' ')
-		i++;
-	if (!str[i])
-		return (1);
-	return (0);
-}
-
-void print_env(char **envp)
-{
-	int i;
 
 	i = 0;
 	while (envp[i])
 		printf("lst %s\n", envp[i++]);
 }
 
-void	clear_args_fd(t_arg_lst **lst);
-
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	char 	*str;
-	t_input	*input;
-	t_env	*m_env;
-	int		**pipe;
+	static char		*str = NULL;
+	t_input			*input;
+	t_env			*m_env;
+	int				**pipe;
 
-	str = NULL;
 	(void)argc;
 	(void)argv;
-	// (void)m_env;
-	// print_env(envp);
 	m_env = env_lst(envp);
-	// print_env(get_env(m_env));
 	update_shell_lvl(m_env);
-	//printf("cmd %s\n", *envp);//(m_env)->content);
-	//ft_env(m_env);
+	using_history();
 	set_signals();
 	pipe = 0;
 	while (1)
@@ -138,16 +97,13 @@ int main(int argc, char **argv, char **envp)
 			ctrl_d();
 		add_history(str);
 		input = parse(str, m_env);
-		// print_input_lst(input);
 		free(str);
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
-			printf("yoloooo\n");
+			return (printf("yoloooo\n"));
 		if (detect_all_heredocs(input))
 			heredoc(input);
 		empty_args2(input);
-		//clear_arg(&input->arg);
-		// print_input_lst(input);
 		execute_command(&m_env, input, pipe);
 		print_input_lst(input);
 	}

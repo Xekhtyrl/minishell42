@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/08 20:50:49 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/08 21:39:24 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int detect_all_heredocs(t_input *input)
 			return (1);
 		tmp = tmp->next;
 	}
-	printf("NO HEREDOC\n");
 	return (0);
 }
 

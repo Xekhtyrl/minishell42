@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:21:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/02 15:39:06 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:56:09 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,3 @@ void	ft_env(t_env *envp)
 		envp = envp->next;
 	}
 }
-
-// a faire var d'env avec $

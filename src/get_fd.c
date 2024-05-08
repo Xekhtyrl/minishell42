@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/07 18:01:07 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/08 18:36:03 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int *get_fd_infiles(t_input *input, int size)
 		if (tmp)
 		{
 			fd[i] = open_infile(tmp->arg);
-			// printf("fdin[%d] = %d\n",i,  fd[i]);
 			if (fd[i] == -1)
 				send_error(-2);
 			tmp = tmp->next;
@@ -56,7 +55,6 @@ int *get_fd_outfiles(t_input *input, int size)
 		if (tmp2)
 		{
 			fd[i] = open_outfile(tmp2->arg);
-			// printf("fdout[%d] = %d\n", i, fd[i]);
 			if (fd[i] == -1)
 				send_error(-3);
 			tmp2 = tmp2->next;
@@ -90,8 +88,6 @@ int open_outfile(t_arg_lst *tmp)
 		}
 		tmp = tmp->next;
 	}
-	if (fd == -1)
-		ft_printf("\"%s\" ", tmp->next->token);
 	return (fd);
 }
 
@@ -108,7 +104,6 @@ int open_infile(t_arg_lst *tmp)
 				tmp = tmp->next;
 			if (fd != 0 && fd != -1)
 				close(fd);
-			printf("tok in %s\n", tmp->next->token);
 			if (tmp->next->type == WORD_TK)
 				fd = open(tmp->next->token, O_RDONLY);
 		}
@@ -119,8 +114,6 @@ int open_infile(t_arg_lst *tmp)
 		}
 		tmp = tmp->next;
 	}
-	if (fd == -1)
-		ft_printf("\"%s\" ", tmp->next->token);
 	return (fd);
 }
 
@@ -147,6 +140,5 @@ int **fill_fd(t_input *input, int size)
 		i++;
 		input = input->next;
 	}
-	// printf("vous etes ici\n");
 	return (pipe_fd);
 }

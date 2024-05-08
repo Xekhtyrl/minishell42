@@ -6,35 +6,34 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/03 18:03:09 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 14:59:53 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	replace_or_append(char *var, char *content, int append, t_env *envp)
+int	replace_or_append(char *var, char *content, int append, t_env *env)
 {
-
-	while (envp)
+	while (env)
 	{
-		if (!ft_strncmp(envp->var, var, ft_strlen(var)))
+		if (!ft_strncmp(env->var, var, ft_strlen(var)))
 		{
 			if (append)
 			{
-				envp->content = ft_strjoin_f(envp->content, content, envp->flag);
-				envp->flag = 3;
+				env->content = ft_strjoin_f(env->content, content, env->flag);
+				env->flag = 3;
 			}
 			else
 			{
-				if (envp->flag == 3)
-					free(envp->content);
-				envp->content = content; 
+				if (env->flag == 3)
+					free(env->content);
+				env->content = content;
 			}
 			return (1);
 		}
-		if (!envp->next)
+		if (!env->next)
 			break ;
-		envp = envp->next;
+		env = env->next;
 	}
 	return (0);
 }
@@ -42,17 +41,18 @@ int	replace_or_append(char *var, char *content, int append, t_env *envp)
 void	create_new_envar(char *var, char *content, int append, t_env *envp)
 {
 	t_env	*prev;
+
 	if (replace_or_append(var, content, append, envp))
 		return ;
 	prev = (t_env *)ft_lstlast((t_list *)envp);
 	ft_lstadd_back((t_list **)&envp, (t_list *)create_env_node(var, content,
-	 		1 + !(content), prev));
+			1 + !(content), prev));
 }
 
 char	*replace_str_env_var(char *str, t_env *envp)
 {
-	int	start;
-	int	i;
+	int		start;
+	int		i;
 	char	*new;
 	char	*tmp;
 
@@ -63,7 +63,7 @@ char	*replace_str_env_var(char *str, t_env *envp)
 	new = ft_substr(str, 0, start);
 	while (str[i] && ft_isalnum(str[i]))
 		i++;
-	tmp = ft_substr(str, start+1, i - start);
+	tmp = ft_substr(str, start + 1, i - start);
 	new = ft_stradd(new, get_env_var(envp, tmp));
 	tmp = ft_substr(str, i, ft_strlen(str + i));
 	new = ft_stradd(new, tmp);
@@ -74,7 +74,7 @@ char	*replace_str_env_var(char *str, t_env *envp)
 char	*get_env_var(t_env *envp, char *var)
 {
 	if (var && var[0] == '?')
-		return (NULL);  // var globale
+		return (NULL);// var globale
 	else
 	{
 		while (envp)

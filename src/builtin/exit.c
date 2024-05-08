@@ -6,13 +6,13 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 16:58:13 by lvodak            #+#    #+#             */
-/*   Updated: 2024/04/30 16:59:15 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:10:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_exit()
+int	ft_exit(void)
 {
-	exit(0); //LUL
+	exit(0);
 }
