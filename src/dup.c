@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/05/07 18:48:09 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/08 21:03:37 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf, t_arg_lst *arg)
 		if (uni_dup(fd_in_out[cur][0], 0) == -1)
 			return (-1);
 	}
-	
 	if (check_next_pipe(fd_in_out, cur, inf))
 		return (mini_dup2(fd_in_out, cur, inf));
 	return (1);

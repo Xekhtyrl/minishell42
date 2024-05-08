@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 15:30:15 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/08 20:45:37 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 # define RL_PROMPT_END_IGNORE    '\002'
 // # include </Users/lvodak/.brew/Cellar/readline/8.2.10/include/readline/readline.h>
 // # include </Users/lvodak/.brew/Cellar/readline/8.2.10/include/readline/history.h>
-# include "/Users/gfinet/homebrew/Cellar/readline/8.2.10/include/readline/readline.h"
-# include "/Users/gfinet/homebrew/Cellar/readline/8.2.10/include/readline/history.h"
-// # include "/opt/homebrew/Cellar/readline/8.2.10/include/readline/readline.h"
-// # include "/opt/homebrew/Cellar/readline/8.2.10/include/readline/history.h"
+// # include "/Users/gfinet/homebrew/Cellar/readline/8.2.10/include/readline/readline.h"
+// # include "/Users/gfinet/homebrew/Cellar/readline/8.2.10/include/readline/history.h"
+# include "/opt/homebrew/Cellar/readline/8.2.10/include/readline/readline.h"
+# include "/opt/homebrew/Cellar/readline/8.2.10/include/readline/history.h"
 // readline, (rl_)clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history
 # include <signal.h>
 # include <sys/wait.h>
