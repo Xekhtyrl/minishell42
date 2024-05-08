@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/08 18:36:03 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/09 00:38:59 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int *get_fd_infiles(t_input *input, int size)
+int	*get_fd_infiles(t_input *input, int size)
 {
 	t_input		*tmp;
 	int			*fd;
@@ -38,7 +38,7 @@ int *get_fd_infiles(t_input *input, int size)
 	return (fd);
 }
 
-int *get_fd_outfiles(t_input *input, int size)
+int	*get_fd_outfiles(t_input *input, int size)
 {
 	t_input		*tmp2;
 	int			*fd;
@@ -64,10 +64,10 @@ int *get_fd_outfiles(t_input *input, int size)
 	return (fd);
 }
 
-int open_outfile(t_arg_lst *tmp)
+int	open_outfile(t_arg_lst *tmp)
 {
-	int fd;
-	int type;
+	int	fd;
+	int	type;
 
 	fd = 1;
 	while (tmp && tmp->next && fd != -1)
@@ -81,19 +81,19 @@ int open_outfile(t_arg_lst *tmp)
 				tmp = tmp->next;
 			if (type == 15)
 				fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_TRUNC,
-					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+						S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 			else
 				fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_APPEND,
-					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+						S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		}
 		tmp = tmp->next;
 	}
 	return (fd);
 }
 
-int open_infile(t_arg_lst *tmp)
+int	open_infile(t_arg_lst *tmp)
 {
-	int fd;
+	int	fd;
 
 	fd = 0;
 	while (tmp && tmp->next && fd != -1)
@@ -117,13 +117,13 @@ int open_infile(t_arg_lst *tmp)
 	return (fd);
 }
 
-int **fill_fd(t_input *input, int size)
+int	**fill_fd(t_input *input, int size)
 {
-	int i;
-	int **pipe_fd;
+	int	i;
+	int	**pipe_fd;
 
 	i = 0;
-	pipe_fd = malloc(sizeof(int*) * size);
+	pipe_fd = malloc(sizeof(int *) * size);
 	if (!pipe_fd)
 		return (0);
 	while (i < size)
@@ -132,7 +132,7 @@ int **fill_fd(t_input *input, int size)
 		if (!pipe_fd[i])
 			return (0);
 		pipe_fd[i][1] = open_outfile(input->arg);
-		if (pipe_fd[i][1]== -1)
+		if (pipe_fd[i][1] == -1)
 			return (0);
 		pipe_fd[i][0] = open_infile(input->arg);
 		if (pipe_fd[i][0] == -1)

@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/08 22:41:02 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 00:39:47 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	strarray_free(char **built)
 	free(built);
 }
 
-int send_error2(int flag)
+int	send_error2(int flag)
 {
 	if (flag == -7)
 	{
@@ -67,7 +67,6 @@ int	send_error(int flag)
 		perror("malloc error");
 	else if (flag == -6)
 		perror("pipe error");
-	
 	else if (flag == -8)
 		perror("access error");
 	else if (flag == -9)
@@ -91,7 +90,7 @@ void	mini_cls_fd(int fd1, int fd2)
 		perror("close2");
 }
 
-void multi_array_free(char **str1, char *str2)
+void	multi_array_free(char **str1, char *str2)
 {
 	if (str1)
 		strarray_free(str1);

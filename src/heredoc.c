@@ -6,15 +6,15 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/08 21:39:24 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 00:40:26 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int detect_token(t_arg_lst *args, int token)
+int	detect_token(t_arg_lst *args, int token)
 {
-	t_arg_lst *arg;
+	t_arg_lst	*arg;
 
 	arg = args;
 	while (arg)
@@ -26,9 +26,9 @@ int detect_token(t_arg_lst *args, int token)
 	return (0);
 }
 
-int detect_all_heredocs(t_input *input)
+int	detect_all_heredocs(t_input *input)
 {
-	t_input *tmp;
+	t_input	*tmp;
 
 	tmp = input;
 	while (tmp)
@@ -40,9 +40,9 @@ int detect_all_heredocs(t_input *input)
 	return (0);
 }
 
-int add_here(char **buff, char **res, char *word)
+int	add_here(char **buff, char **res, char *word)
 {
-	size_t add;
+	size_t	add;
 
 	*buff = readline("> ");
 	if (!*buff)
@@ -66,11 +66,11 @@ int add_here(char **buff, char **res, char *word)
 	return (1);
 }
 
-char *get_heredoc(t_arg_lst *arg)
+char	*get_heredoc(t_arg_lst *arg)
 {
-	char *res;
-	char *buff;
-	t_arg_lst *tmp;
+	char		*res;
+	char		*buff;
+	t_arg_lst	*tmp;
 
 	tmp = arg->next;
 	res = 0;
@@ -90,10 +90,10 @@ char *get_heredoc(t_arg_lst *arg)
 	return (res);
 }
 
-int heredoc(t_input *input)
+int	heredoc(t_input *input)
 {
-	t_input *tmp;
-	t_arg_lst *arg;
+	t_input		*tmp;
+	t_arg_lst	*arg;
 
 	tmp = input;
 	while (tmp)

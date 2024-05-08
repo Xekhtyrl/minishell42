@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/08 21:28:23 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 00:28:43 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_stradd(char *s1, char const *s2)
 	return (p);
 }
 
-char **get_env(t_env *envp)
+char	**get_env(t_env *envp)
 {
 	char	**new;
 	int		size;
@@ -66,7 +66,7 @@ char **get_env(t_env *envp)
 	return (new);
 }
 
-int	in_str_array(char *str,char **lst)
+int	in_str_array(char *str, char **lst)
 {
 	int		i;
 	size_t	size;
@@ -83,9 +83,9 @@ int	in_str_array(char *str,char **lst)
 	return (1);
 }
 
-int in_int_array(int t, int *l, int size)
+int	in_int_array(int t, int *l, int size)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (l && i + 1 < size && l[++i])
@@ -94,19 +94,19 @@ int in_int_array(int t, int *l, int size)
 	return (0);
 }
 
-int trad_input(t_input *cmd, t_env **envp)
+int	trad_input(t_input *cmd, t_env **envp)
 {
-	t_input *tmp;
-	char **built;
-	char **env;
-	char *path;
+	t_input	*tmp;
+	char	**built;
+	char	**env;
+	char	*path;
 
-	built = (char*[]){"pwd","env","echo","exit", 0};
-	env = (char*[]){"cd","unset","export","exporto_patronum", 0};
+	built = (char *[]){"pwd", "env", "echo", "exit", "exporto_patronum", 0};
+	env = (char *[]){"cd", "unset", "export", 0};
 	tmp = cmd;
 	while (tmp && tmp->token)
 	{
-		if (in_str_array(tmp->token, built) || (!(ft_strncmp(tmp->token, "export", 7)) && !tmp->arg))
+		if (in_str_array(tmp->token, built) && !tmp->arg)
 			tmp->type = BUILT_TK;
 		else if (in_str_array(tmp->token, env))
 			tmp->type = ENV_TK;

@@ -6,19 +6,18 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/08 22:41:18 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 00:36:55 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 void	exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
-{	
+{
 	if (pipe[0] > 2)
-		{close(pipe[0]);}
+		close(pipe[0]);
 	if (pipe[1] > 2)
-		{printf("close out %d\n", pipe[1]);close(pipe[1]);}
-	//print_env(cmd_cplt);
+		close(pipe[1]);
 	if (!ft_strncmp(cmd_cplt[0], "./minishell", 11)
 		&& atoi(get_env_var(env_lst(envp), "SHLVL")) >= 42)
 		execute_order_66(envp);
@@ -56,21 +55,21 @@ int	exec_builtin(t_input *cmd, t_env **envp)
 	return (0);
 }
 
-int set_path_env(t_cmd_info *inf, t_input *cmd, char **path, char ***envp)
+int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path, char ***envp)
 {
 	*path = get_cmd_path(*inf->env, cmd);
 	if (*path == 0)
-		return (0); //error path
+		return (0);
 	*envp = get_env(*(inf->env));
 	if (*envp == 0)
 		return (0);
 	return (1);
 }
 
-void cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
+void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
-	char *path;
-	char **envp;
+	char	*path;
+	char	**envp;
 
 	path = 0;
 	envp = 0;
@@ -82,23 +81,23 @@ void cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			close_pipes(pipe_fd, inf->size);
 			multi_array_free(envp, path);
 		}
-		exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)), envp, path, pipe_fd[n_cmd]);
+		exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)),
+			envp, path, pipe_fd[n_cmd]);
 	}
 	else
 		exec_builtin(cmd, inf->env);
-			
 }
 
 pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
-	pid_t proc;
+	pid_t	proc;
 
 	proc = 0;
 	if (cmd->type == CMD_TK || cmd->type == BUILT_TK)
 	{
 		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
 			&& printf("pipe_check\n") && pipe(inf->pipe) < 0)
-				send_error(-6);
+			send_error(-6);
 		proc = fork();
 		if (!proc)
 			cmd_fork(cmd, inf, n_cmd, pipe_fd);
@@ -110,7 +109,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 
 void	wait_proc(t_cmd_info *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < info->size)
@@ -120,12 +119,12 @@ void	wait_proc(t_cmd_info *info)
 	}
 }
 
-int cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
+int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 {
-	if (in_int_array(cmd->type, (int[]){CMD_TK, BUILT_TK, ENV_TK}, 3))
+	if (in_int_array(cmd->type, (int []){CMD_TK, BUILT_TK, ENV_TK}, 3))
 	{
 		inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
-		mini_cls_fd(pipe_fd[n_cmd][0],pipe_fd[n_cmd][1]);
+		mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
 		if (check_next_pipe(pipe_fd, n_cmd, inf))
 		{
 			close(inf->pipe[1]);
@@ -142,10 +141,10 @@ int cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 
 int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 {
-	t_cmd_info inf;
-	t_input *tmp;
-	int n_cmd;
-	
+	t_cmd_info	inf;
+	t_input		*tmp;
+	int			n_cmd;
+
 	tmp = cmd;
 	n_cmd = 0;
 	inf.size = ft_lstsize((t_list *)cmd);

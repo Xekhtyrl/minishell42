@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/08 18:36:30 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/09 00:43:15 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **envp)
 			return (printf("yoloooo\n"));
 		if (detect_all_heredocs(input))
 			heredoc(input);
-		empty_args2(input);
+		empty_args(input);
 		execute_command(&m_env, input, pipe);
 		print_input_lst(input);
 	}
