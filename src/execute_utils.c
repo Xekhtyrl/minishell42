@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/07 20:44:39 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/08 18:13:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,17 @@ int trad_input(t_input *cmd, t_env **envp)
 {
 	t_input *tmp;
 	char **built;
+	char **env;
 	char *path;
 
-	built = (char*[]){"cd","pwd","env","echo","exit","unset","export","exporto_patronum", 0};
+	built = (char*[]){"pwd","env","echo","exit", 0};
+	env = (char*[]){"cd","unset","export","exporto_patronum", 0};
 	tmp = cmd;
 	while (tmp && tmp->token)
 	{
-		if (in_str_array(tmp->token, built) && ft_strncmp(tmp->token, "unset", 6) && ft_strncmp(tmp->token, "exporto_patronum", 17) 
-			&& ft_strncmp(tmp->token, "cd", 3) && (ft_strncmp(tmp->token, "export", 7) || (!(ft_strncmp(tmp->token, "export", 7)) && !tmp->arg)))
+		if (in_str_array(tmp->token, built) || (!(ft_strncmp(tmp->token, "export", 7)) && !tmp->arg))
 			tmp->type = BUILT_TK;
-		else if (in_str_array(tmp->token, built) && (!ft_strncmp(tmp->token, "unset", 6)
-			|| !ft_strncmp(tmp->token, "export", 7) || !ft_strncmp(tmp->token, "exporto_patronum", 17) || !ft_strncmp(tmp->token, "cd", 3)))
+		else if (in_str_array(tmp->token, env))
 			tmp->type = ENV_TK;
 		else
 		{
@@ -119,12 +119,7 @@ int trad_input(t_input *cmd, t_env **envp)
 				free(path);
 			}
 		}
-		if (!(ft_strncmp(tmp->token, "export", 7)) && tmp->arg)
-			printf("%s >>> %i\n", tmp->arg->token, tmp->type);
-		if (!(ft_strncmp(tmp->token, "export", 7)) && !tmp->arg)
-			printf("%s >>> %i\n", NULL, tmp->type);
 		tmp = tmp->next;
 	}
 	return (1);
 }
-

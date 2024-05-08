@@ -25,6 +25,7 @@ MY_SOURCES =	main.c							\
 				src/get_path.c 					\
 				src/dup.c						\
 				src/heredoc.c					\
+				src/clear_parse2.c				\
 				src/free.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
@@ -87,6 +88,7 @@ add:
 clean:
 	@rm -rf $(MY_OBJECTS) $(MY_OBJ_BONUS)
 	@make -C $(LIBFT) clean
+	@rm -rf ./includes/ee/*.sh
 	@echo "$(C_RED)$(NAME) cleanse$(C_END)"
 
 fclean: clean

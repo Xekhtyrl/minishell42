@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/08 15:45:08 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/08 20:29:59 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,16 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 		return (close_pipes(pipe_fd, inf.size),
 			send_error(-2), 0);
 	}
+	printf("cmd %s\n", (*inf.env)->content);
 	while (tmp)
 	{
 		if (pipe_fd && pipe_fd[n_cmd])
-			printf("ex pipe in  : %d\n", pipe_fd[n_cmd][0]);
-			printf("ex pipe out : %d\n", pipe_fd[n_cmd][1]);
+		{
+			if (pipe_fd[n_cmd][0])
+				printf("ex pipe in  : %d\n", pipe_fd[n_cmd][0]);
+			if (pipe_fd[n_cmd][1])
+				printf("ex pipe out : %d\n", pipe_fd[n_cmd][1]);
+		}
 		if (in_int_array(tmp->type, (int[]){CMD_TK, BUILT_TK, ENV_TK}, 3))
 		{
 			printf("launch cmd %s %d\n", tmp->token, tmp->type);

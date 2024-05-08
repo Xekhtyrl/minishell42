@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 18:52:11 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/08 18:23:48 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 		else
 			token++;
 	}
-	if (token <= 2)
+	if (!*cmd)
 		*cmd = create_node(NULL, 0, envp);
 	(*cmd)->arg = lst;
 	return (i);
@@ -96,6 +96,7 @@ static void	get_input_struct(t_input **start, char *str, t_env *envp)
 	int		i;
 
 	i = -1;
+	cmd = 0;
 	while (++i < (int)ft_strlen(str))
 	{
 		if (i == 0 || str[i] == '|' || (str[i - 1] == '|' && i > 1))

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/08 18:05:00 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/08 18:22:43 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,10 @@ void		sort_lst(t_env **lsta);
 char		*ft_stradd(char *s1, char const *s2);
 char		**lst_to_tab(t_list *lst);
 char		**get_all_cmd(t_input *cmd, int len);
-void		clear_args_fd(t_input *cmd);
 char		*ft_strjoinsup(char **tabl);
 int			only_space(char *str);
+void		clear_arg(t_arg_lst **lst);
+void		empty_args(t_input *input);
 
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);
@@ -111,9 +112,11 @@ int			check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf);
 char		*trim_quote(char *str);
 
 //_____________________HEREDOC_________________________//
+
 int			detect_all_heredocs(t_input *input);
 int			detect_heredoc(t_arg_lst *args);
 char		*get_heredoc(t_arg_lst *arg);
 int			heredoc(t_input *input);
-
+int			detect_token(t_arg_lst *args, int token);
+void		empty_args2(t_input *cmd);
 #endif
