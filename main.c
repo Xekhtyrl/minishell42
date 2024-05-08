@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 19:41:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/08 17:51:52 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	main(int argc, char **argv, char **envp)
 			if (detect_all_heredocs(input))
 				heredoc(input);
 			clear_args_fd(&input->arg);
-		// print_input_lst(input);
+			// print_input_lst(input);
 			execute_command(&m_env, input, pipe);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:16:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/07 15:11:02 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/08 17:47:56 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	ft_echo(t_arg_lst *arg)
 	{
 		if (!check_n_arg(arg, &flag))
 			break ;
+		arg = arg->next;
 		if (arg->type == HEREDOC_TK)
 			arg = arg->next;
-		arg = arg->next;
 	}
 	while (arg && arg->token)
 	{
