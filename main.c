@@ -6,12 +6,13 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 18:19:41 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 19:41:18 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/minishell.h"
 
+// REMOVE
 void	print_input_lst(t_input	*i)
 {
 	t_input	*input;
@@ -32,28 +33,6 @@ void	print_input_lst(t_input	*i)
 		}
 		input = input->next;
 	}
-}
-
-char	*ft_strjoinsup(char **tabl)
-{
-	int		i;
-	int		j;
-	int		len;
-	char	*final;
-
-	i = -1;
-	len = ft_strlen(GREEN) + ft_strlen(RED) + ft_strlen(NC) + ft_strlen(tabl[1])
-		+ ft_strlen(tabl[3]) + 1;
-	final = malloc(sizeof(char) * (len + 1));
-	len = 0;
-	while (++i < 5)
-	{
-		j = 0;
-		while (tabl[i][j])
-			final[len++] = tabl[i][j++];
-	}
-	final[len] = 0;
-	return (final);
 }
 
 char	*pick_title(void)
@@ -85,18 +64,7 @@ char	*pick_title(void)
 	return (free(path), free(str2), str);
 }
 
-int	only_space(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i] == ' ')
-		i++;
-	if (!str[i])
-		return (1);
-	return (0);
-}
-
+// REMOVE
 void	print_env(char **envp)
 {
 	int	i;
@@ -105,8 +73,6 @@ void	print_env(char **envp)
 	while (envp[i])
 		printf("lst %s\n", envp[i++]);
 }
-
-void	clear_args_fd(t_arg_lst **lst);
 
 int	main(int argc, char **argv, char **envp)
 {

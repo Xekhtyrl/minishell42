@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 14:55:28 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 19:40:11 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,38 @@ char	**lst_to_tab(t_list *lst)
 	}
 	tabl[i] = 0;
 	return (tabl);
+}
+
+char	*ft_strjoinsup(char **tabl)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*final;
+
+	i = -1;
+	len = ft_strlen(GREEN) + ft_strlen(RED) + ft_strlen(NC) + ft_strlen(tabl[1])
+		+ ft_strlen(tabl[3]) + 1;
+	final = malloc(sizeof(char) * (len + 1));
+	len = 0;
+	while (++i < 5)
+	{
+		j = 0;
+		while (tabl[i][j])
+			final[len++] = tabl[i][j++];
+	}
+	final[len] = 0;
+	return (final);
+}
+
+int	only_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i] == ' ')
+		i++;
+	if (!str[i])
+		return (1);
+	return (0);
 }

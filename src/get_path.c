@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:50:34 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/03 18:46:49 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/07 19:50:30 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**get_our_path(t_env *envp)
 	tmp = envp;
 	while (tmp)
 	{
-		if (tmp->var && !ft_strncmp(tmp->var, "PATH",ft_strlen(tmp->var)))
+		if (tmp->var && !ft_strncmp(tmp->var, "PATH", ft_strlen(tmp->var)))
 		{
 			path = ft_split(tmp->content, ':');
 			if (!path)
@@ -28,18 +28,18 @@ char	**get_our_path(t_env *envp)
 			return (path);
 			strarray_free(path);
 		}
-		tmp=tmp->next;
+		tmp = tmp->next;
 	}
 	return (0);
 }
 
-char *get_cmd_path(t_env *envp, t_input * input)
+char	*get_cmd_path(t_env *envp, t_input *input)
 {
 	char	**path;
 	char	*cmd;
 	char	*cm_path;
 	int		i;
-	
+
 	i = -1;
 	if (access(input->token, F_OK | X_OK) == 0)
 		return (ft_strdup(input->token));

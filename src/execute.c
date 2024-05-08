@@ -6,13 +6,13 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 18:47:12 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/08 15:45:08 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
+void	exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 {	
 	if (pipe[0] > 2)
 		{close(pipe[0]);}
@@ -27,36 +27,36 @@ void exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	exit(EXIT_FAILURE);
 }
 
-int exec_builtin(t_input *cmd, t_env **envp)
+int	exec_builtin(t_input *cmd, t_env **envp)
 {
 	char	**built;
 	int		f;
 
 	f = 0;
-	built = (char*[]){"cd","pwd","env","echo","exit","unset","export", "exporto_patronum", 0};
+	built = (char *[]){"cd", "pwd", "env", "echo", "exit", "unset", "export",
+		"exporto_patronum", 0};
 	if (!built)
 		return (-1);
 	while (built[f] && strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
 		f++;
 	if (f == 0)
-		ft_cd(*envp, cmd->arg);
+		return (ft_cd(*envp, cmd->arg), 1);
 	if (f == 1)
-		ft_pwd();
+		return (ft_pwd(), exit(0), 1);
 	if (f == 2)
-		ft_env(*envp);
+		return (ft_env(*envp), exit(0), 1);
 	if (f == 3)
-		ft_echo(cmd->arg);
+		return (ft_echo(cmd->arg), exit(0), 1);
 	if (f == 4)
-		ft_exit(/**/);
+		return (ft_exit(), exit(0), 1);
 	if (f == 5)
-		ft_unset(envp, cmd->arg);
+		return (ft_unset(envp, cmd->arg), 1);
 	if (f == 6 || f == 7)
-		ft_export(cmd->arg, *envp, f - 6);
-	if (f < 5 && f)
-		exit(0);
-	return (/*strarray_free(built),*/ 1);
+		return (ft_export(cmd->arg, *envp, f - 6), 1);
+	return (0);
 }
-pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
+
+pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char *path;
 	char **envp;
@@ -89,12 +89,12 @@ pid_t exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 				exec_builtin(cmd, inf->env);
 		}
 	}
-	else
+	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
 		exec_builtin(cmd, inf->env);
 	return (proc);
 }
 
-void wait_proc(t_cmd_info *info)
+void	wait_proc(t_cmd_info *info)
 {
 	int i;
 
@@ -148,6 +148,3 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	wait_proc(&inf);
 	return (0);
 }
-
-
-

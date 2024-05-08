@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/07 15:46:30 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/07 19:52:27 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ char		*ft_stradd(char *s1, char const *s2);
 char		**lst_to_tab(t_list *lst);
 char		**get_all_cmd(t_input *cmd, int len);
 void		clear_args_fd(t_arg_lst **lst);
+char		*ft_strjoinsup(char **tabl);
+int			only_space(char *str);
 
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);
