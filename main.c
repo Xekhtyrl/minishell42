@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 00:43:15 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:11:00 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,19 @@ int	main(int argc, char **argv, char **envp)
 		if (!str)
 			ctrl_d();
 		add_history(str);
-		input = parse(str, m_env);
-		free(str);
-		pipe = fill_fd(input, ft_lstsize((t_list *)input));
-		if (!pipe)
-			return (printf("yoloooo\n"));
-		if (detect_all_heredocs(input))
-			heredoc(input);
-		empty_args(input);
-		execute_command(&m_env, input, pipe);
-		print_input_lst(input);
+		if (!parse(&input, str, m_env))
+			send_error("parse");
+		else
+		{
+			pipe = fill_fd(input, ft_lstsize((t_list *)input));
+			if (!pipe)
+				return (printf("yoloooo\n"));
+			if (detect_all_heredocs(input))
+				heredoc(input);
+			empty_args(input);
+			execute_command(&m_env, input, pipe);
+			print_input_lst(input);
+		}
 	}
 	clear_history();
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/08 18:23:48 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/09 18:02:31 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,26 @@ static int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 
 	token = 0;
 	lst = NULL;
-	while (str[i] && str[i] != '|' && i < (int)ft_strlen(str))
+	while ( i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
 	{
 		if (token == 2)
 			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, envp);
 		else
 			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);
-		while (str[i] && is_white_space(str[i]))
+		while (i >= 0 && str[i] && is_white_space(str[i]))
 			i++;
-		if (i && str[i - 1] == ' ' && token >= 3)
+		if (i > 0 && str[i - 1] == ' ' && token >= 3)
 			i = create_and_add_node(str, (int []){i, 1}, &lst, envp);
-		if ((str[i] == '<' || str[i] == '>') && !*cmd)
+		if ((str[i] == '<' || str[i] == '>') && !*cmd && token != 2)
 			token = 0;
 		else
-			token++;
+			if (token++ == 2 && !*cmd)
+				return (-1);
 	}
-	if (!*cmd)
+	if (i != -1 && !*cmd)
 		*cmd = create_node(NULL, 0, envp);
 	(*cmd)->arg = lst;
-	return (i);
+	return (free_arg_lst(&(*cmd)->arg, i));
 }
 
 int	split_cmd(t_input **cmd, char *str, int i, t_env *env)
@@ -81,16 +82,20 @@ int	split_cmd(t_input **cmd, char *str, int i, t_env *env)
 			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, env);
 		else
 			i = create_and_add_node(str, (int []){i, 0}, &(*cmd)->arg, env);
+		if (!*cmd || i == -1)
+			return (-1);
 		while (str[i] && is_white_space(str[i]))
 			i++;
 		if (str[i - 1] == ' ' && (*cmd)->arg)
 			i = create_and_add_node(str, (int []){i, 1}, &(*cmd)->arg, env);
+		if (i == -1)
+			return (free_arg_lst(&(*cmd)->arg, i));
 		token++;
 	}
 	return (i);
 }
 
-static void	get_input_struct(t_input **start, char *str, t_env *envp)
+static int	get_input_struct(t_input **start, char *str, t_env *envp)
 {
 	t_input	*cmd;
 	int		i;
@@ -104,29 +109,24 @@ static void	get_input_struct(t_input **start, char *str, t_env *envp)
 			if (i && str[i - 1] == '|')
 				while (str[i] && is_white_space(str[i]))
 					i++;
-			if (str[i] == '|')
-				i++;
-			else if (str[i] == '<' || str[i] == '>')
-				i = split_cmd_redir(&cmd, str, i, envp);
-			else
-				i = split_cmd(&cmd, str, i, envp);
+			if (choose_split_kind(str, i, &cmd, envp) == -1)
+				return (i);
 		}
 		ft_lstadd_back((t_list **)start, (t_list *)cmd);
 		cmd = cmd->next;
 		while (str[i] && is_white_space(str[i]))
 			i++;
 	}
+	return (i);
 }
 
-t_input	*parse(char *str, t_env *envp)
+int	parse(t_input **input, char *str, t_env *envp)
 {
-	t_input	*input;
-
-	input = NULL;
 	if (!str)
-		return (ft_putstr_fd("NO STR\n", 2), NULL);
+		return (free(str), ft_putstr_fd("NO STR\n", 2), NULL);
 	if (parse_error(str))
-		return (NULL);
-	get_input_struct(&input, str, envp);
-	return (input);
+		return (free(str), NULL);
+	if (get_input_struct(&input, str, envp) == -1)
+		return (free_input(&input), free(str), NULL);
+	return (free(str), input);
 }

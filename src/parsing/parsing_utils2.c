@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:17:12 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 18:52:05 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/09 16:55:42 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,15 @@ int	parse_error(char *str)
 		str++;
 	}
 	return (0);
+}
+
+int	choose_split_kind(char *str, int i, t_input **cmd, t_env *envp)
+{
+	if (str[i] == '|')
+		i++;
+	else if (str[i] == '<' || str[i] == '>')
+		i = split_cmd_redir(cmd, str, i, envp);
+	else
+		i = split_cmd(cmd, str, i, envp);
+	return (i);
 }

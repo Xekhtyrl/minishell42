@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/08 22:40:51 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:38:52 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "structures.h"
 
 //______________________PARSING_______________________//
-t_input		*parse(char *str, t_env *envp);
+int			parse(t_input **input, char *str, t_env *envp)
 int			split_cmd(t_input **cmd, char *str, int i, t_env *env);
 char		*split_token(char *str, int	*start, char quote);
 
@@ -68,6 +68,8 @@ void		strarray_free(char **built);
 int			send_error(int flag);
 void		close_pipes(int **pipe, int size);
 void		multi_array_free(char **str1, char *str2);
+int			free_arg_lst(t_arg_lst **arg, int flag);
+int			free_input(t_input **input);
 
 //_______________________UTILS________________________//
 void		push(t_env **lst1, t_env **lst2);
@@ -80,6 +82,7 @@ char		*ft_strjoinsup(char **tabl);
 int			only_space(char *str);
 void		clear_arg(t_arg_lst **lst);
 void		empty_args(t_input *input);
+int			choose_split_kind(char *str, int i, t_input **cmd, t_env *envp);
 
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);
