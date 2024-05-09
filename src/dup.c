@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 17:07:09 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:58:47 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int	pipe_heredoc(int *fd_in_out[2], int cur, t_arg_lst *arg)
 		tmp = tmp->next;
 	ft_putstr_fd(tmp->token, p[1]);
 	close(p[1]);
-	// if (fd_in_out[cur][0] > 2)
-	// 	close(fd_in_out[cur][0]);
 	fd_in_out[cur][0] = p[0];
 	return (1);
 }
@@ -58,26 +56,22 @@ int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf, t_arg_lst *arg)
 {
 	if (detect_token(arg, HEREDOC_TK))
 	{
-		printf("HEREDOC + PIPE\n");
 		if ((cur == 0 && fd_in_out[cur][0] == 0)
 			|| (cur > 0 && fd_in_out[cur][0]))
 			pipe_heredoc(fd_in_out, cur, arg); // pipe et heredoc
 	}
 	if (fd_in_out[cur][0] > 1 && fd_in_out[cur][1] > 1) //infile + outfile
 	{
-		printf("INFILE + OUTFILE\n");
 		if (uni_dup(fd_in_out[cur][0], fd_in_out[cur][1]) == -1)
 			return (-1);
 	}
 	else if (fd_in_out[cur][0] == 0 && fd_in_out[cur][1] > 1) // outfile
 	{
-		printf("OUTFILE\n");
 		if (uni_dup(0, fd_in_out[cur][1]) == -1)
 			return (-1);
 	}
 	else if (fd_in_out[cur][0] > 0 && fd_in_out[cur][1] == 1) // infile + stdout
 	{
-		printf("INFILE + STDOUT\n");
 		if (uni_dup(fd_in_out[cur][0], 0) == -1)
 			return (-1);
 	}
@@ -90,13 +84,11 @@ int	mini_dup2(int *fd_in_out[2], int cur, t_cmd_info *inf)
 {
 	if (fd_in_out[cur][0] > 0 && fd_in_out[cur][1] == 1) // infile + pipe
 	{
-		printf("INFILE + PIPE\n");
 		if (uni_dup(fd_in_out[cur][0], inf->pipe[1]) == -1)
 			return (-1);
 	}
 	else if (fd_in_out[cur + 1][0] == 0 && fd_in_out[cur][1] == 1) //just pipe
 	{
-		printf("PIPE\n");
 		if (uni_dup(fd_in_out[cur][0], inf->pipe[1]) == -1)
 			return (-1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   traduction.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:07:29 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 15:14:57 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 18:08:24 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	trad_input(t_input *cmd, t_env **envp)
 			tmp->type = ENV_TK;
 		else
 			if (!check_path(tmp, envp))
-				return (0);
+				tmp->type = ERROR_TK;
 		tmp = tmp->next;
 	}
 	return (1);

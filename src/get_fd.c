@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 16:48:28 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 18:12:50 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	close_pipes(int **pipe, int size)
 	i = 0;
 	while (i < size && pipe[i])
 	{
-		printf("%d %d\n", pipe[i][0], pipe[i][1]);
 		if (pipe[i][0] > 0)
 			close(pipe[i][0]);
 		if (pipe[i][1] > 1)

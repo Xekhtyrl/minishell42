@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 16:35:22 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 18:02:35 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,12 @@ int	main(int argc, char **argv, char **envp)
 	static char		*str = NULL;
 	t_input			*input;
 	t_env			*m_env;
-	int				**pipe;
 
 	(void)argc;
 	(void)argv;
 	m_env = env_lst(envp);
 	update_shell_lvl(m_env);
 	set_signals();
-	pipe = 0;
 	while (1)
 	{
 		str = readline(pick_title());
