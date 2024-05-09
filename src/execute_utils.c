@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 15:07:50 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 16:22:09 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,13 @@ int	in_int_array(int t, int *l, int size)
 		if (t == l[i])
 			return (1);
 	return (0);
+}
+
+void	print_str_array(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+		printf("%s\n", envp[i++]);
 }

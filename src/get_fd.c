@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 15:39:51 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 16:48:28 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,28 +83,27 @@ int	open_infile(t_arg_lst *tmp)
 	return (fd);
 }
 
-int	**fill_fd(t_input *input, int size)
+int	fill_fd(t_input *input, int size, int ***pipe_fd)
 {
 	int	i;
-	int	**pipe_fd;
 
 	i = 0;
-	pipe_fd = malloc(sizeof(int *) * size);
-	if (!pipe_fd)
+	*pipe_fd = malloc(sizeof(int *) * size);
+	if (!*pipe_fd)
 		return (0);
 	while (i < size)
 	{
-		pipe_fd[i] = malloc(sizeof(int) * 2);
-		if (!pipe_fd[i])
+		(*pipe_fd)[i] = malloc(sizeof(int) * 2);
+		if (!(*pipe_fd)[i])
 			return (0);
-		pipe_fd[i][1] = open_outfile(input->arg);
-		if (pipe_fd[i][1] == -1)
-			return (0);
-		pipe_fd[i][0] = open_infile(input->arg);
-		if (pipe_fd[i][0] == -1)
-			return (0);
+		(*pipe_fd)[i][1] = open_outfile(input->arg);
+		if ((*pipe_fd)[i][1] == -1)
+			send_error(-1);
+		(*pipe_fd)[i][0] = open_infile(input->arg);
+		if ((*pipe_fd)[i][0] == -1)
+			send_error(-1);
 		i++;
 		input = input->next;
 	}
-	return (pipe_fd);
+	return (1);
 }

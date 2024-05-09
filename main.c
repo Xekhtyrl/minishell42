@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 15:16:28 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 16:35:22 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,19 @@ char	*pick_title(void)
 	return (free(path), free(str2), str);
 }
 
-// REMOVE
-void	print_env(char **envp)
+int	prep_exec(t_input *input, t_env *m_env)
 {
-	int	i;
+	int				**pipe;
 
-	i = 0;
-	while (envp[i])
-		printf("lst %s\n", envp[i++]);
+	if (!fill_fd(input, ft_lstsize((t_list *)input), &pipe))
+		send_error(-1);
+	if (detect_all_heredocs(input))
+		heredoc(input);
+	empty_args(input);
+	if (!trad_input(input, &m_env))
+		send_error(-1);
+	execute_command(&m_env, input, pipe);
+	return (1);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -85,7 +90,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	m_env = env_lst(envp);
 	update_shell_lvl(m_env);
-	using_history();
 	set_signals();
 	pipe = 0;
 	while (1)
@@ -98,17 +102,18 @@ int	main(int argc, char **argv, char **envp)
 		add_history(str);
 		input = parse(str, m_env);
 		free(str);
-		pipe = fill_fd(input, ft_lstsize((t_list *)input));
-		if (!pipe)
-			send_error(-1);
-		if (detect_all_heredocs(input))
-			heredoc(input);
-		empty_args(input);
-		if (!trad_input(input, &m_env))
-			send_error(-1);
-		execute_command(&m_env, input, pipe);
-		print_input_lst(input);
+		prep_exec(input, m_env);
 	}
 	clear_history();
 	return (0);
 }
+		// pipe = fill_fd(input, ft_lstsize((t_list *)input));
+		// if (!pipe)
+		// 	send_error(-1);
+		// if (detect_all_heredocs(input))
+		// 	heredoc(input);
+		// empty_args(input);
+		// if (!trad_input(input, &m_env))
+		// 	send_error(-1);
+		// execute_command(&m_env, input, pipe);
+		// print_input_lst(input);

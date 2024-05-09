@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 15:16:42 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:26:40 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,18 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
 			&& printf("pipe_check\n") && pipe(inf->pipe) < 0)
 			send_error(-6);
-		proc = fork();
-		if (!proc)
-			cmd_fork(cmd, inf, n_cmd, pipe_fd);
+			proc = fork();
+			if (!proc)
+			{
+				if (pipe_fd[n_cmd][0] != -1)
+					cmd_fork(cmd, inf, n_cmd, pipe_fd);
+				else
+					{
+						close(inf->pipe[0]);
+						close(inf->pipe[1]);
+						exit(0);
+					}
+			}
 	}
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
 		exec_builtin(cmd, inf->env);
@@ -125,8 +134,9 @@ int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 	{
 		inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
 		mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
-		if (check_next_pipe(pipe_fd, n_cmd, inf))
+		if (check_next_pipe(pipe_fd, n_cmd, inf)) //&& pipe_fd[n_cmd][0] != -1)
 		{
+			printf("SAVE PIPE\n");
 			close(inf->pipe[1]);
 			pipe_fd[n_cmd + 1][0] = inf->pipe[0];
 		}
@@ -152,6 +162,9 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	inf.env = envp;
 	while (tmp)
 	{
+		printf("CMD %d\n", n_cmd);
+		printf("pipe in  %d\n", pipe_fd[n_cmd][0]);
+		printf("pipe out %d\n", pipe_fd[n_cmd][1]);
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);
 		tmp = tmp->next;
 		n_cmd++;
