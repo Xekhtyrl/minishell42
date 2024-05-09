@@ -6,7 +6,7 @@ MY_SOURCES =	main.c							\
 				src/parsing/parsing_utils.c		\
 				src/parsing/parsing_utils2.c	\
 				src/parsing/parsing_lst.c		\
-				src/signal.c					\
+				src/parsing/clear_parse.c		\
 				src/builtin/env.c				\
 				src/builtin/export.c			\
 				src/builtin/cd.c				\
@@ -16,16 +16,16 @@ MY_SOURCES =	main.c							\
 				src/builtin/exit.c				\
 				src/utils/sort_list.c 			\
 				src/utils/lst_to_tab.c			\
-				src/utils/clear_parse.c			\
 				src/env/env_var_utils.c			\
 				src/env/setup_env.c				\
+				src/signal.c					\
 				src/execute.c 					\
 				src/execute_utils.c 			\
 				src/get_fd.c 					\
 				src/get_path.c 					\
+				src/traduction.c 				\
 				src/dup.c						\
 				src/heredoc.c					\
-				src/clear_parse2.c				\
 				src/free.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
@@ -45,8 +45,8 @@ CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 ifeq "$(USER)" "lvodak"
 	READLINE_PATH = $(HOME)/.brew/Cellar/readline/8.2.10/
 else
-	READLINE_PATH = /opt/homebrew/Cellar/readline/8.2.10/
-	#READLINE_PATH = $(HOME)/homebrew/Cellar/readline/8.2.10/
+	#READLINE_PATH = /opt/homebrew/Cellar/readline/8.2.10/
+	READLINE_PATH = $(HOME)/homebrew/Cellar/readline/8.2.10/
 endif
 
 INCLUDES = ./includes -I$(READLINE_PATH)/include

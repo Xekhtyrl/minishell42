@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 00:36:55 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:16:42 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	inf.size = ft_lstsize((t_list *)cmd);
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
 	inf.env = envp;
-	if (!trad_input(cmd, envp))
-		return (close_pipes(pipe_fd, inf.size),
-			send_error(-2), 0);
 	while (tmp)
 	{
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);

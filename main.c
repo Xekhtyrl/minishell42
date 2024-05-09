@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 00:43:15 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:16:28 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,12 @@ int	main(int argc, char **argv, char **envp)
 		free(str);
 		pipe = fill_fd(input, ft_lstsize((t_list *)input));
 		if (!pipe)
-			return (printf("yoloooo\n"));
+			send_error(-1);
 		if (detect_all_heredocs(input))
 			heredoc(input);
 		empty_args(input);
+		if (!trad_input(input, &m_env))
+			send_error(-1);
 		execute_command(&m_env, input, pipe);
 		print_input_lst(input);
 	}
