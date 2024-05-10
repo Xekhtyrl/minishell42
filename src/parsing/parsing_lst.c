@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 16:46:56 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 17:36:29 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	create_and_add_node(char *str, int data[2], t_arg_lst **lst, t_env *envp)
 		if (arg)
 			ft_lstadd_back((t_list **)&lst, (t_list *)arg);
 		else
-			return (free_arg_lst(arg, -1), -1)
+			return (free_arg_lst(&arg, -1), -1);
 	}
 	else
 	{
@@ -70,7 +70,7 @@ int	create_and_add_node(char *str, int data[2], t_arg_lst **lst, t_env *envp)
 		if (arg)
 			ft_lstadd_back((t_list **)lst, (t_list *)arg);
 		else
-			return (free_arg_lst(arg, -1), -1)
+			return (free_arg_lst(&arg, -1), -1);
 	}
 	return (data[0]);
 }

@@ -25,7 +25,8 @@ MY_SOURCES =	main.c							\
 				src/get_path.c 					\
 				src/dup.c						\
 				src/heredoc.c					\
-				src/free.c
+				src/free.c						\
+				src/free_input.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
 

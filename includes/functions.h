@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 17:38:52 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 17:59:32 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 # include "structures.h"
 
 //______________________PARSING_______________________//
-int			parse(t_input **input, char *str, t_env *envp)
+int			parse(t_input **input, char *str, t_env *envp);
 int			split_cmd(t_input **cmd, char *str, int i, t_env *env);
 char		*split_token(char *str, int	*start, char quote);
+int			split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp);
 
 //___________________PARSING_UTILS____________________//
 int			is_white_space(char c);
@@ -28,6 +29,7 @@ int			closed_quotes(char *str);
 int			check_for_pipe(char *str);
 int			get_token_type(char *c, int start);
 int			parse_error(char *str);
+int			choose_split_kind(char *str, int i, t_input **cmd, t_env *envp);
 
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token, t_env *envp);
@@ -82,7 +84,6 @@ char		*ft_strjoinsup(char **tabl);
 int			only_space(char *str);
 void		clear_arg(t_arg_lst **lst);
 void		empty_args(t_input *input);
-int			choose_split_kind(char *str, int i, t_input **cmd, t_env *envp);
 
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);

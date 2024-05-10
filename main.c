@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 17:11:00 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 18:58:12 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	m_env = env_lst(envp);
 	update_shell_lvl(m_env);
+	print_env(envp);
+	ft_env(m_env);
 	using_history();
 	set_signals();
 	pipe = 0;
@@ -97,7 +99,7 @@ int	main(int argc, char **argv, char **envp)
 			ctrl_d();
 		add_history(str);
 		if (!parse(&input, str, m_env))
-			send_error("parse");
+			ft_putendl_fd("Parse error", 2); //send_error("parse");
 		else
 		{
 			pipe = fill_fd(input, ft_lstsize((t_list *)input));
@@ -108,6 +110,7 @@ int	main(int argc, char **argv, char **envp)
 			empty_args(input);
 			execute_command(&m_env, input, pipe);
 			print_input_lst(input);
+			// free_input(&input);
 		}
 	}
 	clear_history();

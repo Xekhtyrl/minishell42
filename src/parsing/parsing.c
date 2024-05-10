@@ -6,15 +6,11 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 18:02:31 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 18:00:16 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// dans le cas de quotes ouvertes il semblerait qu'il faudrait un readline
-// pour chaque ligne d'input a la suite tant que la deuxieme quotes n'est pas
-// mise, et chaque nv input est precedé d'un \n
 
 char	*split_token(char *str, int	*start, char quote)
 {
@@ -42,7 +38,7 @@ char	*split_token(char *str, int	*start, char quote)
 	return (ft_substr(str, *start - len, len));
 }
 
-static int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
+int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 {
 	t_arg_lst	*lst;
 	int			token;
@@ -81,7 +77,7 @@ int	split_cmd(t_input **cmd, char *str, int i, t_env *env)
 		if (token == 0)
 			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, env);
 		else
-			i = create_and_add_node(str, (int []){i, 0}, &(*cmd)->arg, env);
+			i = create_and_add_node(str, (int []){i, 0}, &((*cmd)->arg), env);
 		if (!*cmd || i == -1)
 			return (-1);
 		while (str[i] && is_white_space(str[i]))
@@ -109,11 +105,14 @@ static int	get_input_struct(t_input **start, char *str, t_env *envp)
 			if (i && str[i - 1] == '|')
 				while (str[i] && is_white_space(str[i]))
 					i++;
-			if (choose_split_kind(str, i, &cmd, envp) == -1)
+			i = choose_split_kind(str, i, &cmd, envp);
+			if (i == -1)
 				return (i);
 		}
 		ft_lstadd_back((t_list **)start, (t_list *)cmd);
-		cmd = cmd->next;
+		if (cmd)
+			cmd = cmd->next;
+		printf("%i >>>> %s\n", i, (*start)->token);
 		while (str[i] && is_white_space(str[i]))
 			i++;
 	}
@@ -122,11 +121,12 @@ static int	get_input_struct(t_input **start, char *str, t_env *envp)
 
 int	parse(t_input **input, char *str, t_env *envp)
 {
+	*input = NULL;
 	if (!str)
-		return (free(str), ft_putstr_fd("NO STR\n", 2), NULL);
+		return (free(str), ft_putstr_fd("NO STR\n", 2), 0);
 	if (parse_error(str))
-		return (free(str), NULL);
-	if (get_input_struct(&input, str, envp) == -1)
-		return (free_input(&input), free(str), NULL);
-	return (free(str), input);
+		return (free(str), 0);
+	if (get_input_struct(input, str, envp) == -1)
+		return (free_input(input), free(str), 0);
+	return (free(str), 1);
 }
