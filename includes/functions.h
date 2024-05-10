@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/10 17:59:32 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:27:28 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void		close_pipes(int **pipe, int size);
 void		multi_array_free(char **str1, char *str2);
 int			free_arg_lst(t_arg_lst **arg, int flag);
 int			free_input(t_input **input);
+void		free_env(t_env **envp);
 
 //_______________________UTILS________________________//
 void		push(t_env **lst1, t_env **lst2);

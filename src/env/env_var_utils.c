@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 14:59:53 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:20:58 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char	*replace_str_env_var(char *str, t_env *envp)
 		return (str);
 	i = start + 1;
 	new = ft_substr(str, 0, start);
+	if (!new)
+		return (send_error(MALLOC_ERR), NULL);
 	while (str[i] && ft_isalnum(str[i]))
 		i++;
 	tmp = ft_substr(str, start + 1, i - start);

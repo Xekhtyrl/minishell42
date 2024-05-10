@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 19:05:03 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:28:20 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (0);
+		return (send_error(MALLOC_ERR), NULL);
 	new->var = var;
 	new->content = content;
 	new->flag = flag;
@@ -125,6 +125,8 @@ t_env	*env_lst(char **envp)
 		{
 			var = ft_substr(*envp, 0, ft_strleng(*envp, '='));
 			new = create_env_node(var, ft_strchr(*envp, '=') + 1, 0, prev);
+			if (!new)
+				return(free_env(&start), NULL);
 			ft_lstadd_back((t_list **)&start, (t_list *)new);
 			prev = new;
 			if (ft_strlen(var) > (size_t)len)
@@ -132,7 +134,5 @@ t_env	*env_lst(char **envp)
 		}
 		envp++;
 	}
-	check_absent_envar(&start);
-	sort_lst(&start);
-	return (start);
+	return (check_absent_envar(&start), sort_lst(&start), start);
 }

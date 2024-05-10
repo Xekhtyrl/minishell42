@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 18:58:12 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:29:49 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	m_env = env_lst(envp);
+	if (!m_env)
+		return (ft_putendl_fd("Error: env not loaded", 2), 1);
 	update_shell_lvl(m_env);
 	print_env(envp);
 	ft_env(m_env);
@@ -99,7 +101,7 @@ int	main(int argc, char **argv, char **envp)
 			ctrl_d();
 		add_history(str);
 		if (!parse(&input, str, m_env))
-			ft_putendl_fd("Parse error", 2); //send_error("parse");
+			send_error(MALLOC_ERR);
 		else
 		{
 			pipe = fill_fd(input, ft_lstsize((t_list *)input));

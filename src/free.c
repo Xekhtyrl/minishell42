@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 00:39:47 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:14:29 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	strarray_free(char **built)
 
 int	send_error2(int flag)
 {
-	if (flag == -7)
+	if (flag == ARG_ERR)
 	{
 		errno = 5;
 		perror("bad argument");
@@ -55,25 +55,25 @@ int	send_error2(int flag)
 
 int	send_error(int flag)
 {
-	if (flag == -1)
+	if (flag == OPEN_ERR)
 		perror("open error");
-	else if (flag == -2)
+	else if (flag == READ_ERR)
 		perror("read error");
-	else if (flag == -3)
+	else if (flag == WRITE_ERR)
 		perror("write error");
-	else if (flag == -4)
+	else if (flag == FORK_ERR)
 		perror("fork error");
-	else if (flag == -5)
+	else if (flag == MALLOC_ERR)
 		perror("malloc error");
-	else if (flag == -6)
+	else if (flag == PIPE_ERR)
 		perror("pipe error");
-	else if (flag == -8)
+	else if (flag == ACCESS_ERR)
 		perror("access error");
-	else if (flag == -9)
+	else if (flag == PERM_ERR)
 		perror("permission error");
-	else if (flag == -10)
+	else if (flag == PATH_ERR)
 		perror("PATH not found");
-	else if (flag == -11)
+	else if (flag == CMD_ERR)
 		perror("command not found");
 	else
 		send_error2(flag);

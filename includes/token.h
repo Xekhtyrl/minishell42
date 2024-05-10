@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/07 15:21:45 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:14:28 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,17 @@
 
 # define FD_OUT 1
 # define FD_IN 0
+
+# define OPEN_ERR -1
+# define READ_ERR -2
+# define WRITE_ERR -3
+# define FORK_ERR -4
+# define MALLOC_ERR -5
+# define PIPE_ERR -6
+# define ARG_ERR -7
+# define ACCESS_ERR -8
+# define PERM_ERR -9
+# define PATH_ERR -10
+# define CMD_ERR -11
 
 #endif

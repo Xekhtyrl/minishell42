@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:13:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 17:38:58 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:26:57 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,21 @@ int	free_input(t_input **input)
 	}
 	*input = NULL;
 	return (0);
+}
+
+void	free_env(t_env **envp)
+{
+	t_env	*next;
+
+	while (*envp)
+	{
+		next = (*envp)->next;
+		if ((*envp)->var)
+			free((*envp)->var);
+		if ((*envp)->content)
+			free((*envp)->content);
+		free((*envp));
+		*envp = next;
+	}
+	*envp = NULL;
 }
