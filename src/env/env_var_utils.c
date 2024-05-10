@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 20:20:58 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:39:33 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	replace_or_append(char *var, char *content, int append, t_env *env)
 		{
 			if (append)
 			{
-				env->content = ft_strjoin_f(env->content, content, env->flag);
+				env->content = ft_stradd(env->content, content);
 				env->flag = 3;
 			}
 			else
