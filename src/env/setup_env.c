@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 20:28:20 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 15:52:56 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 	if (!new)
 		return (send_error(MALLOC_ERR), NULL);
 	new->var = var;
-	new->content = content;
+	new->content = ft_strdup(content);
 	new->flag = flag;
 	new->next = NULL;
 	new->prev = prev;

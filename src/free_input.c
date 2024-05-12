@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:13:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 20:26:57 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 15:46:39 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	free_arg_lst(t_arg_lst **arg, int flag)
 {
 	t_arg_lst	*next;
 	
-	if (flag == -1)
+	if (flag != -1)
 		return (flag);
 	while ((*arg))
 	{
@@ -57,7 +57,7 @@ void	free_env(t_env **envp)
 		next = (*envp)->next;
 		if ((*envp)->var)
 			free((*envp)->var);
-		if ((*envp)->content)
+		if ((*envp)->var)
 			free((*envp)->content);
 		free((*envp));
 		*envp = next;

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 18:00:16 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 15:28:06 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);
 		while (i >= 0 && str[i] && is_white_space(str[i]))
 			i++;
-		if (i > 0 && str[i - 1] == ' ' && token >= 3)
+		if (i > 0 && str[i - 1] == ' ' && token >= 2)
 			i = create_and_add_node(str, (int []){i, 1}, &lst, envp);
 		if ((str[i] == '<' || str[i] == '>') && !*cmd && token != 2)
 			token = 0;
@@ -123,7 +123,7 @@ int	parse(t_input **input, char *str, t_env *envp)
 {
 	*input = NULL;
 	if (!str)
-		return (free(str), ft_putstr_fd("NO STR\n", 2), 0);
+		return (ft_putstr_fd("NO STR\n", 2), 0);
 	if (parse_error(str))
 		return (free(str), 0);
 	if (get_input_struct(input, str, envp) == -1)

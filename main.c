@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 14:27:03 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 15:45:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	prep_exec(t_input *input, t_env *m_env)
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
+	free_input(&input);
 	return (1);
 }
 
@@ -98,15 +99,12 @@ int	main(int argc, char **argv, char **envp)
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
 			str = readline(pick_title());
 		if (!str)
-			ctrl_d();
+			ctrl_d(&m_env);
 		add_history(str);
 		if (!parse(&input, str, m_env))
 			send_error(MALLOC_ERR);
 		else
-		{
 			prep_exec(input, m_env);
-			// free_input(&input);
-		}
 	}
 	clear_history();
 	return (0);
