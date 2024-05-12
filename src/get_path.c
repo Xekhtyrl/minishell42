@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:50:34 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/07 19:50:30 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 14:58:06 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ char	*get_cmd_path(t_env *envp, t_input *input)
 	int		i;
 
 	i = -1;
-	if (access(input->token, F_OK | X_OK) == 0)
-		return (ft_strdup(input->token));
 	path = get_our_path(envp);
 	if (!path)
 		return (send_error(-1), NULL);
@@ -54,5 +52,7 @@ char	*get_cmd_path(t_env *envp, t_input *input)
 			return (strarray_free(path), free(cmd), cm_path);
 		free(cm_path);
 	}
+	if (access(input->token, F_OK | X_OK) == 0)
+		return (strarray_free(path), free(cmd), ft_strdup(input->token));
 	return (strarray_free(path), free(cmd), NULL);
 }
