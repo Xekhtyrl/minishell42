@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/10 20:27:28 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 14:17:41 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		ctrl_d(void);
 void		set_signals(void);
 
 //______________________EXECUTE________________________//
-int			**fill_fd(t_input *input, int size);
+int			fill_fd(t_input *input, int size, int ***pipe);
 int			execute_command(t_env **envp, t_input *cmd, int *pipe[2]);
 
 //______________________EXECUTE2_______________________//
@@ -96,7 +96,7 @@ int			replace_or_append(char *var, char *content, int append,
 char		*get_env_var(t_env *envp, char *var);
 char		*replace_str_env_var(char *str, t_env *envp);
 char		**get_env(t_env *envp);
-void		print_env(char **envp);
+void		print_str_array(char **envp);
 
 //_______________________BUILT________________________//
 void		ft_env(t_env *envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 00:40:26 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:51:22 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ int	detect_all_heredocs(t_input *input)
 
 int	add_here(char **buff, char **res, char *word)
 {
-	size_t	add;
+	int	add;
 
 	*buff = readline("> ");
 	if (!*buff)
-		return (1);
-	add = ft_strncmp(*buff, word, ft_strlen(*buff));
+		return (0);
+	add = ft_strncmp(*buff, word, ft_strlen(*buff) + !ft_strlen(*buff));
 	if (!add)
 	{
 		if (!*res)
@@ -79,11 +79,11 @@ char	*get_heredoc(t_arg_lst *arg)
 		tmp = tmp->next;
 	if (!add_here(&buff, &res, tmp->token))
 		return (0);
-	while (ft_strncmp(buff, tmp->token, ft_strlen(buff)))
+	while (ft_strncmp(buff, tmp->token, ft_strlen(buff) + (!ft_strlen(buff))))
 	{
 		free(buff);
 		if (!add_here(&buff, &res, tmp->token))
-			return (0);
+			return (res);
 	}
 	free(buff);
 	free(arg->token);
@@ -105,7 +105,7 @@ int	heredoc(t_input *input)
 			{
 				arg->token = get_heredoc(arg);
 				if (!arg->token)
-					return (0);
+					arg->token = ft_strdup("");
 			}
 			arg = arg->next;
 		}

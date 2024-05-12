@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/10 18:54:44 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 14:21:50 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ int	ft_export_no_arg(char **env, t_input *cmd)
 
 int	trad_input(t_input *cmd, t_env **envp)
 {
-	t_input	*tmp;
+	char	*path;
 	char	**built;
 	char	**env;
-	char	*path;
+	t_input	*tmp;
 
 	built = (char *[]){"pwd", "env", "echo", "exit", 0};
 	env = (char *[]){"cd", "unset", "export", "exporto_patronum", 0};

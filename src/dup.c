@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 00:42:22 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:58:47 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf)
 		return (0);
 	if (fd_in_out[cur + 1][0] == 0 && fd_in_out[cur][1] == 1)
 		return (1);
-	return (1);
+	return (0);
 }
 
 int	pipe_heredoc(int *fd_in_out[2], int cur, t_arg_lst *arg)
@@ -48,8 +48,6 @@ int	pipe_heredoc(int *fd_in_out[2], int cur, t_arg_lst *arg)
 		tmp = tmp->next;
 	ft_putstr_fd(tmp->token, p[1]);
 	close(p[1]);
-	// if (fd_in_out[cur][0] > 2)
-	// 	close(fd_in_out[cur][0]);
 	fd_in_out[cur][0] = p[0];
 	return (1);
 }
@@ -89,7 +87,7 @@ int	mini_dup2(int *fd_in_out[2], int cur, t_cmd_info *inf)
 		if (uni_dup(fd_in_out[cur][0], inf->pipe[1]) == -1)
 			return (-1);
 	}
-	else if (fd_in_out[cur][0] == 0 && fd_in_out[cur][1] == 1) //just pipe
+	else if (fd_in_out[cur + 1][0] == 0 && fd_in_out[cur][1] == 1) //just pipe
 	{
 		if (uni_dup(fd_in_out[cur][0], inf->pipe[1]) == -1)
 			return (-1);

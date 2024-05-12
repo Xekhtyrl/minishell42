@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/08 21:10:33 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:40:26 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define READLINE_LIBRARY 1
-# define RL_PROMPT_START_IGNORE	'\001'
-# define RL_PROMPT_END_IGNORE '\002'
 # include "pipex_bonus.h"
 # include "token.h"
 # include "functions.h"

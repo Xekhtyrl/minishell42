@@ -6,7 +6,7 @@
 /*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 00:36:55 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/09 18:10:02 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,20 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	if (cmd->type == CMD_TK || cmd->type == BUILT_TK)
 	{
 		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
-			&& printf("pipe_check\n") && pipe(inf->pipe) < 0)
+			&& pipe(inf->pipe) < 0)
 			send_error(-6);
-		proc = fork();
-		if (!proc)
-			cmd_fork(cmd, inf, n_cmd, pipe_fd);
+			proc = fork();
+			if (!proc)
+			{
+				if (pipe_fd[n_cmd][0] != -1)
+					cmd_fork(cmd, inf, n_cmd, pipe_fd);
+				else
+					{
+						close(inf->pipe[0]);
+						close(inf->pipe[1]);
+						exit(1);
+					}
+			}
 	}
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
 		exec_builtin(cmd, inf->env);
@@ -150,9 +159,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	inf.size = ft_lstsize((t_list *)cmd);
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
 	inf.env = envp;
-	if (!trad_input(cmd, envp))
-		return (close_pipes(pipe_fd, inf.size),
-			send_error(-2), 0);
 	while (tmp)
 	{
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);
