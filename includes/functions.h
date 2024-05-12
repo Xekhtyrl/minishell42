@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/12 14:17:41 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 16:41:27 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ int			create_and_add_node(char *str, int data[2], t_arg_lst **lst,
 //________________________MAIN_________________________//
 char		*pick_title(void);
 void		print_input_lst(t_input	*input);
+char		*get_input(void);
 
 //_______________________SIGNAL________________________//
 void		ctrl_c(int num);
-void		ctrl_d(void);
+void		ctrl_d(t_env **envp);
 void		set_signals(void);
 
 //______________________EXECUTE________________________//

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/10 20:54:37 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 16:42:00 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ void	ctrl_c(int num)
 	}
 }
 
-void	ctrl_d(void)
+void	ctrl_d(t_env **envp)
 {
+	free_env(envp);
+	rl_clear_history();
 	printf("exit\n");
-	//system(("leaks minishell"));
+	// system(("leaks minishell"));
 	exit(130);
 }
 

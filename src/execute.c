@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 18:10:02 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/12 18:07:33 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	pid_t	proc;
 
 	proc = 0;
-	if (cmd->type == CMD_TK || cmd->type == BUILT_TK)
+	if (in_int_array(cmd->type, (int []){CMD_TK, BUILT_TK, ERROR_TK}, 3))
 	{
 		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
 			&& pipe(inf->pipe) < 0)
@@ -101,13 +101,13 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			proc = fork();
 			if (!proc)
 			{
-				if (pipe_fd[n_cmd][0] != -1)
+				if (pipe_fd[n_cmd][0] != -1 && cmd->type != ERROR_TK)
 					cmd_fork(cmd, inf, n_cmd, pipe_fd);
 				else
 					{
 						close(inf->pipe[0]);
 						close(inf->pipe[1]);
-						exit(1);
+						exit(EXIT_FAILURE);
 					}
 			}
 	}
@@ -123,28 +123,27 @@ void	wait_proc(t_cmd_info *info)
 	i = 0;
 	while (i < info->size)
 	{
-		waitpid(info->proc[i], 0, 0);
+		if (i == info->size -1 && ret_val == 127)
+			waitpid(info->proc[i], 0, 0);
+		else
+			waitpid(info->proc[i], &ret_val, 0);
 		i++;
 	}
+	if (ret_val != 127)
+		ret_val = !(!ret_val);
 }
 
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 {
-	if (in_int_array(cmd->type, (int []){CMD_TK, BUILT_TK, ENV_TK}, 3))
+	inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
+	mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
+	if (check_next_pipe(pipe_fd, n_cmd, inf))
 	{
-		inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
-		mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
-		if (check_next_pipe(pipe_fd, n_cmd, inf))
-		{
-			close(inf->pipe[1]);
-			pipe_fd[n_cmd + 1][0] = inf->pipe[0];
-		}
+		close(inf->pipe[1]);
+		pipe_fd[n_cmd + 1][0] = inf->pipe[0];
 	}
-	else
-	{
-		ft_printf("%s : ", cmd->token);
-		send_error(-11); // 127
-	}
+	if (cmd->type == ERROR_TK)
+		ret_val = 127;
 	return (1);
 }
 
@@ -167,5 +166,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	}
 	close_pipes(pipe_fd, inf.size);
 	wait_proc(&inf);
+	printf("ret_val = %d\n", ret_val);
 	return (0);
 }

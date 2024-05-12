@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 15:40:26 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/12 17:49:31 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include <sys/ioctl.h>
 # include <dirent.h>
 # include <sys/stat.h>
-# include <errno.h>
+//# include <errno.h>
+
+static int ret_val;
 
 #endif

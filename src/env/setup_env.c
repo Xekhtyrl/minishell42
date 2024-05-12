@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 20:28:20 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 17:15:07 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	update_shell_lvl(t_env	*envp)
 		if (!ft_strncmp((envp)->var, "SHLVL", 5))
 		{
 			n = ft_atoi((envp)->content);
+			free(envp->content);
 			if (n == 999)
 				(envp)->content = ft_strdup("");
 			else if (n > 999)
@@ -44,7 +45,9 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 	if (!new)
 		return (send_error(MALLOC_ERR), NULL);
 	new->var = var;
-	new->content = content;
+	new->content = 0;
+	if (content)
+		new->content = ft_strdup(content);
 	new->flag = flag;
 	new->next = NULL;
 	new->prev = prev;

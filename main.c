@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 14:27:03 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 17:41:38 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,33 @@ int	prep_exec(t_input *input, t_env *m_env)
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
+	// print_input_lst(input);
+	free_input(&input);
 	return (1);
+}
+
+char *get_input(void)
+{
+	char *str;
+	char *title;
+
+	title = pick_title();
+	str = readline(title);
+	while (str && (ft_strlen(str) < 1 || only_space(str)))
+		str = readline(title);
+	free(title);
+	return (str);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	static char		*str = NULL;
-	t_input			*input;
-	t_env			*m_env;
+	char	*str;
+	t_input	*input;
+	t_env	*m_env;
 
 	(void)argc;
 	(void)argv;
+	ret_val = 0;
 	m_env = env_lst(envp);
 	if (!m_env)
 		return (ft_putendl_fd("Error: env not loaded", 2), 1);
@@ -94,30 +110,14 @@ int	main(int argc, char **argv, char **envp)
 	set_signals();
 	while (1)
 	{
-		str = readline(pick_title());
-		while (str && (ft_strlen(str) < 1 || only_space(str)))
-			str = readline(pick_title());
+		str = get_input();
 		if (!str)
-			ctrl_d();
+			ctrl_d(&m_env);
 		add_history(str);
 		if (!parse(&input, str, m_env))
 			send_error(MALLOC_ERR);
 		else
-		{
 			prep_exec(input, m_env);
-			// free_input(&input);
-		}
 	}
-	clear_history();
-	return (0);
+	return (ret_val);
 }
-		// pipe = fill_fd(input, ft_lstsize((t_list *)input));
-		// if (!pipe)
-		// 	send_error(-1);
-		// if (detect_all_heredocs(input))
-		// 	heredoc(input);
-		// empty_args(input);
-		// if (!trad_input(input, &m_env))
-		// 	send_error(-1);
-		// execute_command(&m_env, input, pipe);
-		// print_input_lst(input);
