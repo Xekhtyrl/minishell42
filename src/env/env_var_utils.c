@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 20:39:33 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 19:03:21 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,26 @@ char	*replace_str_env_var(char *str, t_env *envp)
 	char	*new;
 	char	*tmp;
 
-	start = ft_strleng(str, '$');
-	if (start == (int)ft_strlen(str))
-		return (str);
-	i = start + 1;
-	new = ft_substr(str, 0, start);
-	if (!new)
-		return (send_error(MALLOC_ERR), NULL);
-	while (str[i] && ft_isalnum(str[i]))
-		i++;
-	tmp = ft_substr(str, start + 1, i - start);
-	new = ft_stradd(new, get_env_var(envp, tmp));
-	tmp = ft_substr(str, i, ft_strlen(str + i));
-	new = ft_stradd(new, tmp);
-	free(tmp);
-	return (new);
+	i = 0;
+	start = 0;
+	new = ft_strdup("");
+	while (str[i])
+	{
+		while (str[i] && str[i] != '$')
+			i++;
+		tmp = ft_substr(str, start, (i) - start);
+		if (str[i] == '$')
+		{
+			start = ++i;
+			while (str[i] && (ft_isalnum(str[i]) || str[i] == '_') && str[i] != '$')
+				i++;
+			tmp = ft_stradd(tmp, get_env_var(envp, ft_substr(str, start, i - start)));
+			start = i;
+		}
+		new = ft_stradd(new, tmp);
+		free(tmp);
+	}
+	return (free(str), new);
 }
 
 char	*get_env_var(t_env *envp, char *var)
@@ -86,6 +91,7 @@ char	*get_env_var(t_env *envp, char *var)
 			envp = envp->next;
 		}
 	}
+	free (var);
 	if (!envp)
 		return (0);
 	return (envp->content);

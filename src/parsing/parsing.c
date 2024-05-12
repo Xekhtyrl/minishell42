@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 15:28:06 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 19:16:23 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ static int	get_input_struct(t_input **start, char *str, t_env *envp)
 		ft_lstadd_back((t_list **)start, (t_list *)cmd);
 		if (cmd)
 			cmd = cmd->next;
-		printf("%i >>>> %s\n", i, (*start)->token);
 		while (str[i] && is_white_space(str[i]))
 			i++;
 	}

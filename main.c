@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 15:45:38 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 19:15:22 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	prep_exec(t_input *input, t_env *m_env)
 {
 	int				**pipe;
 
+	// print_input_lst(input);
 	if (!fill_fd(input, ft_lstsize((t_list *)input), &pipe))
 		send_error(-1);
 	if (detect_all_heredocs(input))
