@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:47:24 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/12 14:21:50 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 14:28:58 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,41 +92,4 @@ int	in_int_array(int t, int *l, int size)
 		if (t == l[i])
 			return (1);
 	return (0);
-}
-
-int	ft_export_no_arg(char **env, t_input *cmd)
-{
-	if ((!ft_strncmp(env[2], cmd->token, ft_strlen(env[2])) && !cmd->arg)
-		|| (!ft_strncmp(env[3], cmd->token, ft_strlen(env[3])) && !cmd->arg))
-		return (1);
-	return (0);
-}
-
-int	trad_input(t_input *cmd, t_env **envp)
-{
-	char	*path;
-	char	**built;
-	char	**env;
-	t_input	*tmp;
-
-	built = (char *[]){"pwd", "env", "echo", "exit", 0};
-	env = (char *[]){"cd", "unset", "export", "exporto_patronum", 0};
-	tmp = cmd;
-	while (tmp && tmp->token)
-	{
-		if (in_str_array(tmp->token, built) || ft_export_no_arg(env, tmp))
-			tmp->type = BUILT_TK;
-		else if (in_str_array(tmp->token, env))
-			tmp->type = ENV_TK;
-		else
-		{
-			path = get_cmd_path(*envp, tmp);
-			if (path || !access(tmp->token, X_OK))
-				tmp->type = CMD_TK;
-			if (path)
-				free(path);
-		}
-		tmp = tmp->next;
-	}
-	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   traduction.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:07:29 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 18:08:24 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/12 14:30:14 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,26 @@ int check_path(t_input *cmd, t_env **envp)
 	return (1);
 }
 
+static int	ft_export_no_arg(char **env, t_input *cmd)
+{
+	if ((!ft_strncmp(env[2], cmd->token, ft_strlen(env[2])) && !cmd->arg)
+		|| (!ft_strncmp(env[3], cmd->token, ft_strlen(env[3])) && !cmd->arg))
+		return (1);
+	return (0);
+}
+
 int	trad_input(t_input *cmd, t_env **envp)
 {
 	t_input	*tmp;
 	char	**built;
 	char	**env;
 
-	env = (char *[]){"cd", "unset", "export", 0};
-	built = (char *[]){"pwd", "env", "echo", "exit", "exporto_patronum", 0};
+	built = (char *[]){"pwd", "env", "echo", "exit", 0};
+	env = (char *[]){"cd", "unset", "export", "exporto_patronum", 0};
 	tmp = cmd;
 	while (tmp && tmp->token)
 	{
-		if (in_str_array(tmp->token, built) && !tmp->arg)
+		if (in_str_array(tmp->token, built) || ft_export_no_arg(env, tmp))
 			tmp->type = BUILT_TK;
 		else if (in_str_array(tmp->token, env))
 			tmp->type = ENV_TK;
