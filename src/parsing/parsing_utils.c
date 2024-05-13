@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 20:02:19 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:05:13 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	is_not_sep(char c)
 
 int	closed_quotes(char *str)
 {
-	int	i;
-	char quote;
+	int		i;
+	char	quote;
 
 	i = -1;
 	while (str[++i])
