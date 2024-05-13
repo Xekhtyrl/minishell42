@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 18:58:59 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:43:13 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_input	*create_node(char *str, int type, t_env *envp)
 
 	node = malloc(sizeof(t_input));
 	if (!node)
-		return (0);
+		return (send_error(MALLOC_ERR), NULL);
 	if (str && str[0] != '\'')
 		str = replace_str_env_var(str, envp);
 	node->token = str;
@@ -34,7 +34,7 @@ t_arg_lst	*arg_node(int type, char *token, t_env *envp)
 
 	node = malloc(sizeof(t_arg_lst));
 	if (!node)
-		return (0);
+		return (send_error(MALLOC_ERR), NULL);
 	if (envp && token && token[0] != '\'')
 		token = replace_str_env_var(token, envp);
 	node->token = token;

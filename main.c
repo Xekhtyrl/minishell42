@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 20:23:00 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:41:24 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!str)
 			ctrl_d(&m_env);
 		add_history(str);
-		if (!parse(&input, str, m_env))
-			send_error(MALLOC_ERR);
-		else
+		if (parse(&input, str, m_env))
 			prep_exec(input, m_env);
 	}
 	return (g_ret_val);

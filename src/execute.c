@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 18:49:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:50:37 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,5 +164,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	}
 	close_pipes(pipe_fd, inf.size);
 	wait_proc(&inf);
+	free(inf.proc);
 	return (0);
 }
