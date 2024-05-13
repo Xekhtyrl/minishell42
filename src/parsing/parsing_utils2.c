@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:17:12 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/09 16:55:42 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:02:14 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 int	parse_error(char *str)
 {
-	if (!closed_quotes(str))
+	int	i;
+
+	i = closed_quotes(str);
+	if (!i)
 		return (ft_putstr_fd("parse error: quote left opened\n", 2), 1);
+	else if (i == -1)
+		return (ft_putstr_fd("syntax error near unexpected token `|'\n", 2), 1);
 	while (*str)
 	{
 		if ((*str == '>' && *(str + 1) == '<'))

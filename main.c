@@ -6,12 +6,13 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 18:13:51 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:47:27 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/minishell.h"
 
+// int g_ret_val;
 // REMOVE
 void	print_input_lst(t_input	*i)
 {
@@ -68,7 +69,6 @@ int	prep_exec(t_input *input, t_env *m_env)
 {
 	int				**pipe;
 
-	// print_input_lst(input);
 	if (!fill_fd(input, ft_lstsize((t_list *)input), &pipe))
 		send_error(-1);
 	if (detect_all_heredocs(input))
@@ -76,6 +76,7 @@ int	prep_exec(t_input *input, t_env *m_env)
 	empty_args(input);
 	if (!trad_input(input, &m_env))
 		send_error(-1);
+	// print_input_lst(input);
 	execute_command(&m_env, input, pipe);
 	free_input(&input);
 	return (1);
@@ -102,7 +103,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	ret_val = 0;
+	g_ret_val = 0;
 	m_env = env_lst(envp);
 	if (!m_env)
 		return (ft_putendl_fd("Error: env not loaded", 2), 1);
@@ -119,5 +120,5 @@ int	main(int argc, char **argv, char **envp)
 		else
 			prep_exec(input, m_env);
 	}
-	return (ret_val);
+	return (g_ret_val);
 }

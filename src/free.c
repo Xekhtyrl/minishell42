@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/12 17:34:48 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:31:32 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	send_error2(int flag)
 {
 	if (flag == ARG_ERR)
 	{
-		ret_val = 5;
+		g_ret_val = 5;
 		perror("bad argument");
 	}
-	return (ret_val);
+	return (g_ret_val);
 }
 
 int	send_error(int flag)
@@ -59,7 +59,7 @@ int	send_error(int flag)
 		perror("command not found");
 	else
 		return (send_error2(flag));
-	return (ret_val);
+	return (g_ret_val);
 }
 
 void	mini_cls_fd(int fd1, int fd2)

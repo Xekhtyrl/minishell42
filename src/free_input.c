@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:13:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 18:08:01 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:59:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	free_arg_lst(t_arg_lst **arg, int flag)
 	while ((*arg))
 	{
 		next = (*arg)->next;
-		if ((*arg)->type != SPACE_TK)
-			free((*arg)->token);
+		free((*arg)->token);
 		free((*arg));
 		*arg = next;
 	}
