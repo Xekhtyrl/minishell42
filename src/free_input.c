@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:13:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 16:05:18 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:08:33 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,21 @@ void	free_env(t_env **envp)
 		*envp = next;
 	}
 	*envp = NULL;
+}
+
+void	close_pipes(int **pipe, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size && pipe[i])
+	{
+		if (pipe[i][0] > 0)
+			close(pipe[i][0]);
+		if (pipe[i][1] > 1)
+			close(pipe[i][1]);
+		free(pipe[i]);
+		i++;
+	}
+	free(pipe);
 }

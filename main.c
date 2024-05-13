@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 19:16:41 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:48:40 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	prep_exec(t_input *input, t_env *m_env)
 	int				**pipe;
 
 	if (!fill_fd(input, ft_lstsize((t_list *)input), &pipe))
-		send_error(-1);
+		send_error(MALLOC_ERR);
 	if (detect_all_heredocs(input))
 		heredoc(input);
 	empty_args(input);

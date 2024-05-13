@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:50:34 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/12 14:58:06 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:25:07 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**get_our_path(t_env *envp)
 		{
 			path = ft_split(tmp->content, ':');
 			if (!path)
-				return (send_error(-1), NULL);
+				return (send_error(MALLOC_ERR), NULL);
 			return (path);
 			strarray_free(path);
 		}
@@ -42,7 +42,9 @@ char	*get_cmd_path(t_env *envp, t_input *input)
 
 	i = -1;
 	path = get_our_path(envp);
-	if (!path)
+	if (!path && access(input->token, F_OK | X_OK) == 0)
+		return (ft_strdup(input->token));
+	else if (!path)
 		return (send_error(-1), NULL);
 	cmd = ft_strjoin("/", input->token);
 	while (path && path[++i])

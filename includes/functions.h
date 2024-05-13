@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/12 16:41:27 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:10:23 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ void		mini_cls_fd(int fd1, int fd2);
 //_______________________GET_FD________________________//
 int			*get_fd_infiles(t_input *input, int size);
 int			*get_fd_outfiles(t_input *input, int size);
-int			open_infile(t_arg_lst *tmp);
-int			open_outfile(t_arg_lst *tmp);
+int			open_infile(t_arg_lst *tmp, int fd);
+int			open_outfile(t_arg_lst *tmp, int fd);
+int			check_good_pipe(int **pi, int i);
 
 //________________________FREE_________________________//
 void		strarray_free(char **built);

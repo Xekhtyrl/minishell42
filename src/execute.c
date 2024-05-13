@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 19:20:37 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:58:00 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		{
 			close_pipes(pipe_fd, inf->size);
 			multi_array_free(envp, path);
+			exit(EXIT_FAILURE);
 		}
 		exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)),
 			envp, path, pipe_fd[n_cmd]);
@@ -101,11 +102,10 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			proc = fork();
 			if (!proc)
 			{
-				if (pipe_fd[n_cmd][0] != -1 && cmd->type != ERROR_TK)
+				if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
 					cmd_fork(cmd, inf, n_cmd, pipe_fd);
 				else
 					{
-						send_error(CMD_ERR);
 						close(inf->pipe[0]);
 						close(inf->pipe[1]);
 						exit(EXIT_FAILURE);
@@ -124,13 +124,16 @@ void	wait_proc(t_cmd_info *info)
 	i = 0;
 	while (i < info->size)
 	{
-		if (i == info->size -1 && g_ret_val == 127)
+		if (i == info->size -1 && in_int_array(g_ret_val, (int []){126, 127}, 2))
 			waitpid(info->proc[i], 0, 0);
 		else
 			waitpid(info->proc[i], &g_ret_val, 0);
 		i++;
 	}
-	if (g_ret_val != 127)
+	printf("ret %d\n", g_ret_val);
+	if (g_ret_val == 2)
+		g_ret_val = 130;
+	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
 		g_ret_val = !(!g_ret_val);
 }
 
@@ -144,7 +147,12 @@ int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 		pipe_fd[n_cmd + 1][0] = inf->pipe[0];
 	}
 	if (cmd->type == ERROR_TK)
-		g_ret_val = 127;
+	{
+		if (!access(cmd->token, F_OK))
+			g_ret_val = 126;
+		else
+			g_ret_val = 127;
+	}
 	return (1);
 }
 
@@ -159,15 +167,19 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	g_ret_val = 0;
 	inf.size = ft_lstsize((t_list *)cmd);
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
+	if (!inf.proc)
+		return (send_error(MALLOC_ERR), 0);
 	inf.env = envp;
 	while (tmp)
 	{
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);
+		if (cmd->type == ERROR_TK)
+			send_error(CMD_ERR);
 		tmp = tmp->next;
 		n_cmd++;
 	}
 	close_pipes(pipe_fd, inf.size);
 	wait_proc(&inf);
 	printf("g_ret_val = %d\n", g_ret_val);
-	return (0);
+	return (free(inf.proc), 0);
 }

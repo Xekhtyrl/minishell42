@@ -3,39 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 18:12:50 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:12:50 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	close_pipes(int **pipe, int size)
+int check_good_pipe(int **pi, int i)
 {
-	int	i;
-
-	i = 0;
-	while (i < size && pipe[i])
-	{
-		if (pipe[i][0] > 0)
-			close(pipe[i][0]);
-		if (pipe[i][1] > 1)
-			close(pipe[i][1]);
-		free(pipe[i]);
-		i++;
-	}
-	free(pipe);
+	return (pi[i][0] != -1 && pi[i][1] != -1);
 }
 
-int	open_outfile(t_arg_lst *tmp)
+int	open_outfile(t_arg_lst *tmp, int fd)
 {
-	int	fd;
 	int	type;
 
-	fd = 1;
-	while (tmp && tmp->next && fd != -1)
+	if (tmp && tmp->next && fd != -1)
 	{
 		if (tmp->type == WRITE_TK || tmp->type == APPEN_TK)
 		{
@@ -51,17 +37,13 @@ int	open_outfile(t_arg_lst *tmp)
 				fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_APPEND,
 						S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		}
-		tmp = tmp->next;
 	}
 	return (fd);
 }
 
-int	open_infile(t_arg_lst *tmp)
+int	open_infile(t_arg_lst *tmp, int fd)
 {
-	int	fd;
-
-	fd = 0;
-	while (tmp && tmp->next && fd != -1)
+	if (tmp && tmp->next && fd != -1)
 	{
 		if (tmp->type == READ_TK)
 		{
@@ -77,14 +59,37 @@ int	open_infile(t_arg_lst *tmp)
 			close(fd);
 			fd = 0;
 		}
-		tmp = tmp->next;
 	}
 	return (fd);
 }
 
+void	choose_in_out(t_arg_lst **tmp, int ***pipe_fd, int i)
+{
+	if (in_int_array((*tmp)->type,
+		(int []){READ_TK, WRITE_TK, APPEN_TK, HEREDOC_TK}, 4)
+		&& (*pipe_fd)[i][1] != -1 && (*pipe_fd)[i][0] != -1)
+	{
+		if ((*tmp)->type == WRITE_TK || (*tmp)->type == APPEN_TK)
+		{
+			(*pipe_fd)[i][1] = open_outfile((*tmp), (*pipe_fd)[i][1]);
+			if ((*pipe_fd)[i][1] == -1)
+				send_error(-1);
+		}
+		if ((*tmp)->type == READ_TK || (*tmp)->type == HEREDOC_TK)
+		{
+			(*pipe_fd)[i][0] = open_infile((*tmp), (*pipe_fd)[i][0]);
+			if ((*pipe_fd)[i][0] == -1)
+				send_error(-1);
+		}
+	}
+	if ((*tmp))
+		(*tmp) = (*tmp)->next;
+}
+
 int	fill_fd(t_input *input, int size, int ***pipe_fd)
 {
-	int	i;
+	int			i;
+	t_arg_lst	*tmp;
 
 	i = 0;
 	*pipe_fd = malloc(sizeof(int *) * size);
@@ -93,14 +98,13 @@ int	fill_fd(t_input *input, int size, int ***pipe_fd)
 	while (i < size)
 	{
 		(*pipe_fd)[i] = malloc(sizeof(int) * 2);
+		(*pipe_fd)[i][0] = 0;
+		(*pipe_fd)[i][1] = 1;
 		if (!(*pipe_fd)[i])
 			return (0);
-		(*pipe_fd)[i][1] = open_outfile(input->arg);
-		if ((*pipe_fd)[i][1] == -1)
-			send_error(-1);
-		(*pipe_fd)[i][0] = open_infile(input->arg);
-		if ((*pipe_fd)[i][0] == -1)
-			send_error(-1);
+		tmp = input->arg;
+		while (tmp)
+			choose_in_out(&tmp, pipe_fd, i);
 		i++;
 		input = input->next;
 	}

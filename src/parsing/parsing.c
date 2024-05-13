@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 18:07:04 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:30:33 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	parse(t_input **input, char *str, t_env *envp)
 	if (!str)
 		return (ft_putstr_fd("NO STR\n", 2), 0);
 	if (parse_error(str))
-		return (free(str), 0);
+		return (free(str), g_ret_val = 258, 0);
 	if (get_input_struct(input, str, envp) == -1)
 		return (free_input(input), free(str), 0);
 	return (free(str), 1);
