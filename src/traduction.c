@@ -6,15 +6,15 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:07:29 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 21:46:19 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:05:25 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int check_path(t_input *cmd, t_env **envp)
+int	check_path(t_input *cmd, t_env **envp)
 {
-	char *path;
+	char	*path;
 
 	path = 0;
 	path = get_cmd_path(*envp, cmd);

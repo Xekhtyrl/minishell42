@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 21:41:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/07 18:32:20 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/12 19:09:49 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	*replace_home_path(t_arg_lst *arg, t_env *envp)
 {
 	if (!arg)
-		return (get_env_var(envp, "HOME"));
-	return (ft_strjoin(get_env_var(envp, "HOME"), arg->token + 1));
+		return (get_env_var(envp, ft_strdup("HOME")));
+	return (ft_strjoin(get_env_var(envp, ft_strdup("HOME")), arg->token + 1));
 }
 
 void	ft_cd(t_env *envp, t_arg_lst *arg)

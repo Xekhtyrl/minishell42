@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 19:07:57 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:09:52 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ char	*replace_str_env_var(char *s, t_env *envp)
 
 char	*get_env_var(t_env *envp, char *var)
 {
-	if (var && var[0] == '?' && !var[1])
-		return (free(var), ft_itoa(g_ret_val));
+	if (var && var[0] == '?')
+		return (NULL);// var globale
 	else
 	{
 		while (envp)
@@ -110,7 +110,6 @@ char	*get_env_var(t_env *envp, char *var)
 			envp = envp->next;
 		}
 	}
-	free (var);
 	if (!envp)
 		return (0);
 	return (envp->content);

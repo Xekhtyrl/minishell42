@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 21:58:00 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:03:12 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 					{
 						close(inf->pipe[0]);
 						close(inf->pipe[1]);
-						exit(EXIT_FAILURE);
+						exit(EXIT_FAILURE), proc;
 					}
 			}
 	}
@@ -136,7 +136,6 @@ void	wait_proc(t_cmd_info *info)
 	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
 		g_ret_val = !(!g_ret_val);
 }
-
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 {
 	inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
@@ -164,7 +163,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 
 	tmp = cmd;
 	n_cmd = 0;
-	g_ret_val = 0;
 	inf.size = ft_lstsize((t_list *)cmd);
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
 	if (!inf.proc)
@@ -180,6 +178,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	}
 	close_pipes(pipe_fd, inf.size);
 	wait_proc(&inf);
-	printf("g_ret_val = %d\n", g_ret_val);
+	printf("ret_val = %d\n", ret_val);
 	return (free(inf.proc), 0);
 }

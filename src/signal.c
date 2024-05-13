@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 21:35:08 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:04:52 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	ctrl_d(t_env **envp)
 	free_env(envp);
 	rl_clear_history();
 	printf("exit\n");
-	// system(("leaks minishell"));
+	//system(("leaks minishell"));
+	free_env(envp);
 	exit(130);
 }
 

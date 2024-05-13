@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 20:30:33 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:05:17 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 
 	token = 0;
 	lst = NULL;
-	while (i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
+	while ( i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
 	{
 		if (token == 2)
 			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, envp);
@@ -53,7 +53,7 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);
 		while (i >= 0 && str[i] && is_white_space(str[i]))
 			i++;
-		if (i > 0 && str[i - 1] == ' ' && token >= 2)
+		if (i > 0 && str[i - 1] == ' ' && token >= 3)
 			i = create_and_add_node(str, (int []){i, 1}, &lst, envp);
 		if ((str[i] == '<' || str[i] == '>') && !*cmd && token != 2)
 			token = 0;

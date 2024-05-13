@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 19:07:35 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:08:33 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 	if (!new)
 		return (send_error(MALLOC_ERR), NULL);
 	new->var = var;
+	new->content = 0;
 	if (content)
 		new->content = ft_strdup(content);
 	else
@@ -79,16 +80,16 @@ void	set_home_var(t_env **envp)
 		if (flag == 3)
 			break ;
 	}
-	ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("HOME",
+	ft_lstadd_back((t_list **)envp, (t_list *)create_env_node(ft_strdup("HOME"),
 			ft_substr(str, 0, i), 3, (t_env *)ft_lstlast((t_list *)*envp)));
 }
 
-void	check_absent_envar(t_env **envp)
+void	check_absent_envar(t_env **env)
 {
 	t_env	*start;
 	int		flag;
 
-	start = *envp;
+	start = *env;
 	flag = 0;
 	while (start && start->next)
 	{
@@ -101,15 +102,15 @@ void	check_absent_envar(t_env **envp)
 		start = start->next;
 	}
 	if (!(flag % 2) || !flag)
-		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("PWD",
-				getcwd(NULL, 0), 3, (t_env *)ft_lstlast((t_list *)*envp)));
+		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
+				("PWD"), getcwd(0, 0), 3, (t_env *)ft_lstlast((t_list *)*env)));
 	if (!(flag == 2 || flag == 3 || flag == 6 || flag == 7))
-		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("OLDPWD",
-				NULL, 0, (t_env *)ft_lstlast((t_list *)*envp)));
+		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
+				("OLDPWD"), NULL, 0, (t_env *)ft_lstlast((t_list *)*env)));
 	if (flag < 4)
-		ft_lstadd_back((t_list **)envp, (t_list *)create_env_node("SHLVL", "0",
-				0, (t_env *)ft_lstlast((t_list *)*envp)));
-	set_home_var(envp);
+		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
+				("SHLVL"), "0", 0, (t_env *)ft_lstlast((t_list *)*env)));
+	set_home_var(env);
 }
 
 t_env	*env_lst(char **envp)
@@ -130,7 +131,7 @@ t_env	*env_lst(char **envp)
 			var = ft_substr(*envp, 0, ft_strleng(*envp, '='));
 			new = create_env_node(var, ft_strchr(*envp, '=') + 1, 0, prev);
 			if (!new)
-				return (free_env(&start), NULL);
+				return(free_env(&start), NULL);
 			ft_lstadd_back((t_list **)&start, (t_list *)new);
 			prev = new;
 			if (ft_strlen(var) > (size_t)len)

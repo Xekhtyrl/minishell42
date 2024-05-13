@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:16:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/08 17:47:56 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:57:54 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	*trim_quote(char *str)
 		new = ft_strtrim(str, "\"");
 	else
 		new = ft_strdup(str);
+	free(str);
 	return (new);
 }
 

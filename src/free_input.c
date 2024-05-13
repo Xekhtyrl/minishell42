@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:13:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 20:08:33 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:06:16 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 int	free_arg_lst(t_arg_lst **arg, int flag)
 {
 	t_arg_lst	*next;
-	
+
 	if (flag != -1)
 		return (flag);
 	while ((*arg))
 	{
 		next = (*arg)->next;
-		if ((*arg)->type != SPACE_TK)
-			free((*arg)->token);
+		free((*arg)->token);
 		free((*arg));
 		*arg = next;
 	}
@@ -57,7 +56,7 @@ void	free_env(t_env **envp)
 		next = (*envp)->next;
 		if ((*envp)->var)
 			free((*envp)->var);
-		if ((*envp)->content)
+		if ((*envp)->var)
 			free((*envp)->content);
 		free((*envp));
 		*envp = next;

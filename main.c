@@ -6,12 +6,13 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 20:48:40 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:04:37 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/minishell.h"
 
+// int g_ret_val;
 // REMOVE
 void	print_input_lst(t_input	*i)
 {
@@ -76,7 +77,7 @@ int	prep_exec(t_input *input, t_env *m_env)
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
-	print_input_lst(input);
+	// print_input_lst(input);
 	free_input(&input);
 	return (1);
 }
@@ -114,9 +115,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!str)
 			ctrl_d(&m_env);
 		add_history(str);
-		if (!parse(&input, str, m_env))
-			send_error(MALLOC_ERR);
-		else
+		if (parse(&input, str, m_env))
 			prep_exec(input, m_env);
 	}
 	return (g_ret_val);
