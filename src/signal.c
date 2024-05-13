@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/12 15:43:29 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 16:39:08 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	ctrl_c(int num)
 
 void	ctrl_d(t_env **envp)
 {
+	free_env(envp);
+	rl_clear_history();
 	printf("exit\n");
 	//system(("leaks minishell"));
 	free_env(envp);

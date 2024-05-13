@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/12 15:43:47 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 16:40:18 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int			create_and_add_node(char *str, int data[2], t_arg_lst **lst,
 //________________________MAIN_________________________//
 char		*pick_title(void);
 void		print_input_lst(t_input	*input);
+char		*get_input(void);
 
 //_______________________SIGNAL________________________//
 void		ctrl_c(int num);

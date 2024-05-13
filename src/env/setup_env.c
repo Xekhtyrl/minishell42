@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 17:14:39 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 16:40:09 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	update_shell_lvl(t_env	*envp)
 		if (!ft_strncmp((envp)->var, "SHLVL", 5))
 		{
 			n = ft_atoi((envp)->content);
+			free(envp->content);
 			if (n == 999)
 				(envp)->content = ft_strdup("");
 			else if (n > 999)
