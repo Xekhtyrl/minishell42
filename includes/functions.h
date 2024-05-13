@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 16:40:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:59:43 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void		multi_array_free(char **str1, char *str2);
 int			free_arg_lst(t_arg_lst **arg, int flag);
 int			free_input(t_input **input);
 void		free_env(t_env **envp);
+void		free_tab(char **tabl);
 
 //_______________________UTILS________________________//
 void		push(t_env **lst1, t_env **lst2);

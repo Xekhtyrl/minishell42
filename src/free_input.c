@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:13:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 18:59:38 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:59:22 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,14 @@ void	free_env(t_env **envp)
 		*envp = next;
 	}
 	*envp = NULL;
+}
+
+void	free_tab(char **tabl)
+{
+	int	i;
+
+	i = -1;
+	while (tabl[++i])
+		free(tabl[i]);
+	free(tabl);
 }

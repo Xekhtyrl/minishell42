@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 20:34:53 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:36:21 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,24 @@ void	set_home_var(t_env **envp)
 	}
 	ft_lstadd_back((t_list **)envp, (t_list *)create_env_node(ft_strdup("HOME"),
 			ft_substr(str, 0, i), 3, (t_env *)ft_lstlast((t_list *)*envp)));
+	free(str);
+}
+
+void	check_absent_envar2(t_env **env, int flag)
+{
+	char	*pwd;
+
+	pwd = getcwd(0, 0);
+	if (!(flag % 2) || !flag)
+		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
+				("PWD"), pwd, 3, (t_env *)ft_lstlast((t_list *)*env)));
+	if (!(flag == 2 || flag == 3 || flag == 6 || flag == 7))
+		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
+				("OLDPWD"), NULL, 0, (t_env *)ft_lstlast((t_list *)*env)));
+	if (flag < 4)
+		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
+				("SHLVL"), "0", 0, (t_env *)ft_lstlast((t_list *)*env)));
+	free(pwd);
 }
 
 void	check_absent_envar(t_env **env)
@@ -100,15 +118,7 @@ void	check_absent_envar(t_env **env)
 			flag += 4;
 		start = start->next;
 	}
-	if (!(flag % 2) || !flag)
-		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
-				("PWD"), getcwd(0, 0), 3, (t_env *)ft_lstlast((t_list *)*env)));
-	if (!(flag == 2 || flag == 3 || flag == 6 || flag == 7))
-		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
-				("OLDPWD"), NULL, 0, (t_env *)ft_lstlast((t_list *)*env)));
-	if (flag < 4)
-		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
-				("SHLVL"), "0", 0, (t_env *)ft_lstlast((t_list *)*env)));
+	check_absent_envar2(env, flag);
 	set_home_var(env);
 }
 
