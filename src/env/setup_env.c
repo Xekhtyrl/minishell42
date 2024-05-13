@@ -6,36 +6,11 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:36:21 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 23:21:35 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	update_shell_lvl(t_env	*envp)
-{
-	int	n;
-
-	n = 0;
-	while (envp)
-	{
-		if (!ft_strncmp((envp)->var, "SHLVL", 5))
-		{
-			n = ft_atoi((envp)->content);
-			free(envp->content);
-			if (n == 999)
-				(envp)->content = ft_strdup("");
-			else if (n > 999)
-				(envp)->content = ft_strdup("1");
-			else if (n < 0)
-				(envp)->content = ft_strdup("0");
-			else
-				(envp)->content = ft_itoa(n + 1);
-			break ;
-		}
-		envp = envp->next;
-	}
-}
 
 t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 {
