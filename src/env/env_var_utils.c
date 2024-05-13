@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 16:36:54 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:06:10 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ void	create_new_envar(char *var, char *content, int append, t_env *envp)
 			1 + !(content), prev));
 }
 
-int	replace_str_env_var2(int *i, char **tmp, char *s, t_env *envp)
+static int	replace_str_env_var2(int *i, char **tmp, char *s, t_env *envp)
 {
-	int	start;
+	int		start;
+	char	*env_var;
 
 	start = ++(*i);
 	if (s[*i] == '?')
@@ -59,10 +60,14 @@ int	replace_str_env_var2(int *i, char **tmp, char *s, t_env *envp)
 	else
 		while (s[*i] && (ft_isalnum(s[*i]) || s[*i] == '_') && s[*i] != '$')
 			(*i)++;
-	*tmp = ft_stradd(*tmp, get_env_var(envp, ft_substr(s, start, *i - start)));
+	env_var = get_env_var(envp, ft_substr(s, start, *i - start));
+	*tmp = ft_stradd(*tmp, env_var);
 	start = *i;
+	if (s[*i - 1] == '?')
+		free(env_var);
 	return (start);
 }
+
 char	*replace_str_env_var(char *s, t_env *envp)
 {
 	int		start;
@@ -95,7 +100,7 @@ char	*replace_str_env_var(char *s, t_env *envp)
 char	*get_env_var(t_env *envp, char *var)
 {
 	if (var && var[0] == '?' && !var[1])
-		return ("coucou");// var globale
+		return (free(var), ft_itoa(ret_val));// var globale
 	else
 	{
 		while (envp)

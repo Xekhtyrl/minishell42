@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 19:12:04 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:06:42 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_white_space(char c)
 int	is_not_sep(char c)
 {
 	return (!(is_white_space(c) || c == 39 || c == 45 || c == 60 || c == 62
-		|| c == 124));
+			|| c == 124));
 }
 
 int	closed_quotes(char *str)

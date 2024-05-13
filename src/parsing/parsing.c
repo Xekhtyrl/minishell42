@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 16:38:27 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:07:04 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 
 	token = 0;
 	lst = NULL;
-	while ( i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
+	while (i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
 	{
 		if (token == 2)
 			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, envp);
