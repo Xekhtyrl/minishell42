@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 18:09:29 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:12:05 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,8 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 				if (pipe_fd[n_cmd][0] != -1 && cmd->type != ERROR_TK)
 					cmd_fork(cmd, inf, n_cmd, pipe_fd);
 				else
-				{
-					close(inf->pipe[0]);
-					close(inf->pipe[1]);
-					exit(EXIT_FAILURE);
-				}
+					return (close(inf->pipe[0]), close(inf->pipe[1]),
+						exit(EXIT_FAILURE), (pid_t){0});
 			}
 		}
 	}

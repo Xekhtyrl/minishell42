@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 16:39:23 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:13:51 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ int	prep_exec(t_input *input, t_env *m_env)
 	return (1);
 }
 
-char *get_input(void)
+char	*get_input(void)
 {
-	char *str;
-	char *title;
+	char	*str;
+	char	*title;
 
 	title = pick_title();
 	str = readline(title);

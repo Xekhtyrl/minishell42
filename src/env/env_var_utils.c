@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 18:06:10 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 18:13:15 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*replace_str_env_var(char *s, t_env *envp)
 char	*get_env_var(t_env *envp, char *var)
 {
 	if (var && var[0] == '?' && !var[1])
-		return (free(var), ft_itoa(ret_val));// var globale
+		return (free(var), ft_itoa(g_ret_val));
 	else
 	{
 		while (envp)
