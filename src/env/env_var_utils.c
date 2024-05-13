@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 19:03:21 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 15:32:25 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,21 @@ void	create_new_envar(char *var, char *content, int append, t_env *envp)
 			1 + !(content), prev));
 }
 
-char	*replace_str_env_var(char *str, t_env *envp)
+int	replace_str_env_var2(int *i, char **tmp, char *s, t_env *envp)
+{
+	int	start;
+
+	start = ++(*i);
+	if (s[*i] == '?')
+		(*i)++;
+	else
+		while (s[*i] && (ft_isalnum(s[*i]) || s[*i] == '_') && s[*i] != '$')
+			(*i)++;
+	*tmp = ft_stradd(*tmp, get_env_var(envp, ft_substr(s, start, *i - start)));
+	start = *i;
+	return (start);
+}
+char	*replace_str_env_var(char *s, t_env *envp)
 {
 	int		start;
 	int		i;
@@ -57,31 +71,31 @@ char	*replace_str_env_var(char *str, t_env *envp)
 	char	*tmp;
 
 	i = 0;
-	start = 0;
-	new = ft_strdup("");
-	while (str[i])
+	if (s[0] == '~' && (!s[1] || s[1] == '/'))
 	{
-		while (str[i] && str[i] != '$')
+		new = ft_strdup(get_env_var(envp, ft_strdup("HOME")));
+		i++;
+	}
+	else
+		new = ft_strdup("");
+	start = i;
+	while (s[i])
+	{
+		while (s[i] && s[i] != '$')
 			i++;
-		tmp = ft_substr(str, start, (i) - start);
-		if (str[i] == '$')
-		{
-			start = ++i;
-			while (str[i] && (ft_isalnum(str[i]) || str[i] == '_') && str[i] != '$')
-				i++;
-			tmp = ft_stradd(tmp, get_env_var(envp, ft_substr(str, start, i - start)));
-			start = i;
-		}
+		tmp = ft_substr(s, start, (i) - start);
+		if (s[i] == '$')
+			start = replace_str_env_var2(&i, &tmp, s, envp);
 		new = ft_stradd(new, tmp);
 		free(tmp);
 	}
-	return (free(str), new);
+	return (free(s), new);
 }
 
 char	*get_env_var(t_env *envp, char *var)
 {
-	if (var && var[0] == '?')
-		return (NULL);// var globale
+	if (var && var[0] == '?' && !var[1])
+		return (ft_strdup("coucou"));// var globale
 	else
 	{
 		while (envp)
