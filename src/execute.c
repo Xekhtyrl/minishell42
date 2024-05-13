@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:03:12 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:15:24 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 					{
 						close(inf->pipe[0]);
 						close(inf->pipe[1]);
-						exit(EXIT_FAILURE), proc;
+						exit(EXIT_FAILURE);
 					}
 			}
 	}
@@ -178,6 +178,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	}
 	close_pipes(pipe_fd, inf.size);
 	wait_proc(&inf);
-	printf("ret_val = %d\n", ret_val);
+	printf("ret_val = %d\n", g_ret_val);
 	return (free(inf.proc), 0);
 }

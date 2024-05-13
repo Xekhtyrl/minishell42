@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:04:37 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:21:00 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ char	*get_input(void)
 	title = pick_title();
 	str = readline(title);
 	while (str && (ft_strlen(str) < 1 || only_space(str)))
+	{
+		free(str);
 		str = readline(title);
+	}
 	free(title);
 	return (str);
 }
