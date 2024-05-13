@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 17:15:07 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:07:35 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 	if (!new)
 		return (send_error(MALLOC_ERR), NULL);
 	new->var = var;
-	new->content = 0;
 	if (content)
 		new->content = ft_strdup(content);
+	else
+		new->content = NULL;
 	new->flag = flag;
 	new->next = NULL;
 	new->prev = prev;
@@ -129,7 +130,7 @@ t_env	*env_lst(char **envp)
 			var = ft_substr(*envp, 0, ft_strleng(*envp, '='));
 			new = create_env_node(var, ft_strchr(*envp, '=') + 1, 0, prev);
 			if (!new)
-				return(free_env(&start), NULL);
+				return (free_env(&start), NULL);
 			ft_lstadd_back((t_list **)&start, (t_list *)new);
 			prev = new;
 			if (ft_strlen(var) > (size_t)len)

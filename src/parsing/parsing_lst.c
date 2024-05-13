@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/10 17:36:29 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:10:51 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	create_and_add_node(char *str, int data[2], t_arg_lst **lst, t_env *envp)
 
 	if (data[1])
 	{
-		arg = arg_node(SPACE_TK, " ", envp);
+		arg = arg_node(SPACE_TK, ft_strdup(" "), envp);
 		if (arg)
 			ft_lstadd_back((t_list **)&lst, (t_list *)arg);
 		else

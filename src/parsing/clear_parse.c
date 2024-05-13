@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/12 16:42:18 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:09:50 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ void	free_all_args(t_arg_lst **head)
 	while ((*head))
 	{
 		next = (*head)->next;
-		if ((*head)->type != SPACE_TK)
-			free((*head)->token);
+		free((*head)->token);
 		free((*head));
 		*head = next;
 	}

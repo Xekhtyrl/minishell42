@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 17:41:38 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:16:41 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,15 @@ int	prep_exec(t_input *input, t_env *m_env)
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
-	// print_input_lst(input);
+	print_input_lst(input);
 	free_input(&input);
 	return (1);
 }
 
-char *get_input(void)
+char	*get_input(void)
 {
-	char *str;
-	char *title;
+	char	*str;
+	char	*title;
 
 	title = pick_title();
 	str = readline(title);
@@ -102,7 +102,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	ret_val = 0;
+	g_ret_val = 0;
 	m_env = env_lst(envp);
 	if (!m_env)
 		return (ft_putendl_fd("Error: env not loaded", 2), 1);
@@ -119,5 +119,5 @@ int	main(int argc, char **argv, char **envp)
 		else
 			prep_exec(input, m_env);
 	}
-	return (ret_val);
+	return (g_ret_val);
 }

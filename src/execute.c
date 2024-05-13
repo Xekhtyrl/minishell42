@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 18:07:33 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:20:37 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 					cmd_fork(cmd, inf, n_cmd, pipe_fd);
 				else
 					{
+						send_error(CMD_ERR);
 						close(inf->pipe[0]);
 						close(inf->pipe[1]);
 						exit(EXIT_FAILURE);
@@ -123,14 +124,14 @@ void	wait_proc(t_cmd_info *info)
 	i = 0;
 	while (i < info->size)
 	{
-		if (i == info->size -1 && ret_val == 127)
+		if (i == info->size -1 && g_ret_val == 127)
 			waitpid(info->proc[i], 0, 0);
 		else
-			waitpid(info->proc[i], &ret_val, 0);
+			waitpid(info->proc[i], &g_ret_val, 0);
 		i++;
 	}
-	if (ret_val != 127)
-		ret_val = !(!ret_val);
+	if (g_ret_val != 127)
+		g_ret_val = !(!g_ret_val);
 }
 
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
@@ -143,7 +144,7 @@ int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 		pipe_fd[n_cmd + 1][0] = inf->pipe[0];
 	}
 	if (cmd->type == ERROR_TK)
-		ret_val = 127;
+		g_ret_val = 127;
 	return (1);
 }
 
@@ -155,6 +156,7 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 
 	tmp = cmd;
 	n_cmd = 0;
+	g_ret_val = 0;
 	inf.size = ft_lstsize((t_list *)cmd);
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
 	inf.env = envp;
@@ -166,6 +168,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	}
 	close_pipes(pipe_fd, inf.size);
 	wait_proc(&inf);
-	printf("ret_val = %d\n", ret_val);
+	printf("g_ret_val = %d\n", g_ret_val);
 	return (0);
 }

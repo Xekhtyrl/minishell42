@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:43:00 by Gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 17:58:47 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:06:10 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,19 @@ int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf, t_arg_lst *arg)
 	{
 		if ((cur == 0 && fd_in_out[cur][0] == 0)
 			|| (cur > 0 && fd_in_out[cur][0]))
-			pipe_heredoc(fd_in_out, cur, arg); // pipe et heredoc
+			pipe_heredoc(fd_in_out, cur, arg);
 	}
-	if (fd_in_out[cur][0] > 1 && fd_in_out[cur][1] > 1) //infile + outfile
+	if (fd_in_out[cur][0] > 1 && fd_in_out[cur][1] > 1)
 	{
 		if (uni_dup(fd_in_out[cur][0], fd_in_out[cur][1]) == -1)
 			return (-1);
 	}
-	else if (fd_in_out[cur][0] == 0 && fd_in_out[cur][1] > 1) // outfile
+	else if (fd_in_out[cur][0] == 0 && fd_in_out[cur][1] > 1)
 	{
 		if (uni_dup(0, fd_in_out[cur][1]) == -1)
 			return (-1);
 	}
-	else if (fd_in_out[cur][0] > 0 && fd_in_out[cur][1] == 1) // infile + stdout
+	else if (fd_in_out[cur][0] > 0 && fd_in_out[cur][1] == 1)
 	{
 		if (uni_dup(fd_in_out[cur][0], 0) == -1)
 			return (-1);
@@ -82,12 +82,12 @@ int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf, t_arg_lst *arg)
 
 int	mini_dup2(int *fd_in_out[2], int cur, t_cmd_info *inf)
 {
-	if (fd_in_out[cur][0] > 0 && fd_in_out[cur][1] == 1) // infile + pipe
+	if (fd_in_out[cur][0] > 0 && fd_in_out[cur][1] == 1)
 	{
 		if (uni_dup(fd_in_out[cur][0], inf->pipe[1]) == -1)
 			return (-1);
 	}
-	else if (fd_in_out[cur + 1][0] == 0 && fd_in_out[cur][1] == 1) //just pipe
+	else if (fd_in_out[cur + 1][0] == 0 && fd_in_out[cur][1] == 1)
 	{
 		if (uni_dup(fd_in_out[cur][0], inf->pipe[1]) == -1)
 			return (-1);
