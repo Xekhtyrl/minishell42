@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/14 22:09:56 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/14 22:35:18 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 
 	tmp = cmd;
 	n_cmd = 0;
-	g_ret_val = 0;
+	g_ret_val = -1;
 	inf.size = ft_lstsize((t_list *)cmd);
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
 	inf.env = envp;
