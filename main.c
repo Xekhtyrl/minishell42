@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:42:25 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/14 14:05:28 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ char	*get_input(void)
 	char	*title;
 
 	title = pick_title();
+	// ft_printf("%s", title);
+	// usleep(500);
+	// str = get_next_line(0);
 	str = readline(title);
 	while (str && (ft_strlen(str) < 1 || only_space(str)))
 	{
