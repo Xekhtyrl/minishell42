@@ -89,7 +89,7 @@ add:
 	git add Makefile src includes main.c .gitignore
 
 clean:
-	@rm -rf $(MY_OBJECTS) $(MY_OBJ_BONUS)
+	@rm -rf $(MY_OBJECTS)
 	@make -C $(LIBFT) clean
 	@rm -rf ./includes/ee/*.sh
 	@echo "$(C_RED)$(NAME) cleanse$(C_END)"
