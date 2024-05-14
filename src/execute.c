@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/14 21:32:17 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/14 22:25:17 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	wait_proc(t_cmd_info *info)
 			waitpid(info->proc[i], &g_ret_val, 0);
 		i++;
 	}
-	printf("ret %d\n", g_ret_val);
+	//printf("ret %d\n", g_ret_val);
 	if (g_ret_val == 2)
 		g_ret_val = 130;
 	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
@@ -133,6 +133,7 @@ void	wait_proc(t_cmd_info *info)
 }
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 {
+	g_ret_val = -1;
 	inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
 	mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
 	if (check_next_pipe(pipe_fd, n_cmd, inf))
