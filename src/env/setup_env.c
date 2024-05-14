@@ -6,36 +6,11 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:08:33 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:02:18 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	update_shell_lvl(t_env	*envp)
-{
-	int	n;
-
-	n = 0;
-	while (envp)
-	{
-		if (!ft_strncmp((envp)->var, "SHLVL", 5))
-		{
-			n = ft_atoi((envp)->content);
-			free(envp->content);
-			if (n == 999)
-				(envp)->content = ft_strdup("");
-			else if (n > 999)
-				(envp)->content = ft_strdup("1");
-			else if (n < 0)
-				(envp)->content = ft_strdup("0");
-			else
-				(envp)->content = ft_itoa(n + 1);
-			break ;
-		}
-		envp = envp->next;
-	}
-}
 
 t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 {
@@ -45,11 +20,9 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 	if (!new)
 		return (send_error(MALLOC_ERR), NULL);
 	new->var = var;
-	new->content = 0;
+	new->content = NULL;
 	if (content)
 		new->content = ft_strdup(content);
-	else
-		new->content = NULL;
 	new->flag = flag;
 	new->next = NULL;
 	new->prev = prev;
@@ -82,6 +55,24 @@ void	set_home_var(t_env **envp)
 	}
 	ft_lstadd_back((t_list **)envp, (t_list *)create_env_node(ft_strdup("HOME"),
 			ft_substr(str, 0, i), 3, (t_env *)ft_lstlast((t_list *)*envp)));
+	free(str);
+}
+
+void	check_absent_envar2(t_env **env, int flag)
+{
+	char	*pwd;
+
+	pwd = getcwd(0, 0);
+	if (!(flag % 2) || !flag)
+		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
+				("PWD"), pwd, 3, (t_env *)ft_lstlast((t_list *)*env)));
+	if (!(flag == 2 || flag == 3 || flag == 6 || flag == 7))
+		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
+				("OLDPWD"), NULL, 0, (t_env *)ft_lstlast((t_list *)*env)));
+	if (flag < 4)
+		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
+				("SHLVL"), "0", 0, (t_env *)ft_lstlast((t_list *)*env)));
+	free(pwd);
 }
 
 void	check_absent_envar(t_env **env)
@@ -101,15 +92,7 @@ void	check_absent_envar(t_env **env)
 			flag += 4;
 		start = start->next;
 	}
-	if (!(flag % 2) || !flag)
-		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
-				("PWD"), getcwd(0, 0), 3, (t_env *)ft_lstlast((t_list *)*env)));
-	if (!(flag == 2 || flag == 3 || flag == 6 || flag == 7))
-		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
-				("OLDPWD"), NULL, 0, (t_env *)ft_lstlast((t_list *)*env)));
-	if (flag < 4)
-		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
-				("SHLVL"), "0", 0, (t_env *)ft_lstlast((t_list *)*env)));
+	check_absent_envar2(env, flag);
 	set_home_var(env);
 }
 

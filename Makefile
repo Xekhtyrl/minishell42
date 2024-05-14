@@ -18,6 +18,7 @@ MY_SOURCES =	main.c							\
 				src/utils/lst_to_tab.c			\
 				src/env/env_var_utils.c			\
 				src/env/setup_env.c				\
+				src/env/setup_env_bis.c			\
 				src/signal.c					\
 				src/execute.c 					\
 				src/execute_utils.c 			\

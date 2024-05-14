@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:13:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:06:16 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/14 20:58:00 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,16 @@ void	free_env(t_env **envp)
 		*envp = next;
 	}
 	*envp = NULL;
+}
+
+void	free_tab(char **tabl)
+{
+	int	i;
+
+	i = -1;
+	while (tabl[++i])
+		free(tabl[i]);
+	free(tabl);
 }
 
 void	close_pipes(int **pipe, int size)

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 22:04:52 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:08:30 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ctrl_c(int num)
 {
 	if (SIGINT == num)
 	{
+		g_ret_val = 1;
 		rl_replace_line("", 0);
 		write(1, "\n", 1);
 		rl_on_new_line();

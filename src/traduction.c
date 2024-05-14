@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:07:29 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 22:05:25 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:31:30 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@ int	check_path(t_input *cmd, t_env **envp)
 	path = get_cmd_path(*envp, cmd);
 	if (!path)
 		return (0);
-	else
-	{
-		if (!access(cmd->token, X_OK))
+	if (path || !access(path, X_OK))
 			cmd->type = CMD_TK;
-		if (path)
-			free(path);
-	}
+	if (path)
+		free(path);
 	return (1);
 }
 

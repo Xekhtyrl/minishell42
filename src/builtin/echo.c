@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:16:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 21:57:54 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:37:52 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*trim_quote(char *str)
 		new = ft_strtrim(str, "\"");
 	else
 		new = ft_strdup(str);
-	free(str);
 	return (new);
 }
 

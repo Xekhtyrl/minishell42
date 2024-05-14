@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:15:24 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:32:17 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	exec_builtin(t_input *cmd, t_env **envp)
 	if (f == 3)
 		return (ft_echo(cmd->arg), exit(0), 1);
 	if (f == 4)
-		return (ft_exit(), exit(0), 1);
+		return (ft_exit(0), exit(0), 1);
 	if (f == 5)
 		return (ft_unset(envp, cmd->arg), 1);
 	if (f == 6 || f == 7)
@@ -55,13 +55,10 @@ int	exec_builtin(t_input *cmd, t_env **envp)
 	return (0);
 }
 
-int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path, char ***envp)
+int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path)
 {
 	*path = get_cmd_path(*inf->env, cmd);
 	if (*path == 0)
-		return (0);
-	*envp = get_env(*(inf->env));
-	if (*envp == 0)
 		return (0);
 	return (1);
 }
@@ -69,21 +66,19 @@ int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path, char ***envp)
 void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char	*path;
-	char	**envp;
 
 	path = 0;
-	envp = 0;
 	mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
 	if (cmd->type == CMD_TK)
 	{
-		if (!set_path_env(inf, cmd, &path, &envp))
+		if (!set_path_env(inf, cmd, &path))
 		{
 			close_pipes(pipe_fd, inf->size);
-			multi_array_free(envp, path);
+			multi_array_free(inf->envtb, path);
 			exit(EXIT_FAILURE);
 		}
 		exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)),
-			envp, path, pipe_fd[n_cmd]);
+			inf->envtb, path, pipe_fd[n_cmd]);
 	}
 	else
 		exec_builtin(cmd, inf->env);
@@ -168,6 +163,7 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	if (!inf.proc)
 		return (send_error(MALLOC_ERR), 0);
 	inf.env = envp;
+	inf.envtb = get_env(*envp);
 	while (tmp)
 	{
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);
@@ -178,6 +174,5 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	}
 	close_pipes(pipe_fd, inf.size);
 	wait_proc(&inf);
-	printf("ret_val = %d\n", g_ret_val);
-	return (free(inf.proc), 0);
+	return (free(inf.proc), free_tab(inf.envtb), 0);
 }
