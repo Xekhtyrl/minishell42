@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:07:31 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/14 22:42:10 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	get_token_type(char *c, int start)
 		return (APPEN_TK);
 	else if (c[start] == '>')
 		return (WRITE_TK);
-	else if (c[start] == '$')
-		return (ENV_VAR_TK);
 	else
 		return (WORD_TK);
 }
