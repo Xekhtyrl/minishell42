@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/14 21:23:53 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/14 22:09:56 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,21 +112,38 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	return (proc);
 }
 
-void	wait_proc(t_cmd_info *info)
-{
-	int	i;
+// void	wait_proc(t_cmd_info *info)
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < info->size)
-	{
-		if (i == info->size -1 && g_ret_val == 127)
-			waitpid(info->proc[i], 0, 0);
-		else
-			waitpid(info->proc[i], &g_ret_val, 0);
-		i++;
-	}
-	if (g_ret_val != 127)
-		g_ret_val = !(!g_ret_val);
+// 	i = 0;
+// 	while (i < info->size)
+// 	{
+// 		if (i == info->size -1 && g_ret_val == 127)
+// 			waitpid(info->proc[i], 0, 0);
+// 		else
+// 			waitpid(info->proc[i], &g_ret_val, 0);
+// 		i++;
+// 	}
+// 	if (g_ret_val != 127)
+// 		g_ret_val = !(!g_ret_val);
+// }
+void    wait_proc(t_cmd_info *info)
+{
+    int i;    i = 0;
+    while (i < info->size)
+    {
+        if (i == info->size -1 && in_int_array(g_ret_val, (int []){126, 127}, 2))
+            waitpid(info->proc[i], 0, 0);
+        else
+            waitpid(info->proc[i], &g_ret_val, 0);
+        i++;
+    }
+    //printf("ret %d\n", g_ret_val);
+    if (g_ret_val == 2)
+        g_ret_val = 130;
+    else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
+        g_ret_val = !(!g_ret_val);
 }
 
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
