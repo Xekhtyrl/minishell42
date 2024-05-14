@@ -6,13 +6,13 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:16:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 21:57:54 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:42:26 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*trim_quote(char *str)
+char	*trim_quote(char *str, int fr)
 {
 	char	*new;
 
@@ -22,7 +22,8 @@ char	*trim_quote(char *str)
 		new = ft_strtrim(str, "\"");
 	else
 		new = ft_strdup(str);
-	free(str);
+	if (fr)
+		free(str);
 	return (new);
 }
 
@@ -34,7 +35,7 @@ static int	check_n_arg(t_arg_lst *arg, int *flag)
 	i = 0;
 	if (arg->type != WORD_TK)
 		return (1);
-	str = trim_quote(arg->token);
+	str = trim_quote(arg->token, 0);
 	if (!str)
 		return (0);
 	if (str[i++] != '-')
@@ -63,10 +64,7 @@ int	ft_echo(t_arg_lst *arg)
 	}
 	while (arg && arg->token)
 	{
-		if (arg->token[0] == '\'')
-			arg->token = ft_strtrim(arg->token, "\'");
-		else if (arg->token[0] == '\"')
-			arg->token = ft_strtrim(arg->token, "\"");
+		arg->token = trim_quote(arg->token, 1);
 		ft_putstr_fd(arg->token, 1);
 		arg = arg->next;
 	}

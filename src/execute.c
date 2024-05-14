@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:58:03 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:23:53 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ int	exec_builtin(t_input *cmd, t_env **envp)
 	return (0);
 }
 
-int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path)
+int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path/*, char ***envp*/)
 {
+	// *envp = get_env(*inf->env);
+	// if (!*envp)
+	// 	exit(1);
 	*path = get_cmd_path(*inf->env, cmd);
 	if (*path == 0)
 		return (0);
@@ -66,12 +69,13 @@ int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path)
 void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char	*path;
+	//char	**envp;
 
 	path = 0;
 	mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
 	if (cmd->type == CMD_TK)
 	{
-		if (!set_path_env(inf, cmd, &path))
+		if (!set_path_env(inf, cmd, &path/*, &envp*/))
 		{
 			close_pipes(pipe_fd, inf->size);
 			multi_array_free(inf->envtb, path);

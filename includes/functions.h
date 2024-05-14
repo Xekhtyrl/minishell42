@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 22:59:43 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:42:51 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int			mini_dup2(int *fd_in_out[2], int cur, t_cmd_info *inf);
 int			check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf);
 
 //_______________________ECHO_________________________//
-char		*trim_quote(char *str);
+char		*trim_quote(char *str, int fr);
 
 //_____________________HEREDOC_________________________//
 
