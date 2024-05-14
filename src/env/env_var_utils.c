@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/14 22:45:55 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/14 22:47:06 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ char	*get_env_var(t_env *envp, char *var)
 			envp = envp->next;
 		}
 	}
+	free(var);
 	if (!envp)
 		return (0);
 	return (envp->content);
