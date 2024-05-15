@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/14 22:35:02 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 19:27:24 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void		print_input_lst(t_input	*input);
 char		*get_input(void);
 
 //_______________________SIGNAL________________________//
-void		ctrl_c(int num);
-void		ctrl_d(t_env **envp);
+void		ctrl_c(int num, int f);
+void		ctrl_d(t_env **envp, int f);
 void		set_signals(void);
 
 //______________________EXECUTE________________________//
@@ -106,7 +106,7 @@ void		ft_env(t_env *envp);
 int			ft_echo(t_arg_lst *arg);
 void		ft_cd(t_env *envp, t_arg_lst *arg);
 void		ft_pwd(void);
-int			ft_exit(int ret);
+int			ft_exit(t_arg_lst *arg);
 void		ft_unset(t_env	**envp, t_arg_lst *arg);
 void		ft_export(t_arg_lst *arg, t_env *envp, int flag);
 
@@ -128,4 +128,6 @@ char		*get_heredoc(t_arg_lst *arg);
 int			heredoc(t_input *input);
 int			detect_token(t_arg_lst *args, int token);
 void		empty_args2(t_input *cmd);
+
+void		exit_except(t_input *tmp, t_cmd_info *inf, int *n_cmd);
 #endif

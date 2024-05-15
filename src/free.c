@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 22:10:33 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:03:00 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,40 +25,31 @@ void	strarray_free(char **built)
 	free(built);
 }
 
-int	send_error2(int flag)
-{
-	if (flag == ARG_ERR)
-	{
-		g_ret_val = 5;
-		perror("bad argument");
-	}
-	return (g_ret_val);
-}
 
 int	send_error(int flag)
 {
 	if (flag == OPEN_ERR)
-		perror("open error");
+		strerror(FILE_MSG);
 	else if (flag == READ_ERR)
-		perror("read error");
+		strerror(PERM_MSG);
 	else if (flag == WRITE_ERR)
-		perror("write error");
+		strerror(PERM_MSG);
 	else if (flag == FORK_ERR)
 		perror("fork error");
 	else if (flag == MALLOC_ERR)
-		perror("malloc error");
+		strerror(ALLOC_MSG);
 	else if (flag == PIPE_ERR)
-		perror("pipe error");
+		strerror(PIPE_MSG);
 	else if (flag == ACCESS_ERR)
-		perror("access error");
+		strerror(FILE_MSG);
 	else if (flag == PERM_ERR)
-		perror("permission error");
+		strerror(PERM_MSG);
 	else if (flag == PATH_ERR)
 		perror("PATH not found");
 	else if (flag == CMD_ERR)
-		perror("command not found");
-	else
-		return (send_error2(flag));
+		perror(CMD_MSG);
+	else if (flag == ARG_ERR)
+		strerror(ARG_MSG);
 	return (g_ret_val);
 }
 

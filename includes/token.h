@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 20:04:10 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:03:14 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,13 @@
 # define PERM_ERR -9
 # define PATH_ERR -10
 # define CMD_ERR -11
+
+# define FILE_MSG 2
+# define ARG_L_MSG 7
+# define ALLOC_MSG 12
+# define PERM_MSG 13
+# define ARG_MSG 22
+# define PIPE_MSG 32
+# define CMD_MSG "command not found"
 
 #endif

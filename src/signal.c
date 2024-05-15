@@ -6,20 +6,23 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/14 22:31:47 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 15:20:45 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-void	ctrl_d(t_env **envp)
+void	ctrl_d(t_env **envp, int f)
 {
-	rl_clear_history();
-	printf("exit\n");
-	//system(("leaks minishell"));
-	free_env(envp);
-	exit(130);
+	if (f)
+	{
+		rl_clear_history();
+		printf("exit\n");
+		//system(("leaks minishell"));
+		free_env(envp);
+		exit(130);
+	}
 }
 
 void	sign_handler(int code)

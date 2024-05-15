@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:35:44 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/14 22:39:35 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:06:44 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		str = get_input();
 		if (!str)
-			ctrl_d(&m_env);
+			ctrl_d(&m_env, 1);
 		add_history(str);
 		if (parse(&input, str, m_env))
 			prep_exec(input, m_env);

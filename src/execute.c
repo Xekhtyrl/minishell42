@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/14 22:33:38 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:05:19 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	exec_builtin(t_input *cmd, t_env **envp)
 	if (f == 3)
 		return (ft_echo(cmd->arg), exit(0), 1);
 	if (f == 4)
-		return (ft_exit(0), exit(0), 1);
+		return (ft_exit(cmd->arg), 1);
 	if (f == 5)
 		return (ft_unset(envp, cmd->arg), 1);
 	if (f == 6 || f == 7)
@@ -55,11 +55,8 @@ int	exec_builtin(t_input *cmd, t_env **envp)
 	return (0);
 }
 
-int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path/*, char ***envp*/)
+int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path)
 {
-	// *envp = get_env(*inf->env);
-	// if (!*envp)
-	// 	exit(1);
 	*path = get_cmd_path(*inf->env, cmd);
 	if (*path == 0)
 		return (0);
@@ -69,13 +66,12 @@ int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path/*, char ***envp*/)
 void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char	*path;
-	//char	**envp;
 
 	path = 0;
 	mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
 	if (cmd->type == CMD_TK)
 	{
-		if (!set_path_env(inf, cmd, &path/*, &envp*/))
+		if (!set_path_env(inf, cmd, &path))
 		{
 			close_pipes(pipe_fd, inf->size);
 			multi_array_free(inf->envtb, path);
@@ -97,19 +93,18 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	{
 		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
 			&& pipe(inf->pipe) < 0)
-			send_error(-6);
-			proc = fork();
-			if (!proc)
+			send_error(PIPE_ERR);
+		proc = fork();
+		if (!proc)
+		{
+			if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
+				cmd_fork(cmd, inf, n_cmd, pipe_fd);
+			else
 			{
-				if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
-					cmd_fork(cmd, inf, n_cmd, pipe_fd);
-				else
-					{
-						close(inf->pipe[0]);
-						close(inf->pipe[1]);
-						exit(EXIT_FAILURE);
-					}
+				mini_cls_fd(inf->pipe[0], inf->pipe[1]);
+				exit(EXIT_FAILURE);
 			}
+		}
 	}
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
 		exec_builtin(cmd, inf->env);
@@ -172,6 +167,8 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	inf.envtb = get_env(*envp);
 	while (tmp)
 	{
+		if (!ft_strncmp(tmp->token, "exit\0", 5) && inf.size == 1)
+			tmp->type = ENV_TK;
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);
 		if (cmd->type == ERROR_TK)
 			send_error(CMD_ERR);
@@ -182,3 +179,10 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	wait_proc(&inf);
 	return (free(inf.proc), free_tab(inf.envtb), 0);
 }
+
+
+/*
+exit
+solo : ENV_TK
+dans pipe, 
+*/
