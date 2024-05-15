@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/15 19:27:24 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:32:09 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void		ft_env(t_env *envp);
 int			ft_echo(t_arg_lst *arg);
 void		ft_cd(t_env *envp, t_arg_lst *arg);
 void		ft_pwd(void);
-int			ft_exit(t_arg_lst *arg);
+int			ft_exit(t_arg_lst *arg, int size);
 void		ft_unset(t_env	**envp, t_arg_lst *arg);
 void		ft_export(t_arg_lst *arg, t_env *envp, int flag);
 
@@ -130,4 +130,5 @@ int			detect_token(t_arg_lst *args, int token);
 void		empty_args2(t_input *cmd);
 
 void		exit_except(t_input *tmp, t_cmd_info *inf, int *n_cmd);
+void		check_exit_error(t_arg_lst *arg);
 #endif

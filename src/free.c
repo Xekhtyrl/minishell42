@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/15 21:03:00 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:41:55 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,29 @@ void	strarray_free(char **built)
 int	send_error(int flag)
 {
 	if (flag == OPEN_ERR)
-		strerror(FILE_MSG);
+		printf("%s\n", strerror(FILE_MSG));
 	else if (flag == READ_ERR)
-		strerror(PERM_MSG);
+		printf("%s\n", strerror(PERM_MSG));
 	else if (flag == WRITE_ERR)
-		strerror(PERM_MSG);
+		printf("%s\n", strerror(PERM_MSG));
 	else if (flag == FORK_ERR)
 		perror("fork error");
 	else if (flag == MALLOC_ERR)
-		strerror(ALLOC_MSG);
+		printf("%s\n", strerror(ALLOC_MSG));
 	else if (flag == PIPE_ERR)
-		strerror(PIPE_MSG);
+		printf("%s\n", strerror(PIPE_MSG));
 	else if (flag == ACCESS_ERR)
-		strerror(FILE_MSG);
+		printf("%s\n", strerror(FILE_MSG));
 	else if (flag == PERM_ERR)
-		strerror(PERM_MSG);
+		printf("%s\n", strerror(PERM_MSG));
 	else if (flag == PATH_ERR)
 		perror("PATH not found");
 	else if (flag == CMD_ERR)
 		perror(CMD_MSG);
 	else if (flag == ARG_ERR)
-		strerror(ARG_MSG);
+		printf("%s\n", strerror(ARG_MSG));
+	else if (flag == ARG_L_ERR)
+		printf("%s\n", strerror(ARG_L_ERR));
 	return (g_ret_val);
 }
 

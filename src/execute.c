@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/15 21:16:17 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:41:28 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	exit(EXIT_FAILURE);
 }
 
-int	exec_builtin(t_input *cmd, t_env **envp)
+int	exec_builtin(t_input *cmd, t_env **envp, int size)
 {
 	char	**built;
 	int		f;
@@ -47,7 +47,7 @@ int	exec_builtin(t_input *cmd, t_env **envp)
 	if (f == 3)
 		return (ft_echo(cmd->arg), exit(0), 1);
 	if (f == 4)
-		return (ft_exit(cmd->arg), 1);
+		return (ft_exit(cmd->arg, size == 1), 1);
 	if (f == 5)
 		return (ft_unset(envp, cmd->arg), 1);
 	if (f == 6 || f == 7)
@@ -81,7 +81,7 @@ void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			inf->envtb, path, pipe_fd[n_cmd]);
 	}
 	else
-		exec_builtin(cmd, inf->env);
+		exec_builtin(cmd, inf->env, inf->size);
 }
 
 pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
@@ -107,7 +107,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		}
 	}
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
-		exec_builtin(cmd, inf->env);
+		exec_builtin(cmd, inf->env, inf->size);
 	return (proc);
 }
 
@@ -169,15 +169,17 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	{
 		if (!ft_strncmp(tmp->token, "exit\0", 5) && inf.size == 1)
 			tmp->type = ENV_TK;
-		cmd_start(&inf, tmp, pipe_fd, n_cmd);
+		else if (!ft_strncmp(tmp->token, "exit\0", 5) && inf.size != 1)
+			check_exit_error(tmp->arg);
+		cmd_start(&inf, tmp, pipe_fd, n_cmd++);
 		if (cmd->type == ERROR_TK)
 			send_error(CMD_ERR);
 		tmp = tmp->next;
-		n_cmd++;
+		//n_cmd++;
 	}
 	close_pipes(pipe_fd, inf.size);
-	wait_proc(&inf);
-	return (free(inf.proc), free_tab(inf.envtb), 0);
+	// wait_proc(&inf);
+	return ( wait_proc(&inf), free(inf.proc), free_tab(inf.envtb), 0);
 }
 
 

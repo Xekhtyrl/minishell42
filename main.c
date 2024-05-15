@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 22:35:44 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/15 21:06:44 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:18:57 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	prep_exec(t_input *input, t_env *m_env)
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
-	print_input_lst(input);
+	//print_input_lst(input);
 	free_input(&input);
 	return (1);
 }

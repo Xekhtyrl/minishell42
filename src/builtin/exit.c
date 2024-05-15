@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 16:58:13 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/15 20:18:43 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:41:35 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	equal_int(char *s1, char *s2)
 	return (1);
 }
 
-void	good_exit(int nbr, t_arg_lst *tmp)
+void	good_exit(int nbr, t_arg_lst *tmp, int pr)
 {
 	char		*nb_c;
 	
@@ -65,13 +65,15 @@ void	good_exit(int nbr, t_arg_lst *tmp)
 		if (equal_int(tmp->token, nb_c)) 				// arg est int
 		{
 			free(nb_c);
-			printf("exit\n");
+			if (pr)
+				printf("exit\n");
 			exit(nbr % 256);
 		}
 		else 											//arg pas int
 		{
 			free(nb_c);
-			printf("exit\n");
+			if (pr)
+				printf("exit\n");
 			send_error(ARG_ERR); // numeric argument required
 			exit(255);
 		}
@@ -80,7 +82,7 @@ void	good_exit(int nbr, t_arg_lst *tmp)
 		send_error(ARG_ERR);
 }
 
-int	ft_exit(t_arg_lst *arg)
+int	ft_exit(t_arg_lst *arg, int pr)
 {
 	int			nbr;
 	t_arg_lst	*tmp;
@@ -89,23 +91,30 @@ int	ft_exit(t_arg_lst *arg)
 	nbr = ft_lstsize((t_list *)tmp);
 	if (!tmp)
 	{
-		printf("exit\n");
+		if (pr)
+			printf("exit\n");
 		exit(0);
 	}
 	else if (tmp && !is_number(tmp->token))
 	{
-		printf("exit\n");
+		if (pr)
+			printf("exit\n");
 		send_error(ARG_ERR);
 		exit(255);
 	}
-	else if (tmp) 									// 1er arg est num
-		good_exit(nbr, tmp);
+	else if (tmp)
+		good_exit(nbr, tmp, pr);
 	return (1);
 }
 
+void	check_exit_error(t_arg_lst *arg)
+{
+	int nbr;
 
-/*
-exit [lettre] [...] = exit + numeric arg need
-exit [nombre] 	    = exit + nombre en ret
-exit [nombre] [...] = no exit + too much arg
-*/
+	nbr = ft_lstsize((t_list *)arg);
+	if (arg && (!is_number(arg->token) || ft_strlen(arg->token) > 10))
+		send_error(ARG_ERR);
+	else if (arg && nbr > 2)
+		send_error(ARG_L_ERR);
+
+}
