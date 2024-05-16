@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/16 17:27:16 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/16 21:11:39 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,20 @@ void    wait_proc(t_cmd_info *info)
     int i;
 	int status;
 	
+	// i = 0;
+    // while (i < info->size)
+    // {
+    //     if (i == info->size -1 && in_int_array(g_ret_val, (int []){126, 127}, 2))
+    //         waitpid(info->proc[i], 0, 0);
+    //     else
+    //         waitpid(info->proc[i], &g_ret_val, 0);
+    //     i++;
+    // }
+    // if (g_ret_val == 2)
+    //     g_ret_val = 130;
+    // else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
+    //     g_ret_val = !(!g_ret_val);
+
 	i = 0;
 	while (i < info->size)
     {
@@ -124,6 +138,10 @@ void    wait_proc(t_cmd_info *info)
         waitpid(info->proc[i], &status, 0);
 		if (WIFEXITED(status))
 			g_ret_val = WEXITSTATUS(status);
+		else if (status == 2)
+        g_ret_val = 130;
+    	else if (!in_int_array(status, (int []){126, 127}, 2))
+        g_ret_val = !(!g_ret_val);
         i++;
     }
 }
