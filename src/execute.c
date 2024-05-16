@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/14 22:35:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/15 19:27:47 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,8 @@ int	exec_builtin(t_input *cmd, t_env **envp)
 	return (0);
 }
 
-int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path/*, char ***envp*/)
+int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path)
 {
-	// *envp = get_env(*inf->env);
-	// if (!*envp)
-	// 	exit(1);
 	*path = get_cmd_path(*inf->env, cmd);
 	if (*path == 0)
 		return (0);
@@ -69,13 +66,13 @@ int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path/*, char ***envp*/)
 void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char	*path;
-	//char	**envp;
+
 
 	path = 0;
 	mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
 	if (cmd->type == CMD_TK)
 	{
-		if (!set_path_env(inf, cmd, &path/*, &envp*/))
+		if (!set_path_env(inf, cmd, &path))
 		{
 			close_pipes(pipe_fd, inf->size);
 			multi_array_free(inf->envtb, path);
@@ -96,7 +93,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	{
 		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
 			&& pipe(inf->pipe) < 0)
-			send_error(-6);
+			send_error(PIPE_ERR);
 		proc = fork();
 		if (!proc)
 		{
@@ -139,7 +136,6 @@ void    wait_proc(t_cmd_info *info)
             waitpid(info->proc[i], &g_ret_val, 0);
         i++;
     }
-    //printf("ret %d\n", g_ret_val);
     if (g_ret_val == 2)
         g_ret_val = 130;
     else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))

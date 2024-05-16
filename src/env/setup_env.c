@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 23:21:35 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/15 18:47:40 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	check_absent_envar(t_env **env)
 		start = start->next;
 	}
 	check_absent_envar2(env, flag);
+	replace_or_append(ft_strdup("_"), ft_strdup("/usr/bin/env"), 0, *env);
 	set_home_var(env);
 }
 

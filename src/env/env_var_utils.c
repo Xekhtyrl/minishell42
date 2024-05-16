@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 23:12:47 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/15 18:47:18 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	replace_or_append(char *var, char *content, int append, t_env *env)
 			}
 			else
 			{
+				free(var);
 				free(env->content);
 				env->content = content;
 			}
