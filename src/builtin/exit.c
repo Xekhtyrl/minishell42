@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 16:58:13 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/15 21:41:35 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:15:53 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,23 @@ void	good_exit(int nbr, t_arg_lst *tmp, int pr)
 {
 	char		*nb_c;
 	
-	if (nbr == 1) 									// 1 arg
+	if (nbr == 1)
 	{
 		nbr = ft_atoi(tmp->token);
 		nb_c = ft_itoa(nbr);
-		if (equal_int(tmp->token, nb_c)) 				// arg est int
+		if (equal_int(tmp->token, nb_c))
 		{
 			free(nb_c);
 			if (pr)
 				printf("exit\n");
-			exit(nbr % 256);
+			exit(nbr);
 		}
-		else 											//arg pas int
+		else
 		{
 			free(nb_c);
 			if (pr)
-				printf("exit\n");
-			send_error(ARG_ERR); // numeric argument required
+				printf("exit\nexit : %s : numeric argument required, ", tmp->token);
+			send_error(ARG_ERR);
 			exit(255);
 		}
 	}
@@ -98,7 +98,7 @@ int	ft_exit(t_arg_lst *arg, int pr)
 	else if (tmp && !is_number(tmp->token))
 	{
 		if (pr)
-			printf("exit\n");
+			printf("exit\nexit : %s : numeric argument required, ", arg->token);
 		send_error(ARG_ERR);
 		exit(255);
 	}
@@ -113,7 +113,13 @@ void	check_exit_error(t_arg_lst *arg)
 
 	nbr = ft_lstsize((t_list *)arg);
 	if (arg && (!is_number(arg->token) || ft_strlen(arg->token) > 10))
+	{
+		if (!is_number(arg->token))
+			printf("exit\nexit : %s : numeric argument required, ", arg->token);
+		if (ft_strlen(arg->token) > 10)
+			printf("exit\nexit : %s : numeric argument required, ", arg->token);
 		send_error(ARG_ERR);
+	}
 	else if (arg && nbr > 2)
 		send_error(ARG_L_ERR);
 

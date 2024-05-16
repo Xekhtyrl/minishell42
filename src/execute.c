@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/15 21:41:28 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:27:16 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,22 +114,18 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 
 void    wait_proc(t_cmd_info *info)
 {
-	int	i;
-
+    int i;
+	int status;
+	
 	i = 0;
 	while (i < info->size)
-	{
-		if (i == info->size -1 && in_int_array(g_ret_val, (int []){126, 127}, 2))
-			waitpid(info->proc[i], 0, 0);
-		else
-			waitpid(info->proc[i], &g_ret_val, 0);
-		i++;
-	}
-	//printf("ret %d\n", g_ret_val);
-	if (g_ret_val == 2)
-		g_ret_val = 130;
-	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
-		g_ret_val = !(!g_ret_val);
+    {
+		
+        waitpid(info->proc[i], &status, 0);
+		if (WIFEXITED(status))
+			g_ret_val = WEXITSTATUS(status);
+        i++;
+    }
 }
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 {
@@ -159,6 +155,7 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 
 	tmp = cmd;
 	n_cmd = 0;
+	g_ret_val = -1;
 	inf.size = ft_lstsize((t_list *)cmd);
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
 	if (!inf.proc)
@@ -169,22 +166,16 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	{
 		if (!ft_strncmp(tmp->token, "exit\0", 5) && inf.size == 1)
 			tmp->type = ENV_TK;
-		else if (!ft_strncmp(tmp->token, "exit\0", 5) && inf.size != 1)
+		else if (!ft_strncmp(tmp->token, "exit\0", 5) 
+			&& inf.size != 1 && n_cmd != inf.size)
 			check_exit_error(tmp->arg);
-		cmd_start(&inf, tmp, pipe_fd, n_cmd++);
+		cmd_start(&inf, tmp, pipe_fd, n_cmd);
 		if (cmd->type == ERROR_TK)
 			send_error(CMD_ERR);
 		tmp = tmp->next;
-		//n_cmd++;
+		n_cmd++;
 	}
+	wait_proc(&inf);
 	close_pipes(pipe_fd, inf.size);
-	// wait_proc(&inf);
-	return ( wait_proc(&inf), free(inf.proc), free_tab(inf.envtb), 0);
+	return (free(inf.proc), free_tab(inf.envtb), 0);
 }
-
-
-/*
-exit
-solo : ENV_TK
-dans pipe, 
-*/

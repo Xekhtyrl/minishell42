@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/14 21:02:18 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/16 16:22:55 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	check_absent_envar(t_env **env)
 		start = start->next;
 	}
 	check_absent_envar2(env, flag);
+	replace_or_append(ft_strdup("_"), ft_strdup("/usr/bin/env"), 0, *env);
 	set_home_var(env);
 }
 

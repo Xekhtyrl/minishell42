@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/14 22:47:06 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:06:41 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	replace_or_append(char *var, char *content, int append, t_env *env)
 			}
 			else
 			{
+				free(var);
 				free(env->content);
 				env->content = content;
 			}
