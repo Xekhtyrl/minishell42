@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/15 19:27:47 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/16 18:05:15 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	if (pipe[1] > 2)
 		close(pipe[1]);
 	if (!ft_strncmp(cmd_cplt[0], "./minishell", 11)
-		&& atoi(get_env_var(env_lst(envp), "SHLVL")) >= 42)
+		&& atoi(get_env_var(env_lst(envp), ft_strdup("SHLVL"))) >= 42)
 		execute_order_66(envp);
 	else
 		execve(path, cmd_cplt, envp);
