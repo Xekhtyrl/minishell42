@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 22:32:49 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 22:01:03 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 22:06:21 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ long long	ft_atoll(const char *str)
 	while ((*str >= 9 && *str <= 13) || *str == 32)
 		str++;
 	if (!ft_strncmp(str, "-9223372036854775808", ft_strlen(str)))
-			return (LLONG_MIN);
+		return (LLONG_MIN);
 	if (*str == '-' || *str == '+')
 	{
 		if (*str++ == '-')
