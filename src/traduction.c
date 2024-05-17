@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   traduction.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:07:29 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/15 17:02:09 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/17 19:19:52 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_path(t_input *cmd, t_env **envp)
 	if (!path)
 		return (0);
 	if (path || !access(path, X_OK))
-			cmd->type = CMD_TK;
+		cmd->type = CMD_TK;
 	if (path)
 		free(path);
 	return (1);

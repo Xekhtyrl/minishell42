@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/16 16:22:55 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/17 19:17:42 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_env	*env_lst(char **envp)
 			var = ft_substr(*envp, 0, ft_strleng(*envp, '='));
 			new = create_env_node(var, ft_strchr(*envp, '=') + 1, 0, prev);
 			if (!new)
-				return(free_env(&start), NULL);
+				return (free_env(&start), NULL);
 			ft_lstadd_back((t_list **)&start, (t_list *)new);
 			prev = new;
 			if (ft_strlen(var) > (size_t)len)

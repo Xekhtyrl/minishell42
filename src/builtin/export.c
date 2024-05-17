@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 16:56:00 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 19:18:13 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,31 @@
 // and send an int based on the info it could gather(valid or not and if +/=/$)
 static int	checkarg(char *arg)
 {
-	int	flag;
-	int	i;
+	int		flag;
+	int		i;
+	char	*err;
 
 	i = 0;
 	flag = 0;
+	err = ft_substr(arg, 0, ft_strleng(arg, '='));
 	if (arg[0] == '\"')
 		flag = 1;
 	while (arg[i] && arg[i] != '=')
 	{
-		if (arg[i] == '+' && arg[i + 1] == '=')
+		if (i && arg[i] == '+' && arg[i + 1] == '=')
 			flag += 4;
 		else if (arg[i] == '+')
-			return (printf("export: `%s': not a valid identifier", arg), -1);
+			return (printf("export: `%s': not a valid identifier\n", err),
+				free(err), -1);
 		else if (ft_isdigit(arg[0]) || !(ft_isalnum(arg[i]) || arg[i] == '_'
 				|| arg[i] == '\"' || arg[i] == '\''))
-			return (printf("export: `%s': not a valid identifier", arg), -1);
+			return (printf("export: `%s': not a valid identifier\n", err),
+				free(err), -1);
 		i++;
 	}
 	if (arg[i] == '=')
 		flag += 2;
-	return (flag);
+	return (free(err), flag);
 }
 
 static void	print_no_arg(t_env *envp)
@@ -58,9 +62,9 @@ static void	print_no_arg(t_env *envp)
 
 static char	*combine_arg(t_arg_lst *arg)
 {
-	char	*str;
-	char	*tmp;
-	t_arg_lst *start;
+	char		*str;
+	char		*tmp;
+	t_arg_lst	*start;
 
 	str = NULL;
 	tmp = NULL;

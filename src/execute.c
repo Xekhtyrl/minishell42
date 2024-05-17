@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 18:51:34 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 19:23:51 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,27 +111,28 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	return (proc);
 }
 
-void    wait_proc(t_cmd_info *info)
+void	wait_proc(t_cmd_info *info)
 {
-    int i;
-	int status;
+	int	i;
+	int	status;
 
 	i = 0;
 	while (i < info->size)
-    {
-        waitpid(info->proc[i], &status, 0);
-		if (WIFEXITED(status) && !in_int_array(g_ret_val, (int []){126, 127}, 2))
+	{
+		waitpid(info->proc[i], &status, 0);
+		if (WIFEXITED(status) && !in_int_array(g_ret_val,
+				(int []){126, 127}, 2))
 			g_ret_val = WEXITSTATUS(status);
 		else if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
 			g_ret_val = 130;
-    	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
+		else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
 			g_ret_val = !(!g_ret_val);
-        i++;
-    }
+		i++;
+	}
 	if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
-    	g_ret_val = 130;
+		g_ret_val = 130;
 	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
-    	g_ret_val = !(!g_ret_val);
+		g_ret_val = !(!g_ret_val);
 }
 
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
@@ -173,7 +174,7 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	{
 		if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5) && inf.size == 1)
 			tmp->type = ENV_TK;
-		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5) 
+		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
 			&& inf.size != 1 && n_cmd != inf.size)
 			check_exit_error(tmp->arg);
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);

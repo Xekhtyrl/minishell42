@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/15 21:11:56 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/17 19:21:25 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int check_good_pipe(int **pi, int i)
+int	check_good_pipe(int **pi, int i)
 {
 	return (pi[i][0] != -1 && pi[i][1] != -1);
 }
@@ -66,7 +66,7 @@ int	open_infile(t_arg_lst *tmp, int fd)
 void	choose_in_out(t_arg_lst **tmp, int ***pipe_fd, int i)
 {
 	if (in_int_array((*tmp)->type,
-		(int []){READ_TK, WRITE_TK, APPEN_TK, HEREDOC_TK}, 4)
+			(int []){READ_TK, WRITE_TK, APPEN_TK, HEREDOC_TK}, 4)
 		&& (*pipe_fd)[i][1] != -1 && (*pipe_fd)[i][0] != -1)
 	{
 		if ((*tmp)->type == WRITE_TK || (*tmp)->type == APPEN_TK)
