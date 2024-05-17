@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 16:30:45 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 18:54:26 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ int	prep_exec(t_input *input, t_env *m_env)
 	int				**pipe;
 
 	if (!fill_fd(input, ft_lstsize((t_list *)input), &pipe))
-		send_error(-1);
+		send_error(MALLOC_ERR);
 	if (detect_all_heredocs(input))
 		heredoc(input);
 	empty_args(input);
 	if (!trad_input(input, &m_env))
 		send_error(-1);
-	// print_input_lst(input);
 	execute_command(&m_env, input, pipe);
+	//print_input_lst(input);
 	free_input(&input);
 	return (1);
 }
@@ -88,9 +88,6 @@ char	*get_input(void)
 	char	*title;
 
 	title = pick_title();
-	// ft_printf("%s", title);
-	// usleep(500);
-	// str = get_next_line(0);
 	str = readline(title);
 	while (str && (ft_strlen(str) < 1 || only_space(str)))
 	{
@@ -119,7 +116,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		str = get_input();
 		if (!str)
-			ctrl_d(&m_env);
+			ctrl_d(&m_env, 1);
 		add_history(str);
 		if (parse(&input, str, m_env))
 			prep_exec(input, m_env);

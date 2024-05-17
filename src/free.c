@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 18:31:32 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:41:55 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,40 +25,33 @@ void	strarray_free(char **built)
 	free(built);
 }
 
-int	send_error2(int flag)
-{
-	if (flag == ARG_ERR)
-	{
-		g_ret_val = 5;
-		perror("bad argument");
-	}
-	return (g_ret_val);
-}
 
 int	send_error(int flag)
 {
 	if (flag == OPEN_ERR)
-		perror("open error");
+		printf("%s\n", strerror(FILE_MSG));
 	else if (flag == READ_ERR)
-		perror("read error");
+		printf("%s\n", strerror(PERM_MSG));
 	else if (flag == WRITE_ERR)
-		perror("write error");
+		printf("%s\n", strerror(PERM_MSG));
 	else if (flag == FORK_ERR)
 		perror("fork error");
 	else if (flag == MALLOC_ERR)
-		perror("malloc error");
+		printf("%s\n", strerror(ALLOC_MSG));
 	else if (flag == PIPE_ERR)
-		perror("pipe error");
+		printf("%s\n", strerror(PIPE_MSG));
 	else if (flag == ACCESS_ERR)
-		perror("access error");
+		printf("%s\n", strerror(FILE_MSG));
 	else if (flag == PERM_ERR)
-		perror("permission error");
+		printf("%s\n", strerror(PERM_MSG));
 	else if (flag == PATH_ERR)
 		perror("PATH not found");
 	else if (flag == CMD_ERR)
-		perror("command not found");
-	else
-		return (send_error2(flag));
+		perror(CMD_MSG);
+	else if (flag == ARG_ERR)
+		printf("%s\n", strerror(ARG_MSG));
+	else if (flag == ARG_L_ERR)
+		printf("%s\n", strerror(ARG_L_ERR));
 	return (g_ret_val);
 }
 

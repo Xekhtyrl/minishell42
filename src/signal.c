@@ -3,22 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/14 22:36:19 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:19:19 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ctrl_d(t_env **envp)
+
+void	ctrl_d(t_env **envp, int f)
 {
-	rl_clear_history();
-	printf("exit\n");
-	//system(("leaks minishell"));
-	free_env(envp);
-	exit(130);
+	if (f)
+	{
+		rl_clear_history();
+		printf("exit\n");
+		//system(("leaks minishell"));
+		free_env(envp);
+		exit(130);
+	}
 }
 
 void	sign_handler(int code)
@@ -32,8 +36,7 @@ void	sign_handler(int code)
 			rl_on_new_line();
 			rl_redisplay();
 		}
-		// printf("g = %i\n", g_ret_val);
-		// g_ret_val = 1;
+		g_ret_val = 1;
 	}
 }
 

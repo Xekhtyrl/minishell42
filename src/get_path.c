@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:50:34 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 20:22:39 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:10:12 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**get_our_path(t_env *envp)
 		{
 			path = ft_split(tmp->content, ':');
 			if (!path)
-				return (send_error(-1), NULL);
+				return (send_error(MALLOC_ERR), NULL);
 			return (path);
 			strarray_free(path);
 		}

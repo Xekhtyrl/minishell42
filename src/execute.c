@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 17:22:23 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 18:51:34 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	exit(EXIT_FAILURE);
 }
 
-int	exec_builtin(t_input *cmd, t_env **envp)
+int	exec_builtin(t_input *cmd, t_env **envp, int size)
 {
 	char	**built;
 	int		f;
@@ -47,7 +47,7 @@ int	exec_builtin(t_input *cmd, t_env **envp)
 	if (f == 3)
 		return (ft_echo(cmd->arg), exit(0), 1);
 	if (f == 4)
-		return (ft_exit(), exit(0), 1);
+		return (ft_exit(cmd->arg, size == 1), 1);
 	if (f == 5)
 		return (ft_unset(envp, cmd->arg), 1);
 	if (f == 6 || f == 7)
@@ -67,7 +67,6 @@ void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char	*path;
 
-
 	path = 0;
 	mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
 	if (cmd->type == CMD_TK)
@@ -76,12 +75,13 @@ void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		{
 			close_pipes(pipe_fd, inf->size);
 			multi_array_free(inf->envtb, path);
+			exit(EXIT_FAILURE);
 		}
 		exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)),
 			inf->envtb, path, pipe_fd[n_cmd]);
 	}
 	else
-		exec_builtin(cmd, inf->env);
+		exec_builtin(cmd, inf->env, inf->size);
 }
 
 pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
@@ -97,15 +97,17 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		proc = fork();
 		if (!proc)
 		{
-			if (pipe_fd[n_cmd][0] != -1 && cmd->type != ERROR_TK)
+			if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
 				cmd_fork(cmd, inf, n_cmd, pipe_fd);
 			else
-				return (close(inf->pipe[0]), close(inf->pipe[1]),
-					exit(EXIT_FAILURE), (pid_t){0});
+			{
+				mini_cls_fd(inf->pipe[0], inf->pipe[1]);
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
-		exec_builtin(cmd, inf->env);
+		exec_builtin(cmd, inf->env, inf->size);
 	return (proc);
 }
 
@@ -134,6 +136,7 @@ void    wait_proc(t_cmd_info *info)
 
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 {
+	g_ret_val = -1;
 	inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
 	mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
 	if (check_next_pipe(pipe_fd, n_cmd, inf))
@@ -142,7 +145,12 @@ int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 		pipe_fd[n_cmd + 1][0] = inf->pipe[0];
 	}
 	if (cmd->type == ERROR_TK)
-		g_ret_val = 127;
+	{
+		if (!access(cmd->token, F_OK))
+			g_ret_val = 126;
+		else
+			g_ret_val = 127;
+	}
 	return (1);
 }
 
@@ -157,15 +165,24 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	g_ret_val = -1;
 	inf.size = ft_lstsize((t_list *)cmd);
 	inf.proc = malloc(sizeof(pid_t) * inf.size);
+	if (!inf.proc)
+		return (send_error(MALLOC_ERR), 0);
 	inf.env = envp;
 	inf.envtb = get_env(*envp);
 	while (tmp)
 	{
+		if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5) && inf.size == 1)
+			tmp->type = ENV_TK;
+		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5) 
+			&& inf.size != 1 && n_cmd != inf.size)
+			check_exit_error(tmp->arg);
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);
+		if (cmd->type == ERROR_TK)
+			send_error(CMD_ERR);
 		tmp = tmp->next;
 		n_cmd++;
 	}
-	close_pipes(pipe_fd, inf.size);
 	wait_proc(&inf);
+	close_pipes(pipe_fd, inf.size);
 	return (free(inf.proc), free_tab(inf.envtb), 0);
 }

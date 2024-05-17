@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:13:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:59:22 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/14 20:58:00 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,21 @@ void	free_tab(char **tabl)
 	while (tabl[++i])
 		free(tabl[i]);
 	free(tabl);
+}
+
+void	close_pipes(int **pipe, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size && pipe[i])
+	{
+		if (pipe[i][0] > 0)
+			close(pipe[i][0]);
+		if (pipe[i][1] > 1)
+			close(pipe[i][1]);
+		free(pipe[i]);
+		i++;
+	}
+	free(pipe);
 }
