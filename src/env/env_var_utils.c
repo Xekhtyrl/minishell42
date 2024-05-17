@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/16 18:05:24 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 15:58:04 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,13 @@ static int	replace_str_env_var2(int *i, char **tmp, char *s, t_env *envp)
 	char	*env_var;
 
 	start = ++(*i);
-	if (s[*i] == '?')
+	if (!s[*i] || s[*i] == '$')
+	{
+		*tmp = ft_stradd(*tmp, "$");
+		start = *i;
+		return (start);
+	}
+	else if (s[*i] == '?')
 		(*i)++;
 	else
 		while (s[*i] && (ft_isalnum(s[*i]) || s[*i] == '_') && s[*i] != '$')

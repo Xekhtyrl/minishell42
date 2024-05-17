@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 20:05:13 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 16:29:10 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_white_space(char c)
 
 int	is_not_sep(char c)
 {
-	return (!(is_white_space(c) || c == 39 || c == 45 || c == 60 || c == 62
+	return (!(is_white_space(c) || c == 39 || c == 34 || c == 45 || c == 60 || c == 62
 			|| c == 124));
 }
 
