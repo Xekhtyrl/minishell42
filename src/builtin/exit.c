@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 16:58:13 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 19:19:10 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 22:01:49 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ static int	equal_int(char *s1, char *s2)
 	return (1);
 }
 
-void	good_exit(int nbr, t_arg_lst *tmp, int pr)
+void	good_exit(long long nbr, t_arg_lst *tmp, int pr)
 {
 	char		*nb_c;
 
 	if (nbr == 1)
 	{
-		nbr = ft_atoi(tmp->token);
-		nb_c = ft_itoa(nbr);
+		nbr = ft_atoll(tmp->token);
+		nb_c = ft_lltoa(nbr);
 		if (equal_int(tmp->token, nb_c))
 		{
 			free(nb_c);
