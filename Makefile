@@ -42,13 +42,13 @@ C_BPURP = \033[1;35m
 
 C_END=\033[0m
 
-CFLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 
 ifeq "$(USER)" "lvodak"
 	READLINE_PATH = $(HOME)/.brew/Cellar/readline/8.2.10/
 else
-	#READLINE_PATH = /opt/homebrew/Cellar/readline/8.2.10/
-	READLINE_PATH = $(HOME)/homebrew/Cellar/readline/8.2.10/
+	READLINE_PATH = /opt/homebrew/Cellar/readline/8.2.10/
+	#READLINE_PATH = $(HOME)/homebrew/Cellar/readline/8.2.10/
 endif
 
 INCLUDES = ./includes -I$(READLINE_PATH)/include

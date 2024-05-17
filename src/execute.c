@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/16 17:27:16 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/17 17:53:08 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	if (pipe[1] > 2)
 		close(pipe[1]);
 	if (!ft_strncmp(cmd_cplt[0], "./minishell", 11)
-		&& atoi(get_env_var(env_lst(envp), "SHLVL")) >= 42)
+		&& atoi(get_env_var(env_lst(envp), ft_strdup("SHLVL"))) >= 42)
 		execute_order_66(envp);
 	else
 		execve(path, cmd_cplt, envp);
@@ -164,9 +164,10 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	inf.envtb = get_env(*envp);
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->token, "exit\0", 5) && inf.size == 1)
+		if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
+			&& inf.size == 1)
 			tmp->type = ENV_TK;
-		else if (!ft_strncmp(tmp->token, "exit\0", 5) 
+		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5) 
 			&& inf.size != 1 && n_cmd != inf.size)
 			check_exit_error(tmp->arg);
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);
