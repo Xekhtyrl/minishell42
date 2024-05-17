@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 17:08:55 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 17:22:23 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,41 +111,25 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 
 void    wait_proc(t_cmd_info *info)
 {
-	int i;
+    int i;
 	int status;
-	
-	// i = 0;
-    // while (i < info->size)
-    // {
-    //     if (i == info->size -1 && in_int_array(g_ret_val, (int []){126, 127}, 2))
-    //         waitpid(info->proc[i], 0, 0);
-    //     else
-    //         waitpid(info->proc[i], &g_ret_val, 0);
-    //     i++;
-    // }
-    // if (g_ret_val == 2)
-    //     g_ret_val = 130;
-    // else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
-    //     g_ret_val = !(!g_ret_val);
+
 	i = 0;
 	while (i < info->size)
     {
         waitpid(info->proc[i], &status, 0);
-		if (WIFEXITED(status))
+		if (WIFEXITED(status) && !in_int_array(g_ret_val, (int []){126, 127}, 2))
 			g_ret_val = WEXITSTATUS(status);
-		else if (status == 2)
+		else if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
 			g_ret_val = 130;
-    	else if (!in_int_array(status, (int []){126, 127}, 2))
+    	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
 			g_ret_val = !(!g_ret_val);
-		printf("%i) status >>>%i\ng_ret >>> %i\n", i, status, g_ret_val);
         i++;
     }
-		printf("end >> status >>>%i\ng_ret >>> %i\n", status, g_ret_val);
-    if (status == 2)
-        g_ret_val = 130;
-    else if (!in_int_array(status, (int []){126, 127}, 2))
-        g_ret_val = !(!g_ret_val);
-		printf("end2 >> status >>>%i\ng_ret >>> %i\n", status, g_ret_val);
+	if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
+    	g_ret_val = 130;
+	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
+    	g_ret_val = !(!g_ret_val);
 }
 
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
