@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/18 17:17:14 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 19:39:04 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	check_absent_envar2(t_env **env, int flag)
 	pwd = getcwd(0, 0);
 	if (!(flag % 2) || !flag)
 		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
-				("PWD"), pwd, 3, (t_env *)ft_lstlast((t_list *)*env)));
+				("PWD"), ft_strdup(pwd), 3,
+				(t_env *)ft_lstlast((t_list *)*env)));
 	if (!(flag == 2 || flag == 3 || flag == 6 || flag == 7))
 		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
 				("OLDPWD"), NULL, 0, (t_env *)ft_lstlast((t_list *)*env)));
@@ -94,7 +95,7 @@ void	check_absent_envar(t_env **env)
 		start = start->next;
 	}
 	check_absent_envar2(env, flag);
-	replace_or_append(ft_strdup("_"), ft_strdup("/usr/bin/env"), 0, *env);
+	create_new_envar(ft_strdup("_"), ft_strdup("/usr/bin/env"), 0, *env);
 	set_home_var(env);
 }
 

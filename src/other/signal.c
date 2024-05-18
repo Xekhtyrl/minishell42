@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/18 17:24:31 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 19:36:14 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	ctrl_d(t_env **envp, int f)
 		rl_clear_history();
 		printf("exit\n");
 		free_env(envp);
-		exit(130);
+		system("leaks minishell");
+		exit(0);
 	}
 }
 

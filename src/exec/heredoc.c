@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/18 17:24:16 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 20:08:51 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	add_here(char **buff, char **res, char *word)
 	int	add;
 
 	*buff = readline("> ");
-	if (!*buff)
+	if (!*buff ||  g_ret_val == 1)
 		return (0);
 	add = ft_strncmp(*buff, word, ft_strlen(*buff) + !ft_strlen(*buff));
 	if (!add)
@@ -95,6 +95,7 @@ int	heredoc(t_input *input)
 	t_input		*tmp;
 	t_arg_lst	*arg;
 
+	g_ret_val = -1;
 	tmp = input;
 	while (tmp)
 	{
@@ -105,7 +106,10 @@ int	heredoc(t_input *input)
 			{
 				arg->token = get_heredoc(arg);
 				if (!arg->token)
+				{
 					arg->token = ft_strdup("");
+					return (1);
+				}
 			}
 			arg = arg->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:13:14 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/18 17:24:22 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 19:37:02 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	free_env(t_env **envp)
 		next = (*envp)->next;
 		if ((*envp)->var)
 			free((*envp)->var);
-		if ((*envp)->var)
+		if ((*envp)->content)
 			free((*envp)->content);
 		free((*envp));
 		*envp = next;

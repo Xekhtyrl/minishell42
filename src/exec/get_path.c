@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:50:34 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/18 17:24:13 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 19:26:10 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_cmd_path(t_env *envp, t_input *input)
 			return (strarray_free(path), free(cmd), cm_path);
 		free(cm_path);
 	}
-	if (access(input->token, F_OK | X_OK) == 0)
+	if (access(input->token, F_OK | X_OK) == 0 && access(input->token, R_OK))
 		return (strarray_free(path), free(cmd), ft_strdup(input->token));
 	return (strarray_free(path), free(cmd), NULL);
 }

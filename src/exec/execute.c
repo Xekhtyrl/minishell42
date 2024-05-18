@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/18 18:14:26 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 19:18:55 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	wait_proc(t_cmd_info *info)
 	while (i < info->size)
 	{
 		waitpid(info->proc[i], &status, 0);
+		// printf("%i\n", status);
 		if (WIFEXITED(status) && !in_int_array(g_ret_val,
 				(int []){126, 127}, 2))
 			g_ret_val = WEXITSTATUS(status);
