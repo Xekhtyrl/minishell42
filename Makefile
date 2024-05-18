@@ -19,14 +19,15 @@ MY_SOURCES =	main.c							\
 				src/env/env_var_utils.c			\
 				src/env/setup_env.c				\
 				src/env/setup_env_bis.c			\
-				src/other/signal.c				\
 				src/exec/execute.c 				\
+				src/exec/exec_cute.c			\
 				src/exec/execute_utils.c 		\
 				src/exec/get_fd.c 				\
 				src/exec/get_path.c 			\
 				src/exec/traduction.c 			\
 				src/exec/dup.c					\
 				src/exec/heredoc.c				\
+				src/other/signal.c				\
 				src/other/free.c				\
 				src/other/free_input.c
 
