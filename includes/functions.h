@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/15 21:32:09 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/18 17:40:25 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ void		set_signals(void);
 //______________________EXECUTE________________________//
 int			fill_fd(t_input *input, int size, int ***pipe);
 int			execute_command(t_env **envp, t_input *cmd, int *pipe[2]);
+void		exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2]);
+int			exec_builtin(t_input *cmd, t_env **envp, int size);
+int			set_path_env(t_cmd_info *inf, t_input *cmd, char **path);
+void		cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd);
+pid_t		exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd);
 
 //______________________EXECUTE2_______________________//
 int			in_str_array(char *str, char **lst);

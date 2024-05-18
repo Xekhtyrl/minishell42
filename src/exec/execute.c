@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/18 17:25:05 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 17:44:27 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,10 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	tmp = cmd;
 	n_cmd = 0;
 	g_ret_val = -1;
-	inf.size = ft_lstsize((t_list *)cmd);
-	inf.proc = malloc(sizeof(pid_t) * inf.size);
+	inf = (t_cmd_info){ft_lstsize((t_list *)cmd), {0}, envp, get_env(*envp),
+		malloc(sizeof(pid_t) * inf.size)};
 	if (!inf.proc)
 		return (send_error(MALLOC_ERR), 0);
-	inf.env = envp;
-	inf.envtb = get_env(*envp);
 	while (tmp)
 	{
 		if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5) && inf.size == 1)
@@ -78,11 +76,9 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
 			&& inf.size != 1 && n_cmd != inf.size)
 			check_exit_error(tmp->arg);
-		cmd_start(&inf, tmp, pipe_fd, n_cmd);
-		if (cmd->type == ERROR_TK)
+		if (cmd_start(&inf, tmp, pipe_fd, n_cmd++) && cmd->type == ERROR_TK)
 			send_error(CMD_ERR);
 		tmp = tmp->next;
-		n_cmd++;
 	}
 	wait_proc(&inf);
 	close_pipes(pipe_fd, inf.size);
