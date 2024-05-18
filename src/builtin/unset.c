@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:52:28 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 22:48:41 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 18:23:41 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ void	unset_each_arg(t_env **envp, t_arg_lst *arg)
 
 void	ft_unset(t_env **envp, t_arg_lst *arg)
 {
+	g_ret_val = 0;
 	if (!arg)
-		return ((void)printf("unset: not enough arguments"));
+		return ;
 	while (arg)
 	{
 		if (!ft_strncmp(arg->token, "_", ft_strlen(arg->token)))

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 19:18:13 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 18:27:35 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ static void	exporto_patronum(t_env *envp, t_arg_lst *arg, int flag)
 	char	*tmp;
 
 	tmp = NULL;
+	g_ret_val = 0;
 	if (arg->token[0] == '\'')
 		tmp = ft_strtrim(arg->token, "\'");
 	else if (arg->token[0] == '\"')

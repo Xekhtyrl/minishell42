@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 21:41:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/16 20:07:58 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 18:20:40 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	ft_cd(t_env *envp, t_arg_lst *arg)
 	else
 		path = ft_strdup(arg->token);
 	pwd = getcwd(NULL, 0);
-	chdir(path);
+	g_ret_val = chdir(path) * -1;
+	if (g_ret_val)
+		printf("cd: %s: No such file or directory\n", path);
 	new_path = getcwd(NULL, 0);
 	replace_or_append(ft_strdup("PWD"), new_path, 0, envp);
 	if (ft_strncmp(pwd, new_path, ft_strlen(pwd)))
