@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:39:08 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 19:17:42 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 17:17:14 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env	*create_env_node(char *var, char *content, int flag, t_env *prev)
 	new->var = var;
 	new->content = NULL;
 	if (content)
-		new->content = ft_strdup(content);
+		new->content = content;
 	new->flag = flag;
 	new->next = NULL;
 	new->prev = prev;
@@ -71,7 +71,8 @@ void	check_absent_envar2(t_env **env, int flag)
 				("OLDPWD"), NULL, 0, (t_env *)ft_lstlast((t_list *)*env)));
 	if (flag < 4)
 		ft_lstadd_back((t_list **)env, (t_list *)create_env_node(ft_strdup
-				("SHLVL"), "0", 0, (t_env *)ft_lstlast((t_list *)*env)));
+				("SHLVL"), ft_strdup("0"), 0,
+				(t_env *)ft_lstlast((t_list *)*env)));
 	free(pwd);
 }
 
@@ -103,23 +104,20 @@ t_env	*env_lst(char **envp)
 	t_env	*new;
 	t_env	*prev;
 	char	*var;
-	int		len;
 
 	prev = NULL;
 	start = NULL;
-	len = 0;
 	while (envp && *envp)
 	{
 		if (ft_strchr(*envp, '='))
 		{
 			var = ft_substr(*envp, 0, ft_strleng(*envp, '='));
-			new = create_env_node(var, ft_strchr(*envp, '=') + 1, 0, prev);
+			new = create_env_node(var, ft_strdup(ft_strchr(*envp, '=') + 1), 0,
+					prev);
 			if (!new)
 				return (free_env(&start), NULL);
 			ft_lstadd_back((t_list **)&start, (t_list *)new);
 			prev = new;
-			if (ft_strlen(var) > (size_t)len)
-				len = ft_strlen(var);
 		}
 		envp++;
 	}

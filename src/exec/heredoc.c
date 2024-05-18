@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/09 15:51:22 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/18 17:24:16 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	detect_token(t_arg_lst *args, int token)
 {
@@ -83,7 +83,7 @@ char	*get_heredoc(t_arg_lst *arg)
 	{
 		free(buff);
 		if (!add_here(&buff, &res, tmp->token))
-			return (res);
+			return (free(arg->token), res);
 	}
 	free(buff);
 	free(arg->token);

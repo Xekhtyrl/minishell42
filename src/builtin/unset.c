@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:52:28 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/12 15:56:46 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/17 22:48:41 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	unset_arg_bis(t_env *prev, t_env *envp)
 	free((envp)->content);
 	prev = envp;
 	envp = (envp)->next;
-	(envp)->prev = prev->prev;
+	if (envp)
+		(envp)->prev = prev->prev;
 	free(prev);
 	prev = NULL;
 }

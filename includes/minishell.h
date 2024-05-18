@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:46 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 19:25:08 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 17:17:18 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # include <sys/ioctl.h>
 # include <dirent.h>
 # include <sys/stat.h>
-//# include <errno.h>
+
 int	g_ret_val;
 
 #endif

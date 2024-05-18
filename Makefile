@@ -19,16 +19,16 @@ MY_SOURCES =	main.c							\
 				src/env/env_var_utils.c			\
 				src/env/setup_env.c				\
 				src/env/setup_env_bis.c			\
-				src/signal.c					\
-				src/execute.c 					\
-				src/execute_utils.c 			\
-				src/get_fd.c 					\
-				src/get_path.c 					\
-				src/traduction.c 				\
-				src/dup.c						\
-				src/heredoc.c					\
-				src/free.c						\
-				src/free_input.c
+				src/other/signal.c				\
+				src/exec/execute.c 				\
+				src/exec/execute_utils.c 		\
+				src/exec/get_fd.c 				\
+				src/exec/get_path.c 			\
+				src/exec/traduction.c 			\
+				src/exec/dup.c					\
+				src/exec/heredoc.c				\
+				src/other/free.c				\
+				src/other/free_input.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
 
