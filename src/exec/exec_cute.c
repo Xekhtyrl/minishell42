@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/19 17:10:20 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/19 18:34:07 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 				cmd_fork(cmd, inf, n_cmd, pipe_fd);
 			else
 			{
-				mini_cls_fd(inf->pipe[0], inf->pipe[1]);
+				mini_cls_fd(inf->pipe[0], 0);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -109,73 +109,4 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
 		exec_builtin(cmd, inf->env, inf->size);
 	return (proc);
-}
-
-void    wait_proc(t_cmd_info *info)
-{
-    int i;
-	int status;
-	
-	i = 0;
-	while (i < info->size)
-    {
-		
-        waitpid(info->proc[i], &status, 0);
-		if (WIFEXITED(status))
-			g_ret_val = WEXITSTATUS(status);
-        i++;
-    }
-}
-int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
-{
-	g_ret_val = -1;
-	inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
-	mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
-	if (check_next_pipe(pipe_fd, n_cmd, inf))
-	{
-		close(inf->pipe[1]);
-		pipe_fd[n_cmd + 1][0] = inf->pipe[0];
-	}
-	if (cmd->type == ERROR_TK)
-	{
-		if (!access(cmd->token, F_OK))
-			g_ret_val = 126;
-		else
-			g_ret_val = 127;
-	}
-	return (1);
-}
-
-int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
-{
-	t_cmd_info	inf;
-	t_input		*tmp;
-	int			n_cmd;
-
-	tmp = cmd;
-	n_cmd = 0;
-	g_ret_val = -1;
-	inf.size = ft_lstsize((t_list *)cmd);
-	inf.proc = malloc(sizeof(pid_t) * inf.size);
-	if (!inf.proc)
-		return (send_error(MALLOC_ERR), 0);
-	inf.env = envp;
-	inf.envtb = get_env(*envp);
-	while (tmp)
-	{
-		if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
-			&& inf.size == 1)
-			tmp->type = ENV_TK;
-		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
-			&& inf.size != 1 && n_cmd != inf.size)
-			check_exit_error(tmp->arg);
-		cmd_start(&inf, tmp, pipe_fd, n_cmd);
-		if (cmd->type == ERROR_TK)
-			send_error(CMD_ERR);
-		tmp = tmp->next;
-		n_cmd++;
-	}
-	wait_proc(&inf);
-	close_pipes(pipe_fd, inf.size);
-	return (free(inf.proc), free_tab(inf.envtb), 0);
 }
