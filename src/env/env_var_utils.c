@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:40:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/16 17:06:41 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/17 22:28:03 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	replace_or_append(char *var, char *content, int append, t_env *env)
 			{
 				free(var);
 				env->content = ft_stradd(env->content, content);
+				free(content);
 			}
 			else
 			{
@@ -55,7 +56,13 @@ static int	replace_str_env_var2(int *i, char **tmp, char *s, t_env *envp)
 	char	*env_var;
 
 	start = ++(*i);
-	if (s[*i] == '?')
+	if (!s[*i] || s[*i] == '$')
+	{
+		*tmp = ft_stradd(*tmp, "$");
+		start = *i;
+		return (start);
+	}
+	else if (s[*i] == '?')
 		(*i)++;
 	else
 		while (s[*i] && (ft_isalnum(s[*i]) || s[*i] == '_') && s[*i] != '$')

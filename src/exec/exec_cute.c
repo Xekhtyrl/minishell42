@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   exec_cute.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 17:53:08 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/19 17:10:20 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 {
@@ -36,7 +36,7 @@ int	exec_builtin(t_input *cmd, t_env **envp, int size)
 		"exporto_patronum", 0};
 	if (!built)
 		return (-1);
-	while (built[f] && strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
+	while (built[f] && ft_strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
 		f++;
 	if (f == 0)
 		return (ft_cd(*envp, cmd->arg), 1);
@@ -111,7 +111,6 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	return (proc);
 }
 
-
 void    wait_proc(t_cmd_info *info)
 {
     int i;
@@ -167,7 +166,7 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 		if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
 			&& inf.size == 1)
 			tmp->type = ENV_TK;
-		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5) 
+		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
 			&& inf.size != 1 && n_cmd != inf.size)
 			check_exit_error(tmp->arg);
 		cmd_start(&inf, tmp, pipe_fd, n_cmd);

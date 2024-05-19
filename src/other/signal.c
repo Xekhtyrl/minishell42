@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/16 17:19:19 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/18 19:36:14 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
+#include "../../includes/minishell.h"
 
 void	ctrl_d(t_env **envp, int f)
 {
@@ -19,9 +18,9 @@ void	ctrl_d(t_env **envp, int f)
 	{
 		rl_clear_history();
 		printf("exit\n");
-		//system(("leaks minishell"));
 		free_env(envp);
-		exit(130);
+		system("leaks minishell");
+		exit(0);
 	}
 }
 
