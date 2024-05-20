@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/18 22:38:01 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/20 21:26:37 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char		*trim_quote(char *str, int fr);
 
 int			detect_all_heredocs(t_input *input);
 int			detect_heredoc(t_arg_lst *args);
-char		*get_heredoc(t_arg_lst *arg);
+char		*get_heredoc(t_arg_lst *arg, int fd);
 int			heredoc(t_input *input);
 int			detect_token(t_arg_lst *args, int token);
 void		empty_args2(t_input *cmd);
