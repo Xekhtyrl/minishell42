@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   lst_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/19 17:09:21 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/21 00:51:26 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void print_str_array(char **str)
+{
+	int i =0;
+
+	while (str[i])
+		printf("%s\n", str[i++]);
+}
 
 static int	set_res(char ***res, t_arg_lst **tmp, int len, t_input *cmd)
 {
@@ -39,15 +47,15 @@ char	**get_all_cmd(t_input *cmd, int len)
 			res[i] = trim_quote(tmp->token, 0);
 			if (!res[i++])
 				return (strarray_free(res), NULL);
+			tmp = tmp->next;
 		}
 		else if (in_int_array(tmp->type,
-				(int []){READ_TK, WRITE_TK, HEREDOC_TK}, 3))
+				(int []){READ_TK, WRITE_TK, HEREDOC_TK, SPACE_TK}, 4))
 			while (tmp && tmp->type != WORD_TK)
 				tmp = tmp->next;
-		if (tmp)
-			tmp = tmp->next;
 	}
 	res[i] = 0;
+	print_str_array(res);
 	return (res);
 }
 
