@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 18:54:26 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/18 22:37:11 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,11 @@ int	prep_exec(t_input *input, t_env *m_env)
 	if (!fill_fd(input, ft_lstsize((t_list *)input), &pipe))
 		send_error(MALLOC_ERR);
 	if (detect_all_heredocs(input))
-		heredoc(input);
+	{
+		if (fork() == 0)
+			heredoc(&input);
+		wait(0);
+	}
 	empty_args(input);
 	if (!trad_input(input, &m_env))
 		send_error(-1);

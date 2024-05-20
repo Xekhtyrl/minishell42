@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/18 20:08:51 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/20 16:47:32 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	add_here(char **buff, char **res, char *word)
 	int	add;
 
 	*buff = readline("> ");
-	if (!*buff ||  g_ret_val == 1)
+	if (!*buff)
 		return (0);
 	add = ft_strncmp(*buff, word, ft_strlen(*buff) + !ft_strlen(*buff));
 	if (!add)
@@ -78,7 +78,7 @@ char	*get_heredoc(t_arg_lst *arg)
 	if (tmp->type == SPACE_TK)
 		tmp = tmp->next;
 	if (!add_here(&buff, &res, tmp->token))
-		return (0);
+		return (free(arg->token), NULL);
 	while (ft_strncmp(buff, tmp->token, ft_strlen(buff) + (!ft_strlen(buff))))
 	{
 		free(buff);
@@ -95,7 +95,8 @@ int	heredoc(t_input *input)
 	t_input		*tmp;
 	t_arg_lst	*arg;
 
-	g_ret_val = -1;
+	g_ret_val = -2;
+	//pour que fork fonctionne et garder l'info recu, creer un file dans tmp ou stocker l'info et le rm avec make clean?
 	tmp = input;
 	while (tmp)
 	{
@@ -108,12 +109,12 @@ int	heredoc(t_input *input)
 				if (!arg->token)
 				{
 					arg->token = ft_strdup("");
-					return (1);
+					return (/*exit(0),*/ 0);
 				}
 			}
 			arg = arg->next;
 		}
 		tmp = tmp->next;
 	}
-	return (1);
+	return (/*exit(0),*/ 1);
 }
