@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/20 16:47:32 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:07:26 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	add_here(char **buff, char **res, char *word)
 	int	add;
 
 	*buff = readline("> ");
-	if (!*buff)
+	if (!*buff ||  g_ret_val == 1)
 		return (0);
 	add = ft_strncmp(*buff, word, ft_strlen(*buff) + !ft_strlen(*buff));
 	if (!add)

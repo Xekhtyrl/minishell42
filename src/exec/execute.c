@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/18 19:18:55 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/19 16:54:18 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	wait_proc(t_cmd_info *info)
 	while (i < info->size)
 	{
 		waitpid(info->proc[i], &status, 0);
-		// printf("%i\n", status);
 		if (WIFEXITED(status) && !in_int_array(g_ret_val,
 				(int []){126, 127}, 2))
 			g_ret_val = WEXITSTATUS(status);
@@ -77,7 +76,7 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
 			&& inf.size != 1 && n_cmd != inf.size)
 			check_exit_error(tmp->arg);
-		if (cmd_start(&inf, tmp, pipe_fd, n_cmd++) && cmd->type == ERROR_TK)
+		if (cmd_start(&inf, tmp, pipe_fd, n_cmd++) && tmp->type == ERROR_TK)
 			send_error(CMD_ERR);
 		tmp = tmp->next;
 	}
