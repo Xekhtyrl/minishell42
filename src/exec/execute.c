@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/19 18:32:38 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/20 20:03:18 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 	return (1);
 }
 
-void cmd_not_found(t_input *cmd)
+void	cmd_not_found(t_input *cmd)
 {
 	ft_printf("%s : ", cmd->token);
 	send_error(CMD_ERR);
 }
 
-int set_inf(t_cmd_info *inf, t_env **envp, t_input *cmd)
+int	set_inf(t_cmd_info *inf, t_env **envp, t_input *cmd)
 {
 	inf->size = ft_lstsize((t_list *)cmd);
 	inf->env = envp;

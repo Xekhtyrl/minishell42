@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 19:17:23 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/20 21:42:16 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,17 @@ static int	get_input_struct(t_input **start, char *str, t_env *envp)
 
 int	parse(t_input **input, char *str, t_env *envp)
 {
+	char	*strc;
+
 	*input = NULL;
+	strc = str;
 	if (!str)
 		return (ft_putstr_fd("NO STR\n", 2), 0);
 	if (parse_error(str))
 		return (free(str), g_ret_val = 258, 0);
-	if (get_input_struct(input, str, envp) == -1)
+	while (*strc && is_white_space(*strc))
+		strc++;
+	if (get_input_struct(input, strc, envp) == -1)
 		return (free_input(input), free(str), 0);
 	return (free(str), 1);
 }
