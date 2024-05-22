@@ -6,19 +6,11 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 16:39:46 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:41:41 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void print_str_array(char **str)
-{
-	int i =0;
-
-	while (str[i])
-		printf("%s\n", str[i++]);
-}
 
 static int	set_res(char ***res, t_arg_lst **tmp, int len, t_input *cmd)
 {
