@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 22:08:09 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/22 22:18:26 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	increase_token(t_input **cmd, int *token, char *str, int i)
 	return (1);
 }
 
-void	check_for_empty_arg(t_arg_lst *lst)
+void	check_for_empty_arg(t_arg_lst *lst, int token)
 {
 	if (!lst)
 		return ;
@@ -58,6 +58,8 @@ void	check_for_empty_arg(t_arg_lst *lst)
 		lst = lst->next;
 	if ((lst->token[0] == '\"' || lst->token[0] == '\'') && lst->token[1] == lst->token[0])
 		lst->type = EMPTY_TK;
+	else if (token == 2 && lst->type == WORD_TK)
+		lst->type = BEF_CMD_TK;
 }
 
 int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
@@ -80,7 +82,7 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 		if (!increase_token(cmd, &token, str, i))
 			return (-1);
 		if (token <= 2)
-			check_for_empty_arg(lst);
+			check_for_empty_arg(lst, token);
 	}
 	if (i != -1 && !*cmd)
 		*cmd = create_node(NULL, 0, envp);
