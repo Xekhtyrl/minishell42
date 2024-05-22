@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 15:51:33 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 19:41:55 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char		*get_input(void);
 void		ctrl_c(int num, int f);
 void		ctrl_d(t_env **envp, int f);
 void		set_signals(void);
+void		sign_handler(int code);
+void		sig_here_doc(int code);
 
 //______________________EXECUTE________________________//
 int			fill_fd(t_input *input, int size, int ***pipe);
@@ -127,7 +129,6 @@ int			check_next_pipe(int *fd_in_out[2], int cur, t_cmd_info *inf);
 char		*trim_quote(char *str, int fr);
 
 //_____________________HEREDOC_________________________//
-
 int			detect_all_heredocs(t_input *input);
 int			detect_heredoc(t_arg_lst *args);
 char		*get_heredoc(t_arg_lst *arg, int fd);

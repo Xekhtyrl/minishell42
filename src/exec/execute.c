@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 15:50:24 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:49:55 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,28 +106,4 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	wait_proc(&inf);
 	close_pipes(pipe_fd, inf.size);
 	return (free(inf.proc), free_tab(inf.envtb), 0);
-}
-
-void	wait_proc(t_cmd_info *info)
-{
-	int	i;
-	int	status;
-
-	i = 0;
-	while (i < info->size)
-	{
-		waitpid(info->proc[i], &status, 0);
-		if (WIFEXITED(status) && !in_int_array(g_ret_val,
-				(int []){126, 127}, 2))
-			g_ret_val = WEXITSTATUS(status);
-		else if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
-			g_ret_val = 130;
-		else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
-			g_ret_val = !(!g_ret_val);
-		i++;
-	}
-	if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
-		g_ret_val = 130;
-	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
-		g_ret_val = !(!g_ret_val);
 }
