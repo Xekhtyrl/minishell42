@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/20 22:45:32 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/22 15:59:21 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ char	*get_heredoc(t_arg_lst *arg, int fd)
 	free(buff);
 	free(arg->token);
 	ft_putstr_fd(res, fd);
-	return (res);
+	free(res);
+	return (0);
 }
 
 char	*get_file_heredoc(void)

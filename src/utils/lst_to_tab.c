@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/17 20:35:54 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:41:41 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,12 @@ char	**get_all_cmd(t_input *cmd, int len)
 			res[i] = trim_quote(tmp->token, 0);
 			if (!res[i++])
 				return (strarray_free(res), NULL);
+			tmp = tmp->next;
 		}
 		else if (in_int_array(tmp->type,
-				(int []){READ_TK, WRITE_TK, HEREDOC_TK}, 3))
+				(int []){READ_TK, WRITE_TK, HEREDOC_TK, SPACE_TK}, 4))
 			while (tmp && tmp->type != WORD_TK)
 				tmp = tmp->next;
-		if (tmp)
-			tmp = tmp->next;
 	}
 	res[i] = 0;
 	return (res);

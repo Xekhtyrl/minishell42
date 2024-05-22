@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/18 17:24:26 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/19 18:35:05 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,18 @@ int	send_error(int flag)
 
 void	mini_cls_fd(int fd1, int fd2)
 {
-	if (fd1 > 1 && close(fd1) == -1)
-		perror("close1");
-	if (fd2 > 2 && close(fd2) == -1)
-		perror("close2");
+	if (fd1 > 1)
+	{
+		if (close(fd1) == -1)
+			perror("close1");
+		fd1 = 0;
+	}
+	if (fd2 > 2)
+	{
+		if (close(fd2) == -1)
+			perror("close2");
+		fd2 = 1;
+	}
 }
 
 void	multi_array_free(char **str1, char *str2)

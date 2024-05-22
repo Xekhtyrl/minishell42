@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:23:10 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 16:40:24 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:44:01 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exec_builtin(t_input *cmd, t_env **envp, int size)
 		"exporto_patronum", 0};
 	if (!built)
 		return (-1);
-	while (built[f] && strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
+	while (built[f] && ft_strncmp(built[f], cmd->token, ft_strlen(cmd->token)))
 		f++;
 	if (f == 0)
 		return (ft_cd(*envp, cmd->arg), 1);
