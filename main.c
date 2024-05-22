@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 21:17:27 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 22:06:54 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_input_lst(t_input	*i)
 {
 	t_input	*input;
 
-	input = i->next;
+	input = i;
 	printf("____________________________________________________________\n");
 	while (input)
 	{
@@ -73,7 +73,8 @@ int	prep_exec(t_input *input, t_env *m_env)
 		send_error(MALLOC_ERR);
 	if (detect_all_heredocs(input))
 		if (!heredoc(input))
-			return (free_input(&input), 0);
+			return (close_pipes(pipe, ft_lstsize((t_list *)input)),
+				free_input(&input), 0);
 	print_input_lst(input);
 	empty_args(input);
 	// print_input_lst(input);
