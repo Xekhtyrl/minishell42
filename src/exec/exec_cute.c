@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cute.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:23:10 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 15:38:47 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:40:24 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
 	if (cmd->type == CMD_TK)
 	{
-		path = get_cmd_path(inf->env, cmd);
+		path = get_cmd_path(*inf->env, cmd);
 		if (!path)
 		{
 			close_pipes(pipe_fd, inf->size);

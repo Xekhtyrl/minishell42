@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/20 21:26:37 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:39:38 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int			exec_builtin(t_input *cmd, t_env **envp, int size);
 int			set_path_env(t_cmd_info *inf, t_input *cmd, char **path);
 void		cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd);
 pid_t		exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd);
+void		wait_proc(t_cmd_info *info);
 
 //______________________EXECUTE2_______________________//
 int			in_str_array(char *str, char **lst);
