@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 21:13:40 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 22:34:09 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,25 @@ int	add_here(char **buff, char **res, char *word)
 	return (1);
 }
 
+void fill_eof_heredoc(t_arg_lst **arg)
+{
+	t_arg_lst	*tmp;
+	char		*add;
+
+	add = 0;
+	tmp = (*arg)->next;
+	while (tmp && tmp->type != BEF_CMD_TK)
+	{
+		if (tmp->type == WORD_TK)
+		{
+			add = trim_quote(tmp->token, 0);
+			(*arg)->token = ft_stradd((*arg)->token, add);
+			free(add);
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	get_heredoc(t_arg_lst *arg, int fd)
 {
 	char		*res;
@@ -47,8 +66,7 @@ void	get_heredoc(t_arg_lst *arg, int fd)
 	tmp = arg->next;
 	res = 0;
 	buff = 0;
-	if (tmp->type == SPACE_TK)
-		tmp = tmp->next;
+	fill_eof_heredoc(&arg);
 	if (!add_here(&buff, &res, tmp->token))
 		return (free(arg->token), free(res));
 	while (ft_strncmp(buff, tmp->token, ft_strlen(buff) + (!ft_strlen(buff))))
