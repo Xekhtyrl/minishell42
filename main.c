@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 21:17:27 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 21:41:36 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_input_lst(t_input	*i)
 {
 	t_input	*input;
 
-	input = i->next;
+	input = i;
 	printf("____________________________________________________________\n");
 	while (input)
 	{
@@ -73,13 +73,13 @@ int	prep_exec(t_input *input, t_env *m_env)
 		send_error(MALLOC_ERR);
 	if (detect_all_heredocs(input))
 		if (!heredoc(input))
-			return (free_input(&input), 0);
-	print_input_lst(input);
+			return (free_input(&input),
+				close_pipes(pipe, ft_lstsize((t_list *)input)), 0);
 	empty_args(input);
-	// print_input_lst(input);
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
+	print_input_lst(input);
 	free_input(&input);
 	return (1);
 }

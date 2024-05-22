@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 16:41:41 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 21:34:54 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ char	**get_all_cmd(t_input *cmd, int len)
 		if (!in_int_array(tmp->type,
 				(int []){READ_TK, WRITE_TK, SPACE_TK, HEREDOC_TK}, 4))
 		{
-			res[i] = trim_quote(tmp->token, 0);
+			if (!ft_strncmp(tmp->token, "\"\"", 2))
+				res[i] = trim_quote(tmp->token, 0);
 			if (!res[i++])
 				return (strarray_free(res), NULL);
 			tmp = tmp->next;
