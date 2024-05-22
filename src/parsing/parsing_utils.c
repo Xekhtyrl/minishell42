@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 20:54:13 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 21:16:42 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,33 @@ int	is_not_sep(char c)
 			|| c == 62 || c == 124));
 }
 
+int	check_pipe(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (i == 0 || str[i] == '|')
+		{
+			i++;
+			while (is_white_space(str[i]))
+				i++;
+		}
+		if (!str[i] || str[i] == '|')
+			return (0);
+	}
+	return (1);
+}
+
 int	closed_quotes(char *str)
 {
 	int		i;
 	char	quote;
 
 	i = -1;
+	if (!check_pipe(str))
+		return (-1);
 	while (str[++i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -41,9 +62,6 @@ int	closed_quotes(char *str)
 				if (!str[++i])
 					return (0);
 		}
-		else
-			if (str[i] == '|' && (!str[i + 1] || str[i + 1] == '|'))
-				return (-1);
 	}
 	return (1);
 }

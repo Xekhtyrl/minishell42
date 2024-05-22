@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 21:05:04 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 21:17:27 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	print_input_lst(t_input	*i)
 	printf("____________________________________________________________\n");
 	while (input)
 	{
+		printf("%scmd%s = %s type > %d\n", RED, NC, input->token, input->type);
 		if (input->arg)
 		{
 			while (input->arg)
@@ -32,7 +33,6 @@ void	print_input_lst(t_input	*i)
 			}
 		}
 		input = input->next;
-		printf("%scmd%s = %s type > %d\n", RED, NC, input->token, input->type);
 	}
 }
 
@@ -74,8 +74,9 @@ int	prep_exec(t_input *input, t_env *m_env)
 	if (detect_all_heredocs(input))
 		if (!heredoc(input))
 			return (free_input(&input), 0);
-	//print_input_lst(input);
+	print_input_lst(input);
 	empty_args(input);
+	// print_input_lst(input);
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);

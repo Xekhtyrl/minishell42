@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 19:39:44 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 21:13:40 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	add_here(char **buff, char **res, char *word)
 	return (1);
 }
 
-char	*get_heredoc(t_arg_lst *arg, int fd)
+void	get_heredoc(t_arg_lst *arg, int fd)
 {
 	char		*res;
 	char		*buff;
@@ -50,18 +50,17 @@ char	*get_heredoc(t_arg_lst *arg, int fd)
 	if (tmp->type == SPACE_TK)
 		tmp = tmp->next;
 	if (!add_here(&buff, &res, tmp->token))
-		return (free(arg->token), NULL);
+		return (free(arg->token), free(res));
 	while (ft_strncmp(buff, tmp->token, ft_strlen(buff) + (!ft_strlen(buff))))
 	{
 		free(buff);
 		if (!add_here(&buff, &res, tmp->token))
-			return (ft_putstr_fd(res, fd), free(arg->token), free(res), NULL);
+			return (ft_putstr_fd(res, fd), free(arg->token), free(res));
 	}
 	free(buff);
 	free(arg->token);
 	ft_putstr_fd(res, fd);
 	free(res);
-	return (0);
 }
 
 char	*get_file_heredoc(t_arg_lst *arg)
@@ -96,16 +95,17 @@ int	fork_heredoc(t_arg_lst *arg)
 	{
 		if (fork() == 0)
 		{
-			signal(SIGINT, SIG_DFL);
-			g_ret_val = -2;
+			signal(SIGINT, &sig_here_doc);
 			fd = open("/tmp/here_doc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
 			get_heredoc(arg, fd);
 			close(fd);
 			exit(0);
 		}
 		wait(&status);
-		if (!WIFEXITED(status))
-			return (0);
+		if (WIFEXITED(status))
+			g_ret_val = WEXITSTATUS(status);
+		if (g_ret_val == 130)
+			return (g_ret_val = 130, 0);
 		arg->token = get_file_heredoc(arg);
 		if (!arg->token)
 			arg->token = ft_strdup("");
@@ -131,5 +131,6 @@ int	heredoc(t_input *input)
 		}
 		tmp = tmp->next;
 	}
+	set_signals();
 	return (1);
 }

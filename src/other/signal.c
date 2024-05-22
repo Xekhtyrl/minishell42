@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 19:44:34 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 21:15:42 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ctrl_d(t_env **envp, int f)
 		printf("exit\n");
 		free_env(envp);
 		exit(0);
+		
 	}
 }
 
@@ -27,15 +28,12 @@ void	sig_here_doc(int code)
 {
 	if (code == SIGINT)
 	{
-		if (g_ret_val != -1)
-		{
 			write(1, "\n", 1);
 			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 			g_ret_val = 130;
 			exit(130);
-		}
 	}
 }
 
