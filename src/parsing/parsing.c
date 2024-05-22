@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 22:18:26 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/22 23:13:32 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,32 @@ char	*split_token(char *str, int	*start, char quote)
 
 int	increase_token(t_input **cmd, int *token, char *str, int i)
 {
-	if ((str[i] == '<' || str[i] == '>') && !*cmd && *token != 2)
-		*token = 0;
-	else if ((str[i] == '\"' || str[i] == '\'') && str[i + 1] == str[i] && *token < 2)
-		*token = *token * 1;
-	else
-		if ((*token)++ == 2 && !*cmd)
-			return (0);
+	int j;
+
+	j = -1;
+	while (++j <= i)
+	{
+		if (j && (str[j - 1] == '<' || str[j - 1] == '>') && !*cmd)
+			*token = 1;
+		else if (is_white_space(str[j]))
+		{
+			while (str[j] && is_white_space(str[j]))
+				j++;
+			(*token)++;
+		}
+	}
+	if ((*token) == 3 && !*cmd)
+		return (0);
 	return (1);
+	// if ((str[i] == '<' || str[i] == '>') && !*cmd && *token != 2)
+	// 	*token = 0;
+	// else if ((str[i] == '\"' || str[i] == '\'') && str[i + 1] == str[i] && *token < 2)
+	// 	*token = *token * 1;
+	// else if (token == 2 && str[i])
+	// else
+	// 	if ((*token)++ == 2 && !*cmd)
+	// 		return (0);
+	// return (1);
 }
 
 void	check_for_empty_arg(t_arg_lst *lst, int token)
@@ -71,7 +89,7 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 	lst = NULL;
 	while (i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
 	{
-		if (token == 2)
+		if (token == 2 && str[i - 1] == ' ')
 			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, envp);
 		else
 			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);
