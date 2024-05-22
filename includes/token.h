@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/15 21:28:12 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 22:05:00 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define WHITE "\001\033[0;30m\002"
 # define NC "\001\033[0m\002"
 
+# define EMPTY_TK 11
 # define BUILT_TK 12
 # define WORD_TK 13
 # define PIPE_TK 14

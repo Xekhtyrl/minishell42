@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 21:17:05 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 22:08:09 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ int	increase_token(t_input **cmd, int *token, char *str, int i)
 	return (1);
 }
 
+void	check_for_empty_arg(t_arg_lst *lst)
+{
+	if (!lst)
+		return ;
+	while (lst->next)
+		lst = lst->next;
+	if ((lst->token[0] == '\"' || lst->token[0] == '\'') && lst->token[1] == lst->token[0])
+		lst->type = EMPTY_TK;
+}
+
 int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 {
 	t_arg_lst	*lst;
@@ -69,6 +79,8 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 			i = create_and_add_node(str, (int []){i, 1}, &lst, envp);
 		if (!increase_token(cmd, &token, str, i))
 			return (-1);
+		if (token <= 2)
+			check_for_empty_arg(lst);
 	}
 	if (i != -1 && !*cmd)
 		*cmd = create_node(NULL, 0, envp);

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:18:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 21:25:34 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 22:10:49 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	ctrl_d(t_env **envp, int f)
 		printf("exit\n");
 		free_env(envp);
 		exit(0);
-		
 	}
 }
 
