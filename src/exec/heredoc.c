@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/20 19:03:11 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 15:59:21 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	add_here(char **buff, char **res, char *word)
 	int	add;
 
 	*buff = readline("> ");
-	if (!*buff || g_ret_val == 1)
+	if (!*buff)
 		return (0);
 	add = ft_strncmp(*buff, word, ft_strlen(*buff) + !ft_strlen(*buff));
 	if (!add)
@@ -66,7 +66,7 @@ int	add_here(char **buff, char **res, char *word)
 	return (1);
 }
 
-char	*get_heredoc(t_arg_lst *arg)
+char	*get_heredoc(t_arg_lst *arg, int fd)
 {
 	char		*res;
 	char		*buff;
@@ -83,11 +83,63 @@ char	*get_heredoc(t_arg_lst *arg)
 	{
 		free(buff);
 		if (!add_here(&buff, &res, tmp->token))
-			return (free(arg->token), res);
+			return (ft_putstr_fd(res, fd), free(arg->token), res);
 	}
 	free(buff);
 	free(arg->token);
-	return (res);
+	ft_putstr_fd(res, fd);
+	free(res);
+	return (0);
+}
+
+char	*get_file_heredoc(void)
+{
+	char	*str;
+	char	*final;
+	int		fd;
+
+	final = ft_strdup("");
+	fd = open("/tmp/here_doc.txt", O_RDONLY, 0666);
+	if (fd < 0)
+		return (final);
+	while (1)
+	{
+		str = get_next_line(fd);
+		// printf("%i >>> %s", fd, str);
+		if (!str)
+			break ;
+		final = ft_stradd(final, str);
+		free(str);
+	}
+	return (close(fd), final);
+}
+
+int	fork_heredoc(t_arg_lst *arg)
+{
+	int	fd;
+	
+	fd = 0;
+	if (arg->type == HEREDOC_TK)
+	{
+	
+		if (fork() == 0)
+		{
+			g_ret_val = -2;
+			fd = open("/tmp/here_doc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
+			// if (fd < 0)
+			// 	exit(1);
+			get_heredoc(arg, fd);
+			close(fd);
+			exit(0);
+		}
+		wait(0);
+		if (g_ret_val == 1)
+			return (close(fd), 0);
+		arg->token = get_file_heredoc();
+		if (!arg->token)
+			arg->token = ft_strdup("");
+	}
+	return (1);
 }
 
 int	heredoc(t_input *input)
@@ -95,22 +147,15 @@ int	heredoc(t_input *input)
 	t_input		*tmp;
 	t_arg_lst	*arg;
 
-	g_ret_val = -1;
 	tmp = input;
 	while (tmp)
 	{
 		arg = tmp->arg;
 		while (arg)
 		{
-			if (arg->type == HEREDOC_TK)
-			{
-				arg->token = get_heredoc(arg);
-				if (!arg->token)
-				{
-					arg->token = ft_strdup("");
-					return (1);
-				}
-			}
+			g_ret_val = -1;
+			if (!fork_heredoc(arg))
+				return (0);
 			arg = arg->next;
 		}
 		tmp = tmp->next;

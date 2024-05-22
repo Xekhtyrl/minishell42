@@ -6,34 +6,37 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/20 20:03:18 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 15:50:24 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	wait_proc(t_cmd_info *info)
+pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
-	int	i;
-	int	status;
+	pid_t	proc;
 
-	i = 0;
-	while (i < info->size)
+	proc = 0;
+	if (in_int_array(cmd->type, (int []){CMD_TK, BUILT_TK, ERROR_TK}, 3))
 	{
-		waitpid(info->proc[i], &status, 0);
-		if (WIFEXITED(status) && !in_int_array(g_ret_val,
-				(int []){126, 127}, 2))
-			g_ret_val = WEXITSTATUS(status);
-		else if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
-			g_ret_val = 130;
-		else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
-			g_ret_val = !(!g_ret_val);
-		i++;
+		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
+			&& pipe(inf->pipe) < 0)
+			send_error(PIPE_ERR);
+		proc = fork();
+		if (!proc)
+		{
+			if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
+				cmd_fork(cmd, inf, n_cmd, pipe_fd);
+			else
+			{
+				mini_cls_fd(inf->pipe[0], inf->pipe[1]);
+				exit(EXIT_FAILURE);
+			}
+		}
 	}
-	if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
-		g_ret_val = 130;
-	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
-		g_ret_val = !(!g_ret_val);
+	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
+		exec_builtin(cmd, inf->env, inf->size);
+	return (proc);
 }
 
 int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
@@ -73,6 +76,11 @@ int	set_inf(t_cmd_info *inf, t_env **envp, t_input *cmd)
 	return (1);
 }
 
+/*
+Main function of execute
+
+*/
+
 int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 {
 	t_cmd_info	inf;
@@ -98,4 +106,28 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	wait_proc(&inf);
 	close_pipes(pipe_fd, inf.size);
 	return (free(inf.proc), free_tab(inf.envtb), 0);
+}
+
+void	wait_proc(t_cmd_info *info)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < info->size)
+	{
+		waitpid(info->proc[i], &status, 0);
+		if (WIFEXITED(status) && !in_int_array(g_ret_val,
+				(int []){126, 127}, 2))
+			g_ret_val = WEXITSTATUS(status);
+		else if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
+			g_ret_val = 130;
+		else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
+			g_ret_val = !(!g_ret_val);
+		i++;
+	}
+	if (status == 2 && !in_int_array(g_ret_val, (int []){126, 127}, 2))
+		g_ret_val = 130;
+	else if (!in_int_array(g_ret_val, (int []){126, 127}, 2))
+		g_ret_val = !(!g_ret_val);
 }

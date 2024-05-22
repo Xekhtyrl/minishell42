@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/21 00:51:26 by Gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:39:46 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	**get_all_cmd(t_input *cmd, int len)
 				tmp = tmp->next;
 	}
 	res[i] = 0;
-	print_str_array(res);
 	return (res);
 }
 

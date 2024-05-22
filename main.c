@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 22:35:44 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/21 00:43:26 by Gfinet           ###   ########.fr       */
+/*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
+/*   Updated: 2024/05/22 16:01:19 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*pick_title(void)
 
 int	prep_exec(t_input *input, t_env *m_env)
 {
-	int				**pipe;
+	int	**pipe;
 
 	if (!fill_fd(input, ft_lstsize((t_list *)input), &pipe))
 		send_error(MALLOC_ERR);
@@ -77,7 +77,8 @@ int	prep_exec(t_input *input, t_env *m_env)
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
-	//print_input_lst(input);
+	write(1, "hey\n", 4);
+	print_input_lst(input);
 	free_input(&input);
 	return (1);
 }
