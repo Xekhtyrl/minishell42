@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cute.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:23:10 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/18 17:24:56 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/22 15:38:47 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,6 @@ int	exec_builtin(t_input *cmd, t_env **envp, int size)
 	return (0);
 }
 
-int	set_path_env(t_cmd_info *inf, t_input *cmd, char **path)
-{
-	*path = get_cmd_path(*inf->env, cmd);
-	if (*path == 0)
-		return (0);
-	return (1);
-}
-
 void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char	*path;
@@ -71,7 +63,8 @@ void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 	mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
 	if (cmd->type == CMD_TK)
 	{
-		if (!set_path_env(inf, cmd, &path))
+		path = get_cmd_path(inf->env, cmd);
+		if (!path)
 		{
 			close_pipes(pipe_fd, inf->size);
 			multi_array_free(inf->envtb, path);
@@ -84,29 +77,3 @@ void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		exec_builtin(cmd, inf->env, inf->size);
 }
 
-pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
-{
-	pid_t	proc;
-
-	proc = 0;
-	if (in_int_array(cmd->type, (int []){CMD_TK, BUILT_TK, ERROR_TK}, 3))
-	{
-		if (inf->size > 1 && check_next_pipe(pipe_fd, n_cmd, inf)
-			&& pipe(inf->pipe) < 0)
-			send_error(PIPE_ERR);
-		proc = fork();
-		if (!proc)
-		{
-			if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
-				cmd_fork(cmd, inf, n_cmd, pipe_fd);
-			else
-			{
-				mini_cls_fd(inf->pipe[0], inf->pipe[1]);
-				exit(EXIT_FAILURE);
-			}
-		}
-	}
-	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
-		exec_builtin(cmd, inf->env, inf->size);
-	return (proc);
-}
