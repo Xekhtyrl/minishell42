@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 15:59:21 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/22 19:40:14 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	add_here(char **buff, char **res, char *word)
 	return (1);
 }
 
-char	*get_heredoc(t_arg_lst *arg, int fd)
+void	get_heredoc(t_arg_lst *arg, int fd)
 {
 	char		*res;
 	char		*buff;
@@ -78,26 +78,26 @@ char	*get_heredoc(t_arg_lst *arg, int fd)
 	if (tmp->type == SPACE_TK)
 		tmp = tmp->next;
 	if (!add_here(&buff, &res, tmp->token))
-		return (free(arg->token), NULL);
+		return (free(arg->token), free(res));
 	while (ft_strncmp(buff, tmp->token, ft_strlen(buff) + (!ft_strlen(buff))))
 	{
 		free(buff);
 		if (!add_here(&buff, &res, tmp->token))
-			return (ft_putstr_fd(res, fd), free(arg->token), res);
+			return (ft_putstr_fd(res, fd), free(arg->token), free(res));
 	}
 	free(buff);
 	free(arg->token);
 	ft_putstr_fd(res, fd);
 	free(res);
-	return (0);
 }
 
-char	*get_file_heredoc(void)
+char	*get_file_heredoc(t_arg_lst *arg)
 {
 	char	*str;
 	char	*final;
 	int		fd;
 
+	free(arg->token);
 	final = ft_strdup("");
 	fd = open("/tmp/here_doc.txt", O_RDONLY, 0666);
 	if (fd < 0)
@@ -105,7 +105,6 @@ char	*get_file_heredoc(void)
 	while (1)
 	{
 		str = get_next_line(fd);
-		// printf("%i >>> %s", fd, str);
 		if (!str)
 			break ;
 		final = ft_stradd(final, str);
@@ -117,25 +116,25 @@ char	*get_file_heredoc(void)
 int	fork_heredoc(t_arg_lst *arg)
 {
 	int	fd;
-	
+	int	status;
+
 	fd = 0;
 	if (arg->type == HEREDOC_TK)
 	{
-	
 		if (fork() == 0)
 		{
-			g_ret_val = -2;
+			signal(SIGINT, &sig_here_doc);
 			fd = open("/tmp/here_doc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
-			// if (fd < 0)
-			// 	exit(1);
 			get_heredoc(arg, fd);
 			close(fd);
 			exit(0);
 		}
-		wait(0);
-		if (g_ret_val == 1)
-			return (close(fd), 0);
-		arg->token = get_file_heredoc();
+		wait(&status);
+		if (WIFEXITED(status))
+			g_ret_val = WEXITSTATUS(status);
+		if (g_ret_val == 130)
+			return (g_ret_val = 130, 0);
+		arg->token = get_file_heredoc(arg);
 		if (!arg->token)
 			arg->token = ft_strdup("");
 	}
@@ -160,5 +159,6 @@ int	heredoc(t_input *input)
 		}
 		tmp = tmp->next;
 	}
+	set_signals();
 	return (1);
 }

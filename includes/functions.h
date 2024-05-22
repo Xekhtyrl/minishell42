@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 16:44:35 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/22 19:13:51 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char		*get_input(void);
 void		ctrl_c(int num, int f);
 void		ctrl_d(t_env **envp, int f);
 void		set_signals(void);
+void 		sig_here_doc(int code);
 
 //______________________EXECUTE________________________//
 int			fill_fd(t_input *input, int size, int ***pipe);
@@ -130,7 +131,7 @@ char		*trim_quote(char *str, int fr);
 
 int			detect_all_heredocs(t_input *input);
 int			detect_heredoc(t_arg_lst *args);
-char		*get_heredoc(t_arg_lst *arg, int fd);
+void		get_heredoc(t_arg_lst *arg, int fd);
 int			heredoc(t_input *input);
 int			detect_token(t_arg_lst *args, int token);
 void		empty_args2(t_input *cmd);
