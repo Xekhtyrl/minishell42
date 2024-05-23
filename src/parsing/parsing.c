@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 23:14:42 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/23 16:21:35 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,36 @@ char	*split_token(char *str, int	*start, char quote)
 
 int	increase_token(t_input **cmd, int *token, char *str, int i)
 {
-	if ((str[i] == '<' || str[i] == '>') && !*cmd && *token != 2)
-		*token = 0;
-	else if ((str[i] == '\"' || str[i] == '\'') && str[i + 1] == str[i] && *token < 2)
-		*token = *token * 1;
-	else
-		if ((*token)++ == 2 && !*cmd)
-			return (0);
+	int j;
+
+	j = -1;
+	while (++j <= i)
+	{
+		if (j && (str[j - 1] == '<' || str[j - 1] == '>') && !*cmd)
+			*token = 1;
+		else if (is_white_space(str[j]))
+		{
+			while (str[j] && is_white_space(str[j]))
+				j++;
+			(*token)++;
+		}
+	}
+	if ((*token) == 3 && !*cmd)
+		return (0);
 	return (1);
 }
 
-void	check_for_empty_arg(t_arg_lst *lst)
+void	check_for_empty_arg(t_arg_lst *lst, int token)
 {
 	if (!lst)
 		return ;
 	while (lst->next)
 		lst = lst->next;
-	if ((lst->token[0] == '\"' || lst->token[0] == '\'') && lst->token[1] == lst->token[0])
+	if ((lst->token[0] == '\"' || lst->token[0] == '\'')
+		&& lst->token[1] == lst->token[0] && token != 2)
 		lst->type = EMPTY_TK;
+	else if (token == 2) // && lst->type == WORD_TK)
+		lst->type = BEF_CMD_TK;
 }
 
 int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
@@ -69,7 +81,7 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 	lst = NULL;
 	while (i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
 	{
-		if (token == 2)
+		if (token == 2 && str[i - 1] == ' ')
 			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, envp);
 		else
 			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);
@@ -80,7 +92,7 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 		if (!increase_token(cmd, &token, str, i))
 			return (-1);
 		if (token <= 2)
-			check_for_empty_arg(lst);
+			check_for_empty_arg(lst, token);
 	}
 	if (i != -1 && !*cmd)
 		*cmd = create_node(NULL, 0, envp);

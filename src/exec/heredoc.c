@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 22:34:09 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/23 16:25:45 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,25 @@ void fill_eof_heredoc(t_arg_lst **arg)
 {
 	t_arg_lst	*tmp;
 	char		*add;
+	char		**eof;
 
 	add = 0;
-	tmp = (*arg)->next;
+	tmp = (*arg)->next->next;
+	eof = &(*arg)->next->token;
 	while (tmp && tmp->type != BEF_CMD_TK)
 	{
 		if (tmp->type == WORD_TK)
 		{
 			add = trim_quote(tmp->token, 0);
-			(*arg)->token = ft_stradd((*arg)->token, add);
+			*eof = ft_stradd(*eof, add);
 			free(add);
 		}
 		tmp = tmp->next;
+	}
+	if (tmp && tmp->type == BEF_CMD_TK && ft_strncmp(tmp->token, "", 1))
+	{
+		add = trim_quote(tmp->token, 0);
+		*eof = ft_stradd(*eof, add);
 	}
 }
 
