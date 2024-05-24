@@ -49,8 +49,8 @@ CFLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address
 ifeq "$(USER)" "lvodak"
 	READLINE_PATH = $(HOME)/.brew/Cellar/readline/8.2.10/
 else
-	#READLINE_PATH = /opt/homebrew/Cellar/readline/8.2.10/
-	READLINE_PATH = $(HOME)/homebrew/Cellar/readline/8.2.10/
+	READLINE_PATH = /opt/homebrew/Cellar/readline/8.2.10/
+	#READLINE_PATH = $(HOME)/homebrew/Cellar/readline/8.2.10/
 endif
 
 INCLUDES = ./includes -I$(READLINE_PATH)/include

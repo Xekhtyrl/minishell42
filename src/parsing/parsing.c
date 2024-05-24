@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: Gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/23 16:21:35 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/25 00:35:09 by Gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	check_for_empty_arg(t_arg_lst *lst, int token)
 	if ((lst->token[0] == '\"' || lst->token[0] == '\'')
 		&& lst->token[1] == lst->token[0] && token != 2)
 		lst->type = EMPTY_TK;
-	else if (token == 2) // && lst->type == WORD_TK)
+	else if (token == 2) // && (lst->type == WORD_TK || lst->type == EMPTY_TK))
 		lst->type = BEF_CMD_TK;
 }
 
