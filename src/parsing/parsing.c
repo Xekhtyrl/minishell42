@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 23:13:32 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/25 17:06:17 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,15 @@ void	check_for_empty_arg(t_arg_lst *lst, int token)
 	if (!lst)
 		return ;
 	while (lst->next)
+	{
+		printf("%s\n", lst->token);
 		lst = lst->next;
+	}
+	printf("|%c| + |%c|\n", lst->token[0], lst->token[1]);
 	if ((lst->token[0] == '\"' || lst->token[0] == '\'') && lst->token[1] == lst->token[0])
-		lst->type = EMPTY_TK;
+		{lst->type = EMPTY_TK; printf("%c + %c\n", lst->token[0], lst->token[1]);}
 	else if (token == 2 && lst->type == WORD_TK)
-		lst->type = BEF_CMD_TK;
+		{lst->type = BEF_CMD_TK; printf("%s\n", lst->token);}
 }
 
 int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
@@ -95,12 +99,12 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);
 		while (i >= 0 && str[i] && is_white_space(str[i]))
 			i++;
+		check_for_empty_arg(lst, 0);
 		if (i > 0 && str[i - 1] == ' ' && token >= 3)
 			i = create_and_add_node(str, (int []){i, 1}, &lst, envp);
 		if (!increase_token(cmd, &token, str, i))
 			return (-1);
-		if (token <= 2)
-			check_for_empty_arg(lst, token);
+		check_for_empty_arg(lst, 0);
 	}
 	if (i != -1 && !*cmd)
 		*cmd = create_node(NULL, 0, envp);
@@ -121,12 +125,14 @@ int	split_cmd(t_input **cmd, char *str, int i, t_env *env)
 			i = create_and_add_node(str, (int []){i, 0}, &((*cmd)->arg), env);
 		if (!*cmd || i == -1)
 			return (-1);
+		check_for_empty_arg((*cmd)->arg, 0);
 		while (str[i] && is_white_space(str[i]))
 			i++;
 		if (str[i - 1] == ' ' && (*cmd)->arg)
 			i = create_and_add_node(str, (int []){i, 1}, &(*cmd)->arg, env);
 		if (i == -1)
 			return (free_arg_lst(&(*cmd)->arg, i));
+		check_for_empty_arg((*cmd)->arg, 0);
 		token++;
 	}
 	return (i);
