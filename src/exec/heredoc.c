@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/23 16:25:45 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/25 16:34:20 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void fill_eof_heredoc(t_arg_lst **arg)
 	add = 0;
 	tmp = (*arg)->next->next;
 	eof = &(*arg)->next->token;
-	while (tmp && tmp->type != BEF_CMD_TK)
+	while (tmp && (tmp->type != BEF_CMD_TK
+		|| (tmp->type != EMPTY_TK && !detect_token(tmp, EMPTY_TK))))
 	{
 		if (tmp->type == WORD_TK)
 		{
