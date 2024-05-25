@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/25 17:37:31 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/25 20:57:27 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,38 +38,42 @@ char	*split_token(char *str, int	*start, char quote)
 	return (ft_substr(str, *start - len, len));
 }
 
-int	increase_token(t_input **cmd, int *token, char *str, int i)
+int	increase_token(t_input **cmd, t_arg_lst *lst, int *token)
 {
-	int j;
+	t_arg_lst *tmp;
 
-	j = -1;
-	while (++j <= i)
+	tmp = lst;
+	*token = 0;
+	// if (i == -1)
+	// 	return (0);
+	while (tmp && tmp->next)
 	{
-		if (j && (str[j - 1] == '<' || str[j - 1] == '>') && !*cmd)
-			*token = 1;
-		else if (is_white_space(str[j]))
+		if (tmp && tmp->type == SPACE_TK)
+			tmp = tmp->next;
+		if (tmp && (tmp->type == READ_TK || tmp->type == WRITE_TK || tmp->type == APPEN_TK || tmp->type == HEREDOC_TK))
 		{
-			while (str[j] && is_white_space(str[j]))
-				j++;
-			(*token)++;
+			if (!*cmd)
+				*token = 1;
+			tmp = tmp->next;
+		}
+		if (tmp && (tmp->type == SPACE_TK || tmp->type == EMPTY_TK))
+			tmp = tmp->next;
+		if (tmp && (tmp->type == WORD_TK || tmp->type == 10))
+		{
+			while (tmp && (tmp->type == EMPTY_TK || tmp->type == WORD_TK || tmp->type == 10))
+				{tmp = tmp->next;}
+			*token += 1;
 		}
 	}
-	if ((*token) == 3 && !*cmd)
-		return (0);
+	printf("%i\n", *token);
 	return (1);
-	// if ((str[i] == '<' || str[i] == '>') && !*cmd && *token != 2)
-	// 	*token = 0;
-	// else if ((str[i] == '\"' || str[i] == '\'') && str[i + 1] == str[i] && *token < 2)
-	// 	*token = *token * 1;
-	// else if (token == 2 && str[i])
-	// else
-	// 	if ((*token)++ == 2 && !*cmd)
-	// 		return (0);
-	// return (1);
 }
 
 void	check_for_empty_arg(t_arg_lst *lst, int token)
 {
+	t_arg_lst *tmp;
+
+	tmp = lst;
 	if (!lst)
 		return ;
 	while (lst->next)
@@ -78,6 +82,22 @@ void	check_for_empty_arg(t_arg_lst *lst, int token)
 		lst->type = EMPTY_TK;
 	else if (token == 2 && lst->type == WORD_TK)
 		lst->type = BEF_CMD_TK;
+	// else if (token == 2)
+	// {
+	// 	while (tmp->next)
+	// 	{
+	// 		if (tmp)
+	// 	}
+	// }
+}
+
+int	is_valid_cmd(char *str, int i)
+{
+	if (str[i] == '<' || str[i] == '>' || str[i] == ' ')
+		return (0);
+	else if ((str[i] == '\"' || str[i] == '\'') && str[i] == str[i + 1])
+		return (0);
+	return (1);
 }
 
 int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
@@ -89,18 +109,18 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 	lst = NULL;
 	while (i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
 	{
-		if (token == 2 && str[i - 1] == ' ')
+		if (token == 2 && !*cmd && is_valid_cmd(str, i))
 			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, envp);
 		else
 			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);
 		while (i >= 0 && str[i] && is_white_space(str[i]))
 			i++;
-		check_for_empty_arg(lst, 0);
-		if (i > 0 && str[i - 1] == ' ' && token >= 3)
+		check_for_empty_arg(lst, token);
+		if (i > 0 && str[i - 1] == ' ')
 			i = create_and_add_node(str, (int []){i, 1}, &lst, envp);
-		if (!increase_token(cmd, &token, str, i))
+		if (!increase_token(cmd, lst, &token))
 			return (-1);
-		check_for_empty_arg(lst, 0);
+		check_for_empty_arg(lst, token);
 	}
 	if (i != -1 && !*cmd)
 		*cmd = create_node(NULL, 0, envp);
