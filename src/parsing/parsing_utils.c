@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/25 20:00:12 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/25 21:02:15 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	is_white_space(char c)
 */
 int	is_not_sep(char c)
 {
-	return (!(is_white_space(c) || c == 39 || c == 34 || c == 45 || c == 60
-			|| c == 62 || c == 124));
+	return (!(is_white_space(c) || c == '\'' || c == '\"' || c == '-' || c == '<'
+			|| c == '>' || c == '|'));
 }
 
 int	check_pipe(char *str)
