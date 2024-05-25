@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 22:07:02 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/25 16:45:02 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 t_arg_lst	*skip_arg(t_arg_lst *t)
 {
+	t_arg_lst *prev;
+
+	prev = t;
 	if (t)
 	{
 		t = t->next;
 		if (t && t->type == SPACE_TK)
 			t = t->next;
-		if (t && t->type == WORD_TK)
+		if (t && t->type == WORD_TK && prev->type != EMPTY_TK)
 			t = t->next;
 		if (t && t->type == SPACE_TK)
 			t = t->next;
@@ -79,7 +82,7 @@ t_arg_lst	*keep_arg_only(t_input *cmd)
 	futur_arg = 0;
 	while (tmp)
 	{
-		if (in_int_array(tmp->type, (int []){READ_TK, WRITE_TK, APPEN_TK}, 3))
+		if (in_int_array(tmp->type, (int []){READ_TK, WRITE_TK, APPEN_TK, EMPTY_TK}, 4))
 			tmp = skip_arg(tmp);
 		else if (tmp->type == HEREDOC_TK && !detect_token(tmp->next, HEREDOC_TK)
 			&& !detect_token(tmp, READ_TK))

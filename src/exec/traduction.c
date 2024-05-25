@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:07:29 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/25 17:27:54 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/25 17:53:13 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	check_path(t_input *cmd, t_env **envp)
 
 	path = 0;
 	path = get_cmd_path(*envp, cmd);
-	if (!path)
-		return (0);
-	if (path || !access(path, X_OK))
+	if (!path && access(cmd->token, X_OK))
+		return (printf("coucou\n"), 0);
+	if ((path || !access(path, X_OK)) || (!path && !access(cmd->token, X_OK)))
 		cmd->type = CMD_TK;
 	if (path)
 		free(path);
