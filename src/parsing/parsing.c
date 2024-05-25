@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/25 17:06:17 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/25 17:37:31 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,11 @@ void	check_for_empty_arg(t_arg_lst *lst, int token)
 	if (!lst)
 		return ;
 	while (lst->next)
-	{
-		printf("%s\n", lst->token);
 		lst = lst->next;
-	}
-	printf("|%c| + |%c|\n", lst->token[0], lst->token[1]);
 	if ((lst->token[0] == '\"' || lst->token[0] == '\'') && lst->token[1] == lst->token[0])
-		{lst->type = EMPTY_TK; printf("%c + %c\n", lst->token[0], lst->token[1]);}
+		lst->type = EMPTY_TK;
 	else if (token == 2 && lst->type == WORD_TK)
-		{lst->type = BEF_CMD_TK; printf("%s\n", lst->token);}
+		lst->type = BEF_CMD_TK;
 }
 
 int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
