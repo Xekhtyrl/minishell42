@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/25 16:34:20 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/25 18:05:45 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ void fill_eof_heredoc(t_arg_lst **arg)
 			free(add);
 		}
 		tmp = tmp->next;
+	printf("%s\n", *eof);
 	}
 	if (tmp && tmp->type == BEF_CMD_TK && ft_strncmp(tmp->token, "", 1))
 	{
 		add = trim_quote(tmp->token, 0);
 		*eof = ft_stradd(*eof, add);
 	}
+	printf("%s\n", *eof);
 }
 
 void	get_heredoc(t_arg_lst *arg, int fd)

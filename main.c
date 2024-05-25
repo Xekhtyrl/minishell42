@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/25 17:53:31 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/25 21:01:14 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,10 @@ int	prep_exec(t_input *input, t_env *m_env)
 		if (!heredoc(input))
 			return (close_pipes(pipe, ft_lstsize((t_list *)input)),
 				free_input(&input), 0);
-	//print_input_lst(input);
 	empty_args(input);
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
-	print_input_lst(input);
 	print_input_lst(input);
 	free_input(&input);
 	return (1);
@@ -101,6 +99,7 @@ char	*get_input(void)
 	free(title);
 	return (str);
 }
+int	parse2(t_input **input, char *str, t_env *envp);
 
 int	main(int argc, char **argv, char **envp)
 {

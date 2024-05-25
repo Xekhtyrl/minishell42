@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/25 17:51:59 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/25 18:06:55 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	check_for_empty_arg(t_arg_lst *lst, int token)
 	if ((lst->token[0] == '\"' || lst->token[0] == '\'')
 		&& lst->token[1] == lst->token[0])
 		lst->type = EMPTY_TK;
-	else if (token == 2 && lst->type == WORD_TK)
+	else if (token == 2 && (lst->type == WORD_TK || lst->type == EMPTY_TK))
 		lst->type = BEF_CMD_TK;
 }
 
@@ -87,12 +87,12 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);
 		while (i >= 0 && str[i] && is_white_space(str[i]))
 			i++;
-		check_for_empty_arg(lst, 0);
+		check_for_empty_arg(lst, token);
 		if (i > 0 && str[i - 1] == ' ' && token >= 3)
 			i = create_and_add_node(str, (int []){i, 1}, &lst, envp);
 		if (!increase_token(cmd, &token, str, i))
 			return (-1);
-		check_for_empty_arg(lst, 0);
+		check_for_empty_arg(lst, token);
 	}
 	if (i != -1 && !*cmd)
 		*cmd = create_node(NULL, 0, envp);
