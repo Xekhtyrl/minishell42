@@ -6,13 +6,13 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/26 18:43:14 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/26 20:03:05 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*split_token(char *str, int	*start, char quote)
+char	*split_token(char *str, int	*start, char quote, int token)
 {
 	int		len;
 	int		beg;
@@ -23,7 +23,7 @@ char	*split_token(char *str, int	*start, char quote)
 		while ((str[*start] == '<' || str[*start] == '>') && ++len <= 2)
 			(*start)++;
 	else if (quote != '\'' && quote != '\"')
-		while (str[*start] && (is_not_sep(str[*start]) || *start == beg)
+		while (str[*start] && (is_not_sep(str[*start], token) || *start == beg)
 			&& ++len)
 			(*start)++;
 	else
@@ -113,14 +113,14 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 	while (i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
 	{
 		if (token == 3 && !*cmd && is_valid_cmd(str, i))
-			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, envp);
+			*cmd = create_node(split_token(str, &i, str[i], token), WORD_TK, envp);
 		else
-			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);
+			i = create_and_add_node(str, (int []){i, 0, token}, &lst, envp);
 		while (i >= 0 && str[i] && is_white_space(str[i]))
 			i++;
 		check_for_empty_arg(lst, token);
 		if (i > 0 && str[i - 1] == ' ')
-			i = create_and_add_node(str, (int []){i, 1}, &lst, envp);
+			i = create_and_add_node(str, (int []){i, 1, token}, &lst, envp);
 		if (!increase_token(cmd, lst, &token))
 			return (-1);
 		check_for_empty_arg(lst, token);
@@ -139,16 +139,16 @@ int	split_cmd(t_input **cmd, char *str, int i, t_env *env)
 	while (str[i] && str[i] != '|' && i < (int)ft_strlen(str))
 	{
 		if (token == 0)
-			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, env);
+			*cmd = create_node(split_token(str, &i, str[i], 3), WORD_TK, env);
 		else
-			i = create_and_add_node(str, (int []){i, 0}, &((*cmd)->arg), env);
+			i = create_and_add_node(str, (int []){i, 0, 3}, &((*cmd)->arg), env);
 		if (!*cmd || i == -1)
 			return (-1);
 		check_for_empty_arg((*cmd)->arg, 0);
 		while (str[i] && is_white_space(str[i]))
 			i++;
 		if (str[i - 1] == ' ' && (*cmd)->arg)
-			i = create_and_add_node(str, (int []){i, 1}, &(*cmd)->arg, env);
+			i = create_and_add_node(str, (int []){i, 1, 3}, &(*cmd)->arg, env);
 		if (i == -1)
 			return (free_arg_lst(&(*cmd)->arg, i));
 		check_for_empty_arg((*cmd)->arg, 0);

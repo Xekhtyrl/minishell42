@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/13 22:06:40 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/26 20:03:33 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	set_input(t_input *cmd, char *token, int type)
 	cmd->type = type;
 }
 
-int	create_and_add_node(char *str, int data[2], t_arg_lst **lst, t_env *envp)
+int	create_and_add_node(char *str, int data[3], t_arg_lst **lst, t_env *envp)
 {
 	t_arg_lst	*arg;
 
@@ -66,7 +66,7 @@ int	create_and_add_node(char *str, int data[2], t_arg_lst **lst, t_env *envp)
 	else
 	{
 		arg = arg_node(get_token_type(str, data[0]), split_token(str, &data[0],
-					str[data[0]]), envp);
+					str[data[0]], data[2]), envp);
 		if (arg)
 			ft_lstadd_back((t_list **)lst, (t_list *)arg);
 		else
