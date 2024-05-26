@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/25 20:57:27 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/26 18:43:14 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,17 @@ int	increase_token(t_input **cmd, t_arg_lst *lst, int *token)
 				*token = 1;
 			tmp = tmp->next;
 		}
-		if (tmp && (tmp->type == SPACE_TK || tmp->type == EMPTY_TK))
-			tmp = tmp->next;
-		if (tmp && (tmp->type == WORD_TK || tmp->type == 10))
+		// if (tmp && (tmp->type == SPACE_TK || tmp->type == EMPTY_TK))
+		// 	tmp = tmp->next;
+		if (tmp && (tmp->type == WORD_TK || tmp->type == EMPTY_TK || tmp->type == 10))
 		{
 			while (tmp && (tmp->type == EMPTY_TK || tmp->type == WORD_TK || tmp->type == 10))
 				{tmp = tmp->next;}
 			*token += 1;
 		}
 	}
+	if (tmp && *token == 2 && tmp->type == SPACE_TK)
+		*token = 3;
 	printf("%i\n", *token);
 	return (1);
 }
@@ -80,8 +82,9 @@ void	check_for_empty_arg(t_arg_lst *lst, int token)
 		lst = lst->next;
 	if ((lst->token[0] == '\"' || lst->token[0] == '\'') && lst->token[1] == lst->token[0])
 		lst->type = EMPTY_TK;
-	else if (token == 2 && lst->type == WORD_TK)
-		lst->type = BEF_CMD_TK;
+	(void)token;
+	// else if (token == 2 && lst->type == WORD_TK)
+	// 	lst->type = BEF_CMD_TK;
 	// else if (token == 2)
 	// {
 	// 	while (tmp->next)
@@ -95,7 +98,7 @@ int	is_valid_cmd(char *str, int i)
 {
 	if (str[i] == '<' || str[i] == '>' || str[i] == ' ')
 		return (0);
-	else if ((str[i] == '\"' || str[i] == '\'') && str[i] == str[i + 1])
+	else if ((str[i] == '\"' || str[i] == '\'') && str[i] == str[i + 1] && str[i + 2] != ' ')
 		return (0);
 	return (1);
 }
@@ -109,7 +112,7 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 	lst = NULL;
 	while (i >= 0 && str[i] && str[i] != '|' && i < (int)ft_strlen(str))
 	{
-		if (token == 2 && !*cmd && is_valid_cmd(str, i))
+		if (token == 3 && !*cmd && is_valid_cmd(str, i))
 			*cmd = create_node(split_token(str, &i, str[i]), WORD_TK, envp);
 		else
 			i = create_and_add_node(str, (int []){i, 0}, &lst, envp);

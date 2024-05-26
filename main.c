@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/25 18:02:06 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/26 15:18:26 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void	print_input_lst(t_input	*i)
 {
 	t_input	*input;
+	t_arg_lst *start;
 
 	input = i;
 	printf("____________________________________________________________\n");
@@ -25,15 +26,18 @@ void	print_input_lst(t_input	*i)
 		printf("%scmd%s = %s type > %d\n", RED, NC, input->token, input->type);
 		if (input->arg)
 		{
+			start = input->arg;
 			while (input->arg)
 			{
 				printf("\t%sarg%s = %s\t type > %i\n", LBLUE, NC,
 					input->arg->token, input->arg->type);
 				input->arg = input->arg->next;
 			}
+			input->arg = start;
 		}
 		input = input->next;
 	}
+	i = input;
 }
 
 char	*pick_title(void)
@@ -77,7 +81,7 @@ int	prep_exec(t_input *input, t_env *m_env)
 				free_input(&input), 0);
 	print_input_lst(input);
 	empty_args(input);
-	// print_input_lst(input);
+	print_input_lst(input);
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
