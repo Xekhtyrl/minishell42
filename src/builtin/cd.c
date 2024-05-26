@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 21:41:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/18 18:20:40 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/26 19:46:20 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	ft_cd(t_env *envp, t_arg_lst *arg)
 	char	*pwd;
 	char	*path;
 
+	if (arg && arg->type == SPACE_TK && arg->next)
+		arg = arg->next;
 	if (!arg || (arg->token && arg->token[0] == '~'))
 		path = replace_home_path(arg, envp);
 	else if ((arg->token && arg->token[0] == '-' && !arg->token[1]))
