@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 16:58:13 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/26 19:51:26 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/26 20:47:46 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	ft_exit(t_arg_lst *arg, int pr)
 {
 	int			nbr;
 	t_arg_lst	*tmp;
-
 
 	if (arg && arg->type == SPACE_TK && arg->next)
 		arg = arg->next;

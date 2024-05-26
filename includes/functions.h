@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/26 20:03:18 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/26 20:46:39 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ int			check_for_pipe(char *str);
 int			get_token_type(char *c, int start);
 int			parse_error(char *str);
 int			choose_split_kind(char *str, int i, t_input **cmd, t_env *envp);
+int			increase_token(t_input **cmd, t_arg_lst *lst, int *token);
+int			check_for_empty_arg(t_arg_lst *lst, int i);
+int			is_valid_cmd(char *str, int i);
 
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token, t_env *envp);

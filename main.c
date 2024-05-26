@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/26 15:18:26 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/26 20:48:07 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 // REMOVE
 void	print_input_lst(t_input	*i)
 {
-	t_input	*input;
-	t_arg_lst *start;
+	t_input		*input;
+	t_arg_lst	*start;
 
 	input = i;
 	printf("____________________________________________________________\n");
