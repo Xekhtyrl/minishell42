@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/26 15:56:20 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/26 19:42:56 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_arg_lst	*skip_arg(t_arg_lst *t, t_arg_lst *head)
 	{
 		while (head && head->next != t)
 			head = head->next;
-		if (head->type == SPACE_TK && (!t->next || (t->next && t->next->type == SPACE_TK)))
+		if (head && head->type == SPACE_TK && (!t->next || (t->next && t->next->type == SPACE_TK)))
 			return (t);
 	}
 	if (t)
@@ -93,16 +93,16 @@ t_arg_lst	*keep_arg_only(t_input *cmd)
 	{
 		if (in_int_array(tmp->type, (int []){READ_TK, WRITE_TK, APPEN_TK, EMPTY_TK}, 4))
 			tmp = skip_arg(tmp, head);
-		if (tmp->type == HEREDOC_TK && !detect_token(tmp->next, HEREDOC_TK)
+		if (tmp && tmp->type == HEREDOC_TK && !detect_token(tmp->next, HEREDOC_TK)
 			&& !detect_token(tmp, READ_TK))
 			ret = add_node(&futur_arg, &tmp);
 		else if (tmp && tmp->type == HEREDOC_TK)
 			tmp = skip_arg(tmp, head);
 		else if (tmp && (tmp->type == WORD_TK || tmp->type == EMPTY_TK))
 			ret = add_node(&futur_arg, &tmp);
-		else if (tmp->type == SPACE_TK && tmp->next && (tmp->next->type == 13 || tmp->next->type == 11))
+		else if (tmp && tmp->type == SPACE_TK && tmp->next && (tmp->next->type == 13 || tmp->next->type == 11))
 			ret = add_node(&futur_arg, &tmp);
-		else
+		else if (tmp)
 			tmp = tmp->next;
 		if (ret == -1)
 			return (free_all_args(&futur_arg), NULL);
