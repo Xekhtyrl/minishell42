@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 21:18:11 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/26 20:46:39 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,26 @@
 //______________________PARSING_______________________//
 int			parse(t_input **input, char *str, t_env *envp);
 int			split_cmd(t_input **cmd, char *str, int i, t_env *env);
-char		*split_token(char *str, int	*start, char quote);
+char		*split_token(char *str, int	*start, char quote, int token);
 int			split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp);
 
 //___________________PARSING_UTILS____________________//
 int			is_white_space(char c);
-int			is_not_sep(char c);
+int			is_not_sep(char c, int token_nbr);
 int			closed_quotes(char *str);
 int			check_for_pipe(char *str);
 int			get_token_type(char *c, int start);
 int			parse_error(char *str);
 int			choose_split_kind(char *str, int i, t_input **cmd, t_env *envp);
+int			increase_token(t_input **cmd, t_arg_lst *lst, int *token);
+int			check_for_empty_arg(t_arg_lst *lst, int i);
+int			is_valid_cmd(char *str, int i);
 
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token, t_env *envp);
 t_input		*create_node(char *str, int type, t_env *envp);
 void		set_input(t_input *cmd, char *token, int type);
-int			create_and_add_node(char *str, int data[2], t_arg_lst **lst,
+int			create_and_add_node(char *str, int data[3], t_arg_lst **lst,
 				t_env *envp);
 
 //________________________MAIN_________________________//
