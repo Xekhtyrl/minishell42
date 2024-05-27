@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:52:45 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 17:53:02 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 19:40:48 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,32 @@ int	detect_all_heredocs(t_input *input)
 		tmp = tmp->next;
 	}
 	return (0);
+}
+
+int concat_arg(t_arg_lst **start)
+{
+	t_arg_lst *tmp;
+	char *final;
+
+	tmp = *start;
+	final = ft_strdup("");
+	while (tmp && !in_int_array(tmp->type,
+		(int[]) {SPACE_TK, READ_TK, WRITE_TK, APPEN_TK, HEREDOC_TK}, 5))
+	{
+		if (tmp->type == WORD_TK)
+		{
+			tmp->token = trim_quote(tmp->token, 1);
+			if (!tmp->token)
+				return (0);
+			final = ft_stradd(final, tmp->token);
+			if (!final)
+				return (0);
+			if (tmp != (*start))
+				tmp->type = EMPTY_TK;
+		}
+		else
+			tmp->type = EMPTY_TK;
+		tmp = tmp->next;
+	}
+	return (free((*start)->token), (*start)->token = final, 1);
 }

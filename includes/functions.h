@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 17:53:02 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 19:39:49 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		add_prev_to_arg(t_arg_lst **arg);
 //________________________MAIN_________________________//
 char		*pick_title(void);
 void		print_input_lst(t_input	*input);
-char		*get_input(void);
+char		*get_input(int debug);
 
 //_______________________SIGNAL________________________//
 void		ctrl_c(int num, int f);
@@ -58,7 +58,7 @@ void		sig_here_doc(int code);
 int			fill_fd(t_input *input, int size, int ***pipe);
 int			execute_command(t_env **envp, t_input *cmd, int *pipe[2]);
 void		exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2]);
-int			exec_builtin(t_input *cmd, t_env **envp, int size);
+int			exec_builtin(t_input *cmd, t_env **envp, int size, t_cmd_info *inf);
 int			set_path_env(t_cmd_info *inf, t_input *cmd, char **path);
 void		cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd);
 pid_t		exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd);
@@ -88,6 +88,7 @@ int			free_arg_lst(t_arg_lst **arg, int flag);
 int			free_input(t_input **input);
 void		free_env(t_env **envp);
 void		free_tab(char **tabl);
+void		free_info(t_cmd_info *inf);
 
 //_______________________UTILS________________________//
 void		push(t_env **lst1, t_env **lst2);
@@ -100,6 +101,7 @@ char		*ft_strjoinsup(char **tabl);
 int			only_space(char *str);
 void		clear_arg(t_arg_lst **lst);
 void		empty_args(t_input *input);
+int			concat_arg(t_arg_lst **start);
 
 //________________________ENV_________________________//
 t_env		*env_lst(char **envp);
@@ -118,7 +120,7 @@ void		ft_env(t_env *envp);
 int			ft_echo(t_arg_lst *arg);
 void		ft_cd(t_env *envp, t_arg_lst *arg);
 void		ft_pwd(void);
-int			ft_exit(t_arg_lst *arg, int size);
+int			ft_exit(t_arg_lst *arg, int size, t_cmd_info *inf);
 void		ft_unset(t_env	**envp, t_arg_lst *arg);
 void		ft_export(t_arg_lst *arg, t_env *envp, int flag);
 

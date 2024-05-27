@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:23:10 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 21:11:53 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/27 19:02:46 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exec_cmd_ve(char **cmd_cplt, char **envp, char *path, int pipe[2])
 	exit(EXIT_FAILURE);
 }
 
-int	exec_builtin(t_input *cmd, t_env **envp, int size)
+int	exec_builtin(t_input *cmd, t_env **envp, int size, t_cmd_info *inf)
 {
 	char	**built;
 	int		f;
@@ -41,13 +41,13 @@ int	exec_builtin(t_input *cmd, t_env **envp, int size)
 	if (f == 0)
 		return (ft_cd(*envp, cmd->arg), 1);
 	if (f == 1)
-		return (ft_pwd(), exit(0), 1);
+		return (ft_pwd(), free_info(inf), exit(0), 1);
 	if (f == 2)
-		return (ft_env(*envp), exit(0), 1);
+		return (ft_env(*envp), free_info(inf), exit(0), 1);
 	if (f == 3)
-		return (ft_echo(cmd->arg), exit(0), 1);
+		return (ft_echo(cmd->arg), free_info(inf), free_env(envp), exit(0), 1);
 	if (f == 4)
-		return (ft_exit(cmd->arg, size == 1), 1);
+		return (free_env(envp), ft_exit(cmd->arg, size == 1, inf), 1);
 	if (f == 5)
 		return (ft_unset(envp, cmd->arg), 1);
 	if (f == 6 || f == 7)
@@ -74,7 +74,7 @@ void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			inf->envtb, path, pipe_fd[n_cmd]);
 	}
 	else
-		exec_builtin(cmd, inf->env, inf->size);
+		exec_builtin(cmd, inf->env, inf->size, inf);
 }
 
 void	wait_proc(t_cmd_info *info)

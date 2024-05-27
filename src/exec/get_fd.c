@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/18 17:24:10 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 18:24:35 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	open_outfile(t_arg_lst *tmp, int fd)
 				close(fd);
 			if (tmp->next && tmp->next->type == SPACE_TK)
 				tmp = tmp->next;
+			concat_arg(&tmp->next);
 			if (type == WRITE_TK)
 				fd = open(tmp->next->token, O_WRONLY | O_CREAT | O_TRUNC,
 						S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
@@ -51,6 +52,7 @@ int	open_infile(t_arg_lst *tmp, int fd)
 				tmp = tmp->next;
 			if (fd != 0 && fd != -1)
 				close(fd);
+			concat_arg(&tmp->next);
 			if (tmp->next->type == WORD_TK)
 				fd = open(tmp->next->token, O_RDONLY);
 		}

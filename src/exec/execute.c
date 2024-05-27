@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/22 16:49:55 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/27 19:03:08 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 		}
 	}
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
-		exec_builtin(cmd, inf->env, inf->size);
+		exec_builtin(cmd, inf->env, inf->size, inf);
 	return (proc);
 }
 
@@ -92,9 +92,10 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	g_ret_val = -1;
 	if (!set_inf(&inf, envp, cmd))
 		return (send_error(MALLOC_ERR), 0);
+	inf.fd = &pipe_fd;
 	while (tmp)
 	{
-		if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5) && inf.size == 1)
+		if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 4) && inf.size == 1)
 			tmp->type = ENV_TK;
 		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
 			&& inf.size != 1 && n_cmd != inf.size)
@@ -104,6 +105,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 		tmp = tmp->next;
 	}
 	wait_proc(&inf);
-	close_pipes(pipe_fd, inf.size);
-	return (free(inf.proc), free_tab(inf.envtb), 0);
+	free_info(&inf);
+	return (0);
 }
