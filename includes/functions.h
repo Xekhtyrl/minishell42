@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 19:39:49 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 21:00:04 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int			free_input(t_input **input);
 void		free_env(t_env **envp);
 void		free_tab(char **tabl);
 void		free_info(t_cmd_info *inf);
+void		free_exit(t_input **cmd, int pr);
 
 //_______________________UTILS________________________//
 void		push(t_env **lst1, t_env **lst2);
@@ -120,7 +121,7 @@ void		ft_env(t_env *envp);
 int			ft_echo(t_arg_lst *arg);
 void		ft_cd(t_env *envp, t_arg_lst *arg);
 void		ft_pwd(void);
-int			ft_exit(t_arg_lst *arg, int size, t_cmd_info *inf);
+int			ft_exit(t_arg_lst *arg, int size, t_cmd_info *inf, t_input *cmd);
 void		ft_unset(t_env	**envp, t_arg_lst *arg);
 void		ft_export(t_arg_lst *arg, t_env *envp, int flag);
 

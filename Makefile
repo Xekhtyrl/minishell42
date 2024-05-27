@@ -30,6 +30,7 @@ MY_SOURCES =	main.c							\
 				src/exec/heredoc_utils.c		\
 				src/other/signal.c				\
 				src/other/free.c				\
+				src/other/free_exit.c			\
 				src/other/free_input.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)

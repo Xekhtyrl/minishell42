@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 16:58:13 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 19:02:36 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/27 21:00:08 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	equal_int(char *s1, char *s2)
 	return (1);
 }
 
-void	good_exit(long long nbr, t_arg_lst *tmp, int pr)
+void	good_exit(long long nbr, t_arg_lst *tmp, int pr, t_input *cmd)
 {
 	char		*nb_c;
 
@@ -67,7 +67,7 @@ void	good_exit(long long nbr, t_arg_lst *tmp, int pr)
 			free(nb_c);
 			if (pr)
 				printf("exit\n");
-			exit(nbr);
+			return (free_exit(&cmd, pr), exit(nbr));
 		}
 		else
 		{
@@ -76,14 +76,14 @@ void	good_exit(long long nbr, t_arg_lst *tmp, int pr)
 				printf("exit\nexit : %s : numeric argument required, ",
 					tmp->token);
 			send_error(ARG_ERR);
-			exit(255);
+			return (free_exit(&cmd, pr), exit(255));
 		}
 	}
 	else
 		send_error(ARG_ERR);
 }
 
-int	ft_exit(t_arg_lst *arg, int pr, t_cmd_info *inf)
+int	ft_exit(t_arg_lst *arg, int pr, t_cmd_info *inf, t_input *cmd)
 {
 	int			nbr;
 	t_arg_lst	*tmp;
@@ -98,17 +98,16 @@ int	ft_exit(t_arg_lst *arg, int pr, t_cmd_info *inf)
 	{
 		if (pr)
 			printf("exit\n");
-		exit(0);
+		return (free_exit(&cmd, pr), exit(0), 0);
 	}
 	else if (tmp && !is_number(tmp->token))
 	{
 		if (pr)
 			printf("exit\nexit : %s : numeric argument required, ", arg->token);
-		send_error(ARG_ERR);
-		exit(255);
+		return (send_error(ARG_ERR), free_exit(&cmd, pr), exit(255), 0);
 	}
 	else if (tmp)
-		good_exit(nbr, tmp, pr);
+		good_exit(nbr, tmp, pr, cmd);
 	return (1);
 }
 
