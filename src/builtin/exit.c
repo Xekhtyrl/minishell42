@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 16:58:13 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/26 20:47:46 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 19:02:36 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	good_exit(long long nbr, t_arg_lst *tmp, int pr)
 		send_error(ARG_ERR);
 }
 
-int	ft_exit(t_arg_lst *arg, int pr)
+int	ft_exit(t_arg_lst *arg, int pr, t_cmd_info *inf)
 {
 	int			nbr;
 	t_arg_lst	*tmp;
@@ -92,6 +92,8 @@ int	ft_exit(t_arg_lst *arg, int pr)
 		arg = arg->next;
 	tmp = arg;
 	nbr = ft_lstsize((t_list *)tmp);
+	if (pr)
+		free_info(inf);
 	if (!tmp)
 	{
 		if (pr)

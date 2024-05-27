@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:06:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 22:52:20 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 18:51:23 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_cmd_info
 {
 	int		size;
 	int		pipe[2];
+	int		***fd;
 	t_env	**env;
 	char	**envtb;
 	pid_t	*proc;

@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 17:01:06 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:02:38 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_white_space(char c)
 	return (((c >= 9 && c <= 13) || c == 32));
 }
 
-int	is_not_sep(char c)
+int	is_not_sep(char c, int token_nbr)
 {
 	if (token_nbr >= 3 && c == '-')
 		return (1);

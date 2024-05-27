@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/26 20:39:59 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 18:26:56 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,19 @@ t_arg_lst	*keep_arg_only(t_input *cmd)
 {
 	t_arg_lst	*futur_arg;
 	t_arg_lst	*tmp;
-	t_arg_lst	*head;
 	int			ret;
 
 	tmp = cmd->arg;
 	futur_arg = 0;
-	head = cmd->arg;
 	while (tmp)
 	{
 		if (in_int_array(tmp->type, (int []){READ_TK, WRITE_TK, APPEN_TK, EMPTY_TK}, 4))
-			tmp = skip_arg(tmp, head);
+			tmp = skip_arg(tmp, cmd->arg);
 		if (tmp && tmp->type == HEREDOC_TK && !detect_token(tmp->next, HEREDOC_TK)
 			&& !detect_token(tmp, READ_TK))
 			ret = add_node(&futur_arg, &tmp);
 		else if (tmp && tmp->type == HEREDOC_TK)
-			tmp = skip_arg(tmp, head);
+			tmp = skip_arg(tmp, cmd->arg);
 		else if (tmp && (tmp->type == WORD_TK || tmp->type == EMPTY_TK))
 			ret = add_node(&futur_arg, &tmp);
 		else if (tmp && tmp->type == SPACE_TK && tmp->next && (tmp->next->type == 13 || tmp->next->type == 11))

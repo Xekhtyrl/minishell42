@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/25 18:05:45 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:55:26 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,35 +38,6 @@ int	add_here(char **buff, char **res, char *word)
 	return (1);
 }
 
-void fill_eof_heredoc(t_arg_lst **arg)
-{
-	t_arg_lst	*tmp;
-	char		*add;
-	char		**eof;
-
-	add = 0;
-	tmp = (*arg)->next->next;
-	eof = &(*arg)->next->token;
-	while (tmp && (tmp->type != BEF_CMD_TK
-		|| (tmp->type != EMPTY_TK && !detect_token(tmp, EMPTY_TK))))
-	{
-		if (tmp->type == WORD_TK)
-		{
-			add = trim_quote(tmp->token, 0);
-			*eof = ft_stradd(*eof, add);
-			free(add);
-		}
-		tmp = tmp->next;
-	printf("%s\n", *eof);
-	}
-	if (tmp && tmp->type == BEF_CMD_TK && ft_strncmp(tmp->token, "", 1))
-	{
-		add = trim_quote(tmp->token, 0);
-		*eof = ft_stradd(*eof, add);
-	}
-	printf("%s\n", *eof);
-}
-
 void	get_heredoc(t_arg_lst *arg, int fd)
 {
 	char		*res;
@@ -76,7 +47,8 @@ void	get_heredoc(t_arg_lst *arg, int fd)
 	tmp = arg->next;
 	res = 0;
 	buff = 0;
-	fill_eof_heredoc(&arg);
+	if (!concat_arg(&tmp))
+		return (free(arg->token), free(res));
 	if (!add_here(&buff, &res, tmp->token))
 		return (free(arg->token), free(res));
 	while (ft_strncmp(buff, tmp->token, ft_strlen(buff) + (!ft_strlen(buff))))
