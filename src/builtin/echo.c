@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:16:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/25 21:10:32 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 15:32:46 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static int	check_n_arg(t_arg_lst *arg, int *flag)
 	int		i;
 
 	i = 0;
+	if (arg->type == EMPTY_TK && arg->next && arg->next->type == SPACE_TK)
+		return (0);
 	if (arg->type != WORD_TK)
 		return (1);
 	str = trim_quote(arg->token, 0);

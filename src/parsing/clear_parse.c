@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/26 20:39:59 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 15:12:01 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@ t_arg_lst	*skip_arg(t_arg_lst *t, t_arg_lst *head)
 {
 	t_arg_lst	*prev;
 
-	prev = t;
 	if (t && t->type == EMPTY_TK)
 	{
-		while (head && head->next != t)
+		while (head && head != t && head->next != t)
 			head = head->next;
 		if (head && head->type == SPACE_TK && (!t->next || (t->next
 				&& t->next->type == SPACE_TK)))
 			return (t);
+		if (head && head == t && t->next && t->next->type == SPACE_TK)
+			return (t);
 	}
+	prev = t;
 	if (t)
 	{
 		t = t->next;
