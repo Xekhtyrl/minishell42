@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 21:00:04 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 23:01:58 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int			choose_split_kind(char *str, int i, t_input **cmd, t_env *envp);
 int			increase_token(t_input **cmd, t_arg_lst *lst, int *token);
 int			check_for_empty_arg(t_arg_lst *lst, int i);
 int			is_valid_cmd(char *str, int i);
+void		print_parse_message(char c1, char c2);
 
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token, t_env *envp);

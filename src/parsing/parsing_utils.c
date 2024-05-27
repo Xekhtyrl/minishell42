@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 21:56:17 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 22:56:25 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	closed_quotes(char *str)
 
 	i = -1;
 	if (!check_pipe(str))
-		return (-1);
+		return (124);
 	while (str[++i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -59,10 +59,10 @@ int	closed_quotes(char *str)
 			quote = str[i];
 			i++;
 			if (!str[i])
-				return (0);
+				return (quote);
 			while (str[i] && str[i] != quote)
 				if (!str[++i])
-					return (0);
+					return (quote);
 		}
 	}
 	return (1);

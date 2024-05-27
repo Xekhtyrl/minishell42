@@ -6,32 +6,36 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:17:12 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 22:05:24 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 22:59:57 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	parse_error(char *str)
+int	parse_error(char *s)
 {
 	int	i;
+	int	j;
 
-	i = closed_quotes(str);
-	if (!i)
-		return (ft_putstr_fd("syntax error near quote left opened\n", 2), 1);
-	else if (i == -1)
-		return (ft_putstr_fd("syntax error near unexpected token `|'\n", 2), 1);
-	else if ((str[0] == '<' || str[0] == '>') && (!str[1] || (str[0] == str[1]
-			&& !str[2])))
-		return (ft_putstr_fd("syntax error near unexpected token `", 2),
-			ft_putchar_fd(str[0], 2), ft_putchar_fd(str[1], 2),
-			ft_putstr_fd("'\n", 2), 1);
-	while (*str)
+	i = closed_quotes(s);
+	if (i == 124 || i == '\'' || i == '\"')
+		return (print_parse_message(i, 0), 1);
+	j = -1;
+	while (s[++j])
 	{
-		if ((*str == '>' && *(str + 1) == '<'))
-			return (ft_putstr_fd("syntax error near unexpected token `", 2),
-				ft_putchar_fd(*(str + 1), 2), ft_putendl_fd("'", 2), 1);
-		str++;
+		if ((s[j] == '>' && s[j + 1] == '<'))
+			return (print_parse_message(s[j + 1], 0), 1);
+		else if (s[j] == '>' || s[j] == '<')
+		{
+			i = j;
+			if (s[++i] == s[j])
+				i++;
+			while (s[i] && is_white_space(s[i]))
+				i++;
+			if ((!s[i] || s[i] == '<' || s[i] == '>') && !(s[i - 1] == '<'
+					&& s[i] == '>'))
+				return (print_parse_message(s[j], s[j + 1]), 1);
+		}
 	}
 	return (0);
 }
