@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/26 20:45:59 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:37:35 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ static int	get_input_struct(t_input **start, char *str, t_env *envp)
 			i = choose_split_kind(str, i, &cmd, envp);
 			if (i == -1)
 				return (i);
+			add_prev_to_arg(&cmd->arg);
 		}
 		ft_lstadd_back((t_list **)start, (t_list *)cmd);
 		if (cmd)

@@ -6,35 +6,25 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 15:12:01 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:54:22 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_arg_lst	*skip_arg(t_arg_lst *t, t_arg_lst *head)
+t_arg_lst	*skip_arg(t_arg_lst *t)
 {
-	t_arg_lst	*prev;
-
-	if (t && t->type == EMPTY_TK)
-	{
-		while (head && head != t && head->next != t)
-			head = head->next;
-		if (head && head->type == SPACE_TK && (!t->next || (t->next
-				&& t->next->type == SPACE_TK)))
-			return (t);
-		if (head && head == t && t->next && t->next->type == SPACE_TK)
-			return (t);
-	}
-	prev = t;
+	if (t && t->type == EMPTY_TK && (!t->prev || (t->prev && t->prev->type
+				== SPACE_TK)) && (!t->next || (t->next && t->next->type == 20)))
+		return (t);
 	if (t)
 	{
 		t = t->next;
-		if (t && t->type == SPACE_TK && prev->type != EMPTY_TK)
+		if (t && t->type == SPACE_TK && t->prev->type != EMPTY_TK)
 			t = t->next;
-		if (t && t->type == WORD_TK && prev->type != EMPTY_TK)
+		if (t && t->type == WORD_TK && t->prev->type != EMPTY_TK)
 			t = t->next;
-		if (t && t->type == SPACE_TK && prev->type != EMPTY_TK)
+		if (t && t->type == SPACE_TK && t->prev->type != EMPTY_TK)
 			t = t->next;
 	}
 	return (t);
@@ -85,28 +75,26 @@ void	free_all_args(t_arg_lst **head)
 t_arg_lst	*keep_arg_only(t_input *cmd)
 {
 	t_arg_lst	*futur_arg;
-	t_arg_lst	*tmp;
-	t_arg_lst	*head;
+	t_arg_lst	*t;
 	int			ret;
 
-	tmp = cmd->arg;
+	t = cmd->arg;
 	futur_arg = 0;
-	head = cmd->arg;
-	while (tmp)
+	while (t)
 	{
-		if (in_int_array(tmp->type, (int []){READ_TK, WRITE_TK, APPEN_TK, EMPTY_TK}, 4))
-			tmp = skip_arg(tmp, head);
-		if (tmp && tmp->type == HEREDOC_TK && !detect_token(tmp->next, HEREDOC_TK)
-			&& !detect_token(tmp, READ_TK))
-			ret = add_node(&futur_arg, &tmp);
-		else if (tmp && tmp->type == HEREDOC_TK)
-			tmp = skip_arg(tmp, head);
-		else if (tmp && (tmp->type == WORD_TK || tmp->type == EMPTY_TK))
-			ret = add_node(&futur_arg, &tmp);
-		else if (tmp && tmp->type == SPACE_TK && tmp->next && (tmp->next->type == 13 || tmp->next->type == 11))
-			ret = add_node(&futur_arg, &tmp);
-		else if (tmp)
-			tmp = tmp->next;
+		if (in_int_array(t->type, (int []){READ_TK, WRITE_TK, APPEN_TK, 11}, 4))
+			t = skip_arg(t);
+		if (t && t->type == 18 && !detect_tk(t->next, 18) && !detect_tk(t, 17))
+			ret = add_node(&futur_arg, &t);
+		else if (t && t->type == HEREDOC_TK)
+			t = skip_arg(t);
+		else if (t && (t->type == WORD_TK || t->type == EMPTY_TK))
+			ret = add_node(&futur_arg, &t);
+		else if (t && t->type == SPACE_TK && t->next && (t->next->type
+				== WORD_TK || t->next->type == EMPTY_TK))
+			ret = add_node(&futur_arg, &t);
+		else if (t)
+			t = t->next;
 		if (ret == -1)
 			return (free_all_args(&futur_arg), NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/26 20:03:33 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:38:31 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_arg_lst	*arg_node(int type, char *token, t_env *envp)
 	node->token = token;
 	node->type = type;
 	node->next = NULL;
+	node->prev = NULL;
 	return (node);
 }
 
@@ -73,4 +74,19 @@ int	create_and_add_node(char *str, int data[3], t_arg_lst **lst, t_env *envp)
 			return (free_arg_lst(&arg, -1), -1);
 	}
 	return (data[0]);
+}
+
+void	add_prev_to_arg(t_arg_lst **arg)
+{
+	t_arg_lst	*prev;
+	t_arg_lst	*tmp;
+
+	prev = NULL;
+	tmp = *arg;
+	while (tmp->next)
+	{
+		tmp->prev = prev;
+		prev = tmp;
+		tmp = tmp->next;
+	}
 }

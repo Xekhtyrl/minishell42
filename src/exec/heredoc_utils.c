@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:52:45 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/22 16:53:01 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:53:02 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	detect_token(t_arg_lst *args, int token)
+int	detect_tk(t_arg_lst *args, int token)
 {
 	t_arg_lst	*arg;
 
@@ -33,7 +33,7 @@ int	detect_all_heredocs(t_input *input)
 	tmp = input;
 	while (tmp)
 	{
-		if (detect_token(tmp->arg, HEREDOC_TK))
+		if (detect_tk(tmp->arg, HEREDOC_TK))
 			return (1);
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:06:11 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/13 22:52:20 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:32:09 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_arg_lst
 	struct s_arg_lst	*next;
 	char				*token;
 	int					type;
+	struct s_arg_lst	*prev;
 }	t_arg_lst;
 
 typedef struct s_input

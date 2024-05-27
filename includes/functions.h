@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/26 20:46:39 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:53:02 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_input		*create_node(char *str, int type, t_env *envp);
 void		set_input(t_input *cmd, char *token, int type);
 int			create_and_add_node(char *str, int data[3], t_arg_lst **lst,
 				t_env *envp);
+void		add_prev_to_arg(t_arg_lst **arg);
 
 //________________________MAIN_________________________//
 char		*pick_title(void);
@@ -136,7 +137,7 @@ int			detect_all_heredocs(t_input *input);
 int			detect_heredoc(t_arg_lst *args);
 void		get_heredoc(t_arg_lst *arg, int fd);
 int			heredoc(t_input *input);
-int			detect_token(t_arg_lst *args, int token);
+int			detect_tk(t_arg_lst *args, int token);
 void		empty_args2(t_input *cmd);
 
 void		exit_except(t_input *tmp, t_cmd_info *inf, int *n_cmd);
