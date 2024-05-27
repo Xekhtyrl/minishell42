@@ -30,6 +30,7 @@ MY_SOURCES =	main.c							\
 				src/exec/heredoc_utils.c		\
 				src/other/signal.c				\
 				src/other/free.c				\
+				src/other/free_exit.c			\
 				src/other/free_input.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
@@ -44,7 +45,7 @@ C_BPURP = \033[1;35m
 
 C_END=\033[0m
 
-CFLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 
 ifeq "$(USER)" "lvodak"
 	READLINE_PATH = $(HOME)/.brew/Cellar/readline/8.2.10/

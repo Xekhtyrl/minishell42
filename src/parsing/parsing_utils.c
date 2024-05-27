@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:40:23 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 17:02:38 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/27 21:56:17 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_pipe(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (i == 0 || str[i] == '|')
+		if ((i == 0 && str[i + 1]) || str[i] == '|')
 		{
 			i++;
 			while (is_white_space(str[i]))

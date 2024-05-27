@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 19:02:31 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/27 20:58:03 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	multi_array_free(char **str1, char *str2)
 		free(str2);
 }
 
-void free_info(t_cmd_info *inf)
+void	free_info(t_cmd_info *inf)
 {
 	free(inf->proc);
 	strarray_free(inf->envtb);
