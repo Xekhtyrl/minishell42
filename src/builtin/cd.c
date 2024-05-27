@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 21:41:58 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/26 19:46:20 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 21:29:45 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*replace_home_path(t_arg_lst *arg, t_env *envp)
 		return (ft_strdup(get_env_var(envp, ft_strdup("HOME"))));
 	return (ft_strjoin(get_env_var(envp, ft_strdup("HOME")), arg->token + 1));
 }
-// gerer cd -
 
 char	*oldpath_condition(t_env *envp)
 {

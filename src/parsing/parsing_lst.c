@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 17:38:31 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 20:53:36 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	add_prev_to_arg(t_arg_lst **arg)
 
 	prev = NULL;
 	tmp = *arg;
-	while (tmp->next)
+	while (tmp && tmp->next)
 	{
 		tmp->prev = prev;
 		prev = tmp;
