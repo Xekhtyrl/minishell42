@@ -5,6 +5,7 @@ MY_SOURCES =	main.c							\
 				src/parsing/parsing.c			\
 				src/parsing/parsing_utils.c		\
 				src/parsing/parsing_utils2.c	\
+				src/parsing/parsing_utils3.c	\
 				src/parsing/parsing_lst.c		\
 				src/parsing/clear_parse.c		\
 				src/builtin/env.c				\
