@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 22:14:27 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/28 16:07:47 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ t_arg_lst	*skip_arg(t_arg_lst *t)
 	if (t)
 	{
 		t = t->next;
-		if (t && t->type == SPACE_TK && t->prev && t->prev && t->prev->type != EMPTY_TK)
+		if (t && t->type == SPACE_TK && t->prev && t->prev->type != EMPTY_TK)
 			t = t->next;
-		if (t && t->type == WORD_TK && t->prev && t->prev && t->prev->type != EMPTY_TK)
+		if (t && t->type == WORD_TK && t->prev && t->prev->type != EMPTY_TK)
 			t = t->next;
-		if (t && t->type == SPACE_TK && t->prev && t->prev && t->prev->type != EMPTY_TK)
+		if (t && t->type == SPACE_TK && t->prev && t->prev->type != EMPTY_TK)
 			t = t->next;
 	}
 	return (t);
