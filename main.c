@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/28 17:17:16 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/28 17:37:52 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ int	prep_exec(t_input *input, t_env *m_env)
 			return (close_pipes(pipe, ft_lstsize((t_list *)input)),
 				free_input(&input), 0);
 	empty_args(input);
+	if (!access("/tmp/here_doc.txt", F_OK) && !fork())
+		execve("/bin/rm", (char *[]){"rm", "/tmp/here_doc.txt", 0}, NULL);
+	wait(0);
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
