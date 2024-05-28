@@ -92,6 +92,9 @@ $(NAME): $(MY_OBJECTS)
 add:
 	git add Makefile src includes main.c .gitignore
 
+f:
+	make -j 3
+
 clean:
 	@rm -rf $(MY_OBJECTS)
 	@make -C $(LIBFT) clean

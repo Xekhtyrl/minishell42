@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cute.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:23:10 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 21:28:31 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/27 22:14:02 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int	exec_builtin(t_input *cmd, t_env **envp, int size, t_cmd_info *inf)
 	if (f == 0)
 		return (ft_cd(*envp, cmd->arg), 1);
 	if (f == 1)
-		return (ft_pwd(), free_info(inf), exit(0), 1);
+		return (ft_pwd(), free_info(inf), free_env(envp), exit(0), 1);
 	if (f == 2)
-		return (ft_env(*envp), free_info(inf), exit(0), 1);
+		return (ft_env(*envp), free_info(inf), free_env(envp), exit(0), 1);
 	if (f == 3)
 		return (ft_echo(cmd->arg), free_info(inf), free_env(envp), exit(0), 1);
 	if (f == 4)

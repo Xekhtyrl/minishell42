@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 17:55:26 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/27 22:09:19 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	get_heredoc(t_arg_lst *arg, int fd)
 	tmp = arg->next;
 	res = 0;
 	buff = 0;
+	if (tmp->type == SPACE_TK && tmp->next)
+		tmp = tmp->next;
 	if (!concat_arg(&tmp))
 		return (free(arg->token), free(res));
 	if (!add_here(&buff, &res, tmp->token))

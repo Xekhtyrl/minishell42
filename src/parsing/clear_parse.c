@@ -6,11 +6,11 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/28 16:48:48 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 17:17:22 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 t_arg_lst	*skip_arg(t_arg_lst *t)
 {
@@ -53,7 +53,7 @@ int	add_node(t_arg_lst **head, t_arg_lst **node)
 	}
 	if ((*node)->type == HEREDOC_TK && (*node)->next->type == SPACE_TK)
 		*node = (*node)->next->next;
-	if ((*node)->type == HEREDOC_TK)
+	if ((*node) && (*node)->next && (*node)->type == HEREDOC_TK)
 		*node = (*node)->next;
 	*node = (*node)->next;
 	return (1);

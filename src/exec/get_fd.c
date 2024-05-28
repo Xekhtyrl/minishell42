@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:48 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 18:24:35 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/28 16:51:18 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	open_infile(t_arg_lst *tmp, int fd)
 			if (fd != 0 && fd != -1)
 				close(fd);
 			concat_arg(&tmp->next);
+			printf("tmp %s %s\n", tmp->token, tmp->next->token);
 			if (tmp->next->type == WORD_TK)
 				fd = open(tmp->next->token, O_RDONLY);
 		}
