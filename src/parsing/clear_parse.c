@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/28 17:19:23 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 21:54:40 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_arg_lst	*keep_arg_only(t_input *cmd)
 	return (futur_arg);
 }
 
-void	empty_args(t_input *cmd)
+void	empty_args(t_input *cmd, t_env *envp)
 {
 	t_input		*tmp;
 	t_arg_lst	*old_arg;
@@ -109,6 +109,7 @@ void	empty_args(t_input *cmd)
 	tmp = cmd;
 	while (tmp)
 	{
+		replace_env_var_lst(tmp->arg, envp);
 		old_arg = tmp->arg;
 		tmp->arg = keep_arg_only(tmp);
 		free_all_args(&old_arg);

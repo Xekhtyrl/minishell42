@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/28 17:17:04 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 22:05:17 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ t_arg_lst	*arg_node(int type, char *token, t_env *envp)
 	node = malloc(sizeof(t_arg_lst));
 	if (!node)
 		return (send_error(MALLOC_ERR), NULL);
-	if (envp && token && token[0] != '\'')
-		token = replace_str_env_var(token, envp);
+	(void)envp;
 	node->token = token;
 	node->type = type;
 	node->next = NULL;

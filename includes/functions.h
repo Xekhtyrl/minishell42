@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/28 17:01:29 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 21:55:50 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int			increase_token(t_input **cmd, t_arg_lst *lst, int *token);
 int			check_for_empty_arg(t_arg_lst *lst, int i);
 int			is_valid_cmd(char *str, int i);
 void		print_parse_message(char c1, char c2);
+void		skip_quotes(char *s, int *j);
+void		replace_env_var_lst(t_arg_lst *lst, t_env *envp);
 
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token, t_env *envp);
@@ -102,7 +104,7 @@ char		**get_all_cmd(t_input *cmd, int len);
 char		*ft_strjoinsup(char **tabl);
 int			only_space(char *str);
 void		clear_arg(t_arg_lst **lst);
-void		empty_args(t_input *input);
+void		empty_args(t_input *input, t_env *envp);
 int			concat_arg(t_arg_lst **start);
 
 //________________________ENV_________________________//

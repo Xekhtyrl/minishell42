@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/28 17:07:34 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 22:10:06 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # define NC "\001\033[0m\002"
 
 # ifndef DEBUG
-# 	define DEBUG 0
+#  define DEBUG 0
 # endif
 
+// CECI NE COINCIDE PAS AVEC DE LA TRIPLE KARMELIET ಠ_ಠ #iait-ouf
 # define BEF_CMD_TK 10
 # define EMPTY_TK 11
 # define BUILT_TK 12

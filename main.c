@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/28 17:27:01 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 21:55:00 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	prep_exec(t_input *input, t_env *m_env)
 			return (close_pipes(pipe, ft_lstsize((t_list *)input)),
 				free_input(&input), 0);
 	print_input_lst(input, DEBUG);
-	empty_args(input);
+	empty_args(input, m_env);
 	if (!access("/tmp/here_doc.txt", F_OK) && !fork())
 		execve("/bin/rm", (char *[]){"rm", "/tmp/here_doc.txt", 0}, NULL);
 	wait(0);
