@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 22:06:23 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 17:08:53 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 // int g_ret_val;
 // REMOVE
-void	print_input_lst(t_input	*i)
+void	print_input_lst(t_input	*i, int debug)
 {
 	t_input		*input;
 	t_arg_lst	*start;
 
+	if (!debug)
+		return ;
 	input = i;
 	printf("____________________________________________________________\n");
 	while (input)
@@ -79,13 +81,13 @@ int	prep_exec(t_input *input, t_env *m_env)
 		if (!heredoc(input))
 			return (close_pipes(pipe, ft_lstsize((t_list *)input)),
 				free_input(&input), 0);
-	print_input_lst(input);
+	print_input_lst(input, DEBUG);
 	empty_args(input);
-	print_input_lst(input);
+	print_input_lst(input, DEBUG);
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
-	print_input_lst(input);
+	print_input_lst(input, DEBUG);
 	free_input(&input);
 	return (1);
 }
@@ -96,7 +98,7 @@ char	*get_input(int debug)
 	char	*title;
 
 	title = pick_title();
-	if (debug)
+	if (debug == 2)
 	{
 		str = get_next_line(0);
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
@@ -134,7 +136,7 @@ int	main(int argc, char **argv, char **envp)
 	set_signals();
 	while (1)
 	{
-		str = get_input(0);
+		str = get_input(DEBUG);
 		if (!str)
 			ctrl_d(&m_env, 1);
 		add_history(str);

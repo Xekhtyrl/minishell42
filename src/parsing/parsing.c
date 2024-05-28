@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 19:41:11 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 17:12:59 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*split_token(char *str, int	*start, char quote, int token)
 	len = 0;
 	beg = *start;
 	if (str[*start] == '<' || str[*start] == '>')
-		while ((str[*start] == '<' || str[*start] == '>') && ++len <= 2)
+		while ((str[*start] == str[beg]) && ++len <= 2)
 			(*start)++;
 	else if (quote != '\'' && quote != '\"')
 		while (str[*start] && (is_not_sep(str[*start], token) || *start == beg)
