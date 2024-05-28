@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 22:44:03 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 17:07:34 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # define RED "\001\033[0;31m\x1b[1m\002"
 # define WHITE "\001\033[0;30m\002"
 # define NC "\001\033[0m\002"
+
+# ifndef DEBUG
+# 	define DEBUG 0
+# endif
 
 # define BEF_CMD_TK 10
 # define EMPTY_TK 11

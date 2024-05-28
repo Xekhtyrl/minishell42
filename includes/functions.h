@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 23:01:58 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 17:01:29 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		add_prev_to_arg(t_arg_lst **arg);
 
 //________________________MAIN_________________________//
 char		*pick_title(void);
-void		print_input_lst(t_input	*input);
+void		print_input_lst(t_input	*input, int debug);
 char		*get_input(int debug);
 
 //_______________________SIGNAL________________________//

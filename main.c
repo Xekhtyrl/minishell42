@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/28 17:14:36 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/28 17:17:16 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 // int g_ret_val;
 // REMOVE
-void	print_input_lst(t_input	*i)
+void	print_input_lst(t_input	*i, int debug)
 {
 	t_input		*input;
 	t_arg_lst	*start;
 
+	if (!debug)
+		return ;
 	input = i;
 	printf("____________________________________________________________\n");
 	while (input)
@@ -93,7 +95,7 @@ char	*get_input(int debug)
 	char	*title;
 
 	title = pick_title();
-	if (debug)
+	if (debug == 2)
 	{
 		str = get_next_line(0);
 		while (str && (ft_strlen(str) < 1 || only_space(str)))
@@ -131,7 +133,7 @@ int	main(int argc, char **argv, char **envp)
 	set_signals();
 	while (1)
 	{
-		str = get_input(0);
+		str = get_input(DEBUG);
 		if (!str)
 			ctrl_d(&m_env, 1);
 		add_history(str);

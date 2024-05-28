@@ -46,7 +46,7 @@ C_BPURP = \033[1;35m
 
 C_END=\033[0m
 
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra
 
 ifeq "$(USER)" "lvodak"
 	READLINE_PATH = $(HOME)/.brew/Cellar/readline/8.2.10/
@@ -108,4 +108,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+debug: re
+debug: CFLAGS += -g3 -fsanitize=address -D DEBUG=1
+
+.PHONY: all clean fclean re debug
