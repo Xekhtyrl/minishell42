@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 22:15:51 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/28 16:37:36 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	add_prev_to_arg(t_arg_lst **arg)
 
 	prev = NULL;
 	tmp = *arg;
-	while (tmp && tmp->next)
+	while (tmp)
 	{
 		tmp->prev = prev;
 		prev = tmp;
