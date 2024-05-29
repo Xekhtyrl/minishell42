@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/28 21:55:00 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:04:52 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,9 @@ int	prep_exec(t_input *input, t_env *m_env)
 	if (!access("/tmp/here_doc.txt", F_OK) && !fork())
 		execve("/bin/rm", (char *[]){"rm", "/tmp/here_doc.txt", 0}, NULL);
 	wait(0);
-	print_input_lst(input, DEBUG);
 	if (!trad_input(input, &m_env))
 		send_error(-1);
 	execute_command(&m_env, input, pipe);
-	print_input_lst(input, DEBUG);
 	free_input(&input);
 	return (1);
 }
