@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 20:57:52 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/29 17:06:58 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:29:42 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_input	*create_node(char *str, int type, t_env *envp)
 	return (node);
 }
 
-t_arg_lst	*arg_node(int type, char *token, t_env *envp)
+t_arg_lst	*arg_node(int type, char *token)
 {
 	t_arg_lst	*node;
 
@@ -50,13 +50,13 @@ void	set_input(t_input *cmd, char *token, int type)
 	cmd->type = type;
 }
 
-int	create_and_add_node(char *str, int data[3], t_arg_lst **lst, t_env *envp)
+int	create_and_add_node(char *str, int data[3], t_arg_lst **lst)
 {
 	t_arg_lst	*arg;
 
 	if (data[1])
 	{
-		arg = arg_node(SPACE_TK, ft_strdup(" "), envp);
+		arg = arg_node(SPACE_TK, ft_strdup(" "));
 		if (arg)
 			ft_lstadd_back((t_list **)&lst, (t_list *)arg);
 		else
@@ -65,7 +65,7 @@ int	create_and_add_node(char *str, int data[3], t_arg_lst **lst, t_env *envp)
 	else
 	{
 		arg = arg_node(get_token_type(str, data[0]), split_token(str, &data[0],
-					str[data[0]], data[2]), envp);
+					str[data[0]], data[2]));
 		if (arg)
 			ft_lstadd_back((t_list **)lst, (t_list *)arg);
 		else

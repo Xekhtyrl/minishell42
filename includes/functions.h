@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/29 16:45:09 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:29:50 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,10 @@ void		replace_env_var_lst(t_arg_lst *lst, t_env *envp);
 void		replace_token(t_arg_lst *arg, char *new, int n_type);
 
 //____________________PARSING_LST_____________________//
-t_arg_lst	*arg_node(int type, char *token, t_env *envp);
+t_arg_lst	*arg_node(int type, char *token);
 t_input		*create_node(char *str, int type, t_env *envp);
 void		set_input(t_input *cmd, char *token, int type);
-int			create_and_add_node(char *str, int data[3], t_arg_lst **lst,
-				t_env *envp);
+int			create_and_add_node(char *str, int data[3], t_arg_lst **lst);
 void		add_prev_to_arg(t_arg_lst **arg);
 
 //________________________MAIN_________________________//

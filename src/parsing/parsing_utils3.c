@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 23:00:34 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/29 16:58:03 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:31:32 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static void	remove_contatenated_token(t_arg_lst *lst)
 				tmp = tmp->next;
 			}
 		}
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
 

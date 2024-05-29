@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:51:08 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/29 17:08:04 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:30:51 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ int	add_node(t_arg_lst **head, t_arg_lst **node)
 		return (-1);
 	if (!*head)
 	{
-		*head = arg_node((*node)->type, str, 0);
+		*head = arg_node((*node)->type, str);
 		if (!*head)
 			return (-1);
 	}
 	else
 	{
-		tmp = arg_node((*node)->type, str, 0);
+		tmp = arg_node((*node)->type, str);
 		if (!tmp)
 			return (-1);
 		ft_lstadd_back((t_list **)(head), (t_list *)tmp);
