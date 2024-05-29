@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/28 21:55:50 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:25:06 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ void		free_info(t_cmd_info *inf);
 void		free_exit(t_input **cmd, int pr);
 
 //_______________________UTILS________________________//
-void		push(t_env **lst1, t_env **lst2);
-void		rotate(t_env **lst1);
 void		sort_lst(t_env **lsta);
 char		*ft_stradd(char *s1, char const *s2);
 char		**lst_to_tab(t_list *lst);
@@ -127,6 +125,8 @@ void		ft_pwd(void);
 int			ft_exit(t_arg_lst *arg, int size, t_cmd_info *inf, t_input *cmd);
 void		ft_unset(t_env	**envp, t_arg_lst *arg);
 void		ft_export(t_arg_lst *arg, t_env *envp, int flag);
+void		exit_except(t_input *tmp, t_cmd_info *inf, int *n_cmd);
+void		check_exit_error(t_arg_lst *arg);
 
 //________________________DUP_________________________//
 int			uni_dup(int fd_in, int fd_out);
@@ -145,7 +145,6 @@ void		get_heredoc(t_arg_lst *arg, int fd);
 int			heredoc(t_input *input);
 int			detect_tk(t_arg_lst *args, int token);
 void		empty_args2(t_input *cmd);
+void		env_var_heredoc_cond(t_arg_lst *arg);
 
-void		exit_except(t_input *tmp, t_cmd_info *inf, int *n_cmd);
-void		check_exit_error(t_arg_lst *arg);
 #endif

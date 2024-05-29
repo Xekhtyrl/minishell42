@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:48:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 22:09:19 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:24:47 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	fork_heredoc(t_arg_lst *arg)
 	fd = 0;
 	if (arg->type == HEREDOC_TK)
 	{
+		env_var_heredoc_cond(arg);
 		if (fork() == 0)
 		{
 			signal(SIGINT, &sig_here_doc);

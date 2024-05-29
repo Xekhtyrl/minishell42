@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 23:00:34 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/28 22:21:11 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:29:48 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void	replace_env_var_lst(t_arg_lst *lst, t_env *envp)
 {
 	while (lst)
 	{
-		if (envp && lst->token && lst->token[0] != '\'')
+		if (lst->type == HEREDOC2_TK)
+			lst->type = HEREDOC_TK;
+		else if (envp && lst->token && lst->token[0] != '\'')
 			lst->token = replace_str_env_var(lst->token, envp);
 		lst = lst->next;
 	}

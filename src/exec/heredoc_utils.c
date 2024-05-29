@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:52:45 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/28 22:29:10 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:25:44 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	detect_all_heredocs(t_input *input)
 	return (0);
 }
 
-//!!! env-var dans heredoc ne doivent pas etre interprete si LIMITER entre quote ou a du etre concatener
 int	concat_arg(t_arg_lst **start)
 {
 	t_arg_lst	*tmp;
@@ -48,8 +47,8 @@ int	concat_arg(t_arg_lst **start)
 
 	tmp = *start;
 	final = ft_strdup("");
-	while (tmp && !in_int_array(tmp->type,
-			(int []){SPACE_TK, READ_TK, WRITE_TK, APPEN_TK, HEREDOC_TK}, 5))
+	while (tmp && !in_int_array(tmp->type, (int []){SPACE_TK, READ_TK, WRITE_TK,
+			APPEN_TK, HEREDOC_TK, HEREDOC2_TK}, 6))
 	{
 		if (tmp->type == WORD_TK)
 		{
@@ -67,4 +66,19 @@ int	concat_arg(t_arg_lst **start)
 		tmp = tmp->next;
 	}
 	return (free((*start)->token), (*start)->token = final, 1);
+}
+
+void	env_var_heredoc_cond(t_arg_lst *arg)
+{
+	t_arg_lst	*tmp;
+
+	tmp = arg;
+	tmp = tmp->next;
+	if (tmp && tmp->type == SPACE_TK)
+		tmp = tmp->next;
+	if (tmp && tmp->type == WORD_TK && tmp->next
+		&& !in_int_array(tmp->next->type, (int []){WORD_TK, EMPTY_TK}, 2))
+		if (tmp->token[0] != '\"' && tmp->token[0] != '\'')
+			return ;
+	arg->type = HEREDOC2_TK;
 }

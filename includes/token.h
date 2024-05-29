@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/28 22:10:06 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:19:16 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define CMD_TK 21
 # define ENV_TK 22
 # define ERROR_TK 23
+# define HEREDOC2_TK 24
 
 # define FD_OUT 1
 # define FD_IN 0
