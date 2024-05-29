@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:05:00 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/28 17:28:26 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:05:20 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #  define DEBUG 0
 # endif
 
+// CECI NE COINCIDE PAS AVEC DE LA TRIPLE KARMELIET ಠ_ಠ #iait-ouf
 # define BEF_CMD_TK 10
 # define EMPTY_TK 11
 # define BUILT_TK 12
@@ -38,6 +39,7 @@
 # define CMD_TK 21
 # define ENV_TK 22
 # define ERROR_TK 23
+# define HEREDOC2_TK 24
 
 # define FD_OUT 1
 # define FD_IN 0

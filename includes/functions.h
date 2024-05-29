@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/28 17:01:29 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:45:09 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int			increase_token(t_input **cmd, t_arg_lst *lst, int *token);
 int			check_for_empty_arg(t_arg_lst *lst, int i);
 int			is_valid_cmd(char *str, int i);
 void		print_parse_message(char c1, char c2);
+void		skip_quotes(char *s, int *j);
+void		replace_env_var_lst(t_arg_lst *lst, t_env *envp);
+void		replace_token(t_arg_lst *arg, char *new, int n_type);
 
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token, t_env *envp);
@@ -93,8 +96,6 @@ void		free_info(t_cmd_info *inf);
 void		free_exit(t_input **cmd, int pr);
 
 //_______________________UTILS________________________//
-void		push(t_env **lst1, t_env **lst2);
-void		rotate(t_env **lst1);
 void		sort_lst(t_env **lsta);
 char		*ft_stradd(char *s1, char const *s2);
 char		**lst_to_tab(t_list *lst);
@@ -102,7 +103,7 @@ char		**get_all_cmd(t_input *cmd, int len);
 char		*ft_strjoinsup(char **tabl);
 int			only_space(char *str);
 void		clear_arg(t_arg_lst **lst);
-void		empty_args(t_input *input);
+void		empty_args(t_input *input, t_env *envp);
 int			concat_arg(t_arg_lst **start);
 
 //________________________ENV_________________________//
@@ -125,6 +126,8 @@ void		ft_pwd(void);
 int			ft_exit(t_arg_lst *arg, int size, t_cmd_info *inf, t_input *cmd);
 void		ft_unset(t_env	**envp, t_arg_lst *arg);
 void		ft_export(t_arg_lst *arg, t_env *envp, int flag);
+void		exit_except(t_input *tmp, t_cmd_info *inf, int *n_cmd);
+void		check_exit_error(t_arg_lst *arg);
 
 //________________________DUP_________________________//
 int			uni_dup(int fd_in, int fd_out);
@@ -143,7 +146,6 @@ void		get_heredoc(t_arg_lst *arg, int fd);
 int			heredoc(t_input *input);
 int			detect_tk(t_arg_lst *args, int token);
 void		empty_args2(t_input *cmd);
+void		env_var_heredoc_cond(t_arg_lst *arg);
 
-void		exit_except(t_input *tmp, t_cmd_info *inf, int *n_cmd);
-void		check_exit_error(t_arg_lst *arg);
 #endif

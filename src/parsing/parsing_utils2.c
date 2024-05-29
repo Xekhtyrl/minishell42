@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:17:12 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 22:59:57 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/28 21:01:18 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	parse_error(char *s)
 	j = -1;
 	while (s[++j])
 	{
+		skip_quotes(s, &j);
 		if ((s[j] == '>' && s[j + 1] == '<'))
 			return (print_parse_message(s[j + 1], 0), 1);
 		else if (s[j] == '>' || s[j] == '<')

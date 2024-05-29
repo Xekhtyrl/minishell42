@@ -6,3 +6,4 @@ src/*.o
 minishell
 test.c
 test
+includes/ee/order66.sh
