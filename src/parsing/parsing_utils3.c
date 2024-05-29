@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 23:00:34 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/29 16:29:48 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:58:03 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,41 @@ void	skip_quotes(char *s, int *j)
 		(*j)++;
 }
 
+static void	remove_contatenated_token(t_arg_lst *lst)
+{
+	t_arg_lst	*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		if (tmp->type == HEREDOC_TK)
+		{
+			tmp = tmp->next;
+			if (tmp && tmp->type == SPACE_TK)
+				tmp = tmp->next;
+			while (tmp && tmp->type != SPACE_TK)
+			{
+				if (tmp->type == WORD_TK)
+					replace_token(tmp, ft_strdup(""), EMPTY_TK);
+				tmp = tmp->next;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	replace_env_var_lst(t_arg_lst *lst, t_env *envp)
 {
-	while (lst)
+	t_arg_lst	*tmp;
+
+	tmp = lst;
+	while (tmp)
 	{
-		if (lst->type == HEREDOC2_TK)
-			lst->type = HEREDOC_TK;
-		else if (envp && lst->token && lst->token[0] != '\'')
-			lst->token = replace_str_env_var(lst->token, envp);
-		lst = lst->next;
+		if (tmp->type == HEREDOC2_TK)
+			tmp->type = HEREDOC_TK;
+		else if (envp && tmp->token && tmp->token[0] != '\'')
+			tmp->token = replace_str_env_var(tmp->token, envp);
+		tmp = tmp->next;
 	}
+	remove_contatenated_token(lst);
 }

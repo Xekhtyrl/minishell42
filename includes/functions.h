@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:08:12 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/29 16:25:06 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:45:09 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int			is_valid_cmd(char *str, int i);
 void		print_parse_message(char c1, char c2);
 void		skip_quotes(char *s, int *j);
 void		replace_env_var_lst(t_arg_lst *lst, t_env *envp);
+void		replace_token(t_arg_lst *arg, char *new, int n_type);
 
 //____________________PARSING_LST_____________________//
 t_arg_lst	*arg_node(int type, char *token, t_env *envp);

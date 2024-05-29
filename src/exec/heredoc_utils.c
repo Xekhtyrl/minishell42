@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:52:45 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/29 16:25:44 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:45:02 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,13 @@ int	detect_all_heredocs(t_input *input)
 		tmp = tmp->next;
 	}
 	return (0);
+}
+
+void	replace_token(t_arg_lst *arg, char *new, int n_type)
+{
+	free(arg->token);
+	arg->token = new;
+	arg->type = n_type;
 }
 
 int	concat_arg(t_arg_lst **start)
