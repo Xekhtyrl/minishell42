@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:20:26 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/28 17:32:18 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:20:51 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	split_cmd_redir(t_input **cmd, char *str, int i, t_env *envp)
 		if (token == 3 && !*cmd && is_valid_cmd(str, i))
 			*cmd = create_node(split_token(str, &i, str[i], token), 13, envp);
 		else
-			i = create_and_add_node(str, (int []){i, 0, token}, &lst, envp);
+			i = create_and_add_node(str, (int []){i, 0, token}, &lst);
 		while (i >= 0 && str[i] && is_white_space(str[i]))
 			i++;
 		check_for_empty_arg(lst, i);
 		if (i > 0 && str[i - 1] == ' ')
-			i = create_and_add_node(str, (int []){i, 1, token}, &lst, envp);
+			i = create_and_add_node(str, (int []){i, 1, token}, &lst);
 		increase_token(cmd, lst, &token);
 		if (!check_for_empty_arg(lst, i))
 			return (-1);
@@ -76,15 +76,14 @@ int	split_cmd(t_input **cmd, char *str, int i, t_env *env)
 		if (token == 0)
 			*cmd = create_node(split_token(str, &i, str[i], 3), WORD_TK, env);
 		else
-			i = create_and_add_node(str, (int []){i, 0, 3},
-					&((*cmd)->arg), env);
+			i = create_and_add_node(str, (int []){i, 0, 3}, &((*cmd)->arg));
 		if (!*cmd || i == -1)
 			return (-1);
 		check_for_empty_arg((*cmd)->arg, i);
 		while (str[i] && is_white_space(str[i]))
 			i++;
 		if (str[i - 1] == ' ' && (*cmd)->arg)
-			i = create_and_add_node(str, (int []){i, 1, 3}, &(*cmd)->arg, env);
+			i = create_and_add_node(str, (int []){i, 1, 3}, &(*cmd)->arg);
 		if (i == -1)
 			return (free_arg_lst(&(*cmd)->arg, i));
 		check_for_empty_arg((*cmd)->arg, i);
