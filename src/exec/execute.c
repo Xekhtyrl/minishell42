@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/31 16:38:22 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:46:52 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
 				cmd_fork(cmd, inf, n_cmd, pipe_fd);
 			else
-				return (mini_cls_fd(check_next_pipe(pipe_fd, n_cmd, inf),
-						inf->pipe[0], inf->pipe[1]), free_env(inf->env),
-					free_info(inf), free_input(&cmd), exit(EXIT_FAILURE), 0);
+				return (free_env(inf->env), free_info(inf), free_input(&cmd),
+					exit(EXIT_FAILURE), 0);
 		}
 	}
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
@@ -45,8 +44,7 @@ int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 {
 	g_ret_val = -1;
 	inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
-	mini_cls_fd(check_next_pipe(pipe_fd, n_cmd, inf), pipe_fd[n_cmd][0],
-		pipe_fd[n_cmd][1]);
+	mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
 	if (inf->proc[n_cmd] == -1)
 		return (send_error(FORK_ERR), g_ret_val = 1, -1);
 	if (check_next_pipe(pipe_fd, n_cmd, inf))
@@ -113,6 +111,5 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 			cmd_not_found(tmp);
 		tmp = tmp->next;
 	}
-	wait_proc(&inf);
-	return (free_info(&inf), 0);
+	return (wait_proc(&inf), free_info(&inf), 0);
 }
