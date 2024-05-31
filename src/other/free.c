@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:14:05 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/27 22:15:03 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/31 11:18:42 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ int	send_error(int flag)
 	return (g_ret_val);
 }
 
-void	mini_cls_fd(int fd1, int fd2)
+void	mini_cls_fd(int size, int fd1, int fd2)
 {
-	if (fd1 > 1)
+	if (fd1 > 1 && size)
 	{
 		if (close(fd1) == -1)
 			perror("close1");
 		fd1 = 0;
 	}
-	if (fd2 > 2)
+	if (fd2 > 2 && size)
 	{
 		if (close(fd2) == -1)
 			perror("close2");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cute.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:23:10 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/28 17:25:26 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/31 12:03:37 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	exec_builtin(t_input *cmd, t_env **envp, int size, t_cmd_info *inf)
 void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	char	*path;
+	char	**cmd_tab;
 
 	path = 0;
 	mini_dup(pipe_fd, n_cmd, inf, cmd->arg);
@@ -70,8 +71,12 @@ void	cmd_fork(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			multi_array_free(inf->envtb, path);
 			exit(EXIT_FAILURE);
 		}
-		exec_cmd_ve(get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg)),
-			inf->envtb, path, pipe_fd[n_cmd]);
+		free_env(inf->env);
+		cmd_tab = get_all_cmd(cmd, ft_lstsize((t_list *)cmd->arg));
+		free_input(&cmd);
+		free(inf->proc);
+		close_pipes(*(inf->fd), inf->size);
+		exec_cmd_ve(cmd_tab, inf->envtb, path, pipe_fd[n_cmd]);
 	}
 	else
 		exec_builtin(cmd, inf->env, inf->size, inf);

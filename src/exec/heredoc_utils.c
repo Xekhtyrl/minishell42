@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:52:45 by gfinet            #+#    #+#             */
-/*   Updated: 2024/05/29 16:45:02 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/31 13:41:13 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,9 @@ void	env_var_heredoc_cond(t_arg_lst *arg)
 	tmp = tmp->next;
 	if (tmp && tmp->type == SPACE_TK)
 		tmp = tmp->next;
-	if (tmp && tmp->type == WORD_TK && tmp->next
-		&& !in_int_array(tmp->next->type, (int []){WORD_TK, EMPTY_TK}, 2))
+	if (tmp && tmp->type == WORD_TK && ((tmp->next
+				&& !in_int_array(tmp->next->type, (int []){WORD_TK,
+					EMPTY_TK}, 2)) || !tmp->next))
 		if (tmp->token[0] != '\"' && tmp->token[0] != '\'')
 			return ;
 	arg->type = HEREDOC2_TK;
