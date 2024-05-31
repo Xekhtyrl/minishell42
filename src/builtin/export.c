@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:37:04 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/18 18:27:35 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:23:35 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	print_no_arg(t_env *envp)
 		}
 		envp = envp->next;
 	}
+	free_env(&envp);
 	exit(0);
 }
 

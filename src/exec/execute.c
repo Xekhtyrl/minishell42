@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
+/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/27 19:03:08 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/31 13:46:00 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// modifier miniclosefd: fermais des pipes inexistante > 1 seul cmd ou dern cmd
 pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 {
 	pid_t	proc;
@@ -23,15 +24,16 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			&& pipe(inf->pipe) < 0)
 			send_error(PIPE_ERR);
 		proc = fork();
+		if (proc == -1)
+			return (-1);
 		if (!proc)
 		{
 			if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
 				cmd_fork(cmd, inf, n_cmd, pipe_fd);
 			else
-			{
-				mini_cls_fd(inf->pipe[0], inf->pipe[1]);
-				exit(EXIT_FAILURE);
-			}
+				return (mini_cls_fd(check_next_pipe(pipe_fd, n_cmd, inf),
+						inf->pipe[0], inf->pipe[1]), free_env(inf->env),
+					free_info(inf), free_input(&cmd), exit(EXIT_FAILURE), 0);
 		}
 	}
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
@@ -43,7 +45,10 @@ int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 {
 	g_ret_val = -1;
 	inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
-	mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
+	mini_cls_fd(check_next_pipe(pipe_fd, n_cmd, inf), pipe_fd[n_cmd][0],
+		pipe_fd[n_cmd][1]);
+	if (inf->proc[n_cmd] == -1)
+		return (send_error(FORK_ERR), g_ret_val = 1, -1);
 	if (check_next_pipe(pipe_fd, n_cmd, inf))
 	{
 		close(inf->pipe[1]);
@@ -67,6 +72,7 @@ void	cmd_not_found(t_input *cmd)
 
 int	set_inf(t_cmd_info *inf, t_env **envp, t_input *cmd)
 {
+	g_ret_val = -1;
 	inf->size = ft_lstsize((t_list *)cmd);
 	inf->env = envp;
 	inf->envtb = get_env(*envp);
@@ -86,10 +92,10 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 	t_cmd_info	inf;
 	t_input		*tmp;
 	int			n_cmd;
+	int			flag;
 
 	tmp = cmd;
 	n_cmd = 0;
-	g_ret_val = -1;
 	if (!set_inf(&inf, envp, cmd))
 		return (send_error(MALLOC_ERR), 0);
 	inf.fd = &pipe_fd;
@@ -100,11 +106,12 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 		else if (tmp->token && !ft_strncmp(tmp->token, "exit\0", 5)
 			&& inf.size != 1 && n_cmd != inf.size)
 			check_exit_error(tmp->arg);
-		if (cmd_start(&inf, tmp, pipe_fd, n_cmd++) && tmp->type == ERROR_TK)
+		flag = cmd_start(&inf, tmp, pipe_fd, n_cmd++);
+		if (flag == -1)
+			return (free_info(&inf), 0);
+		if (flag && tmp->type == ERROR_TK)
 			cmd_not_found(tmp);
 		tmp = tmp->next;
 	}
-	wait_proc(&inf);
-	free_info(&inf);
-	return (0);
+	return (wait_proc(&inf), free_info(&inf), 0);
 }
