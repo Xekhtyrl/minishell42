@@ -6,7 +6,7 @@
 /*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/31 13:46:00 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/31 16:38:22 by lvodak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 			cmd_not_found(tmp);
 		tmp = tmp->next;
 	}
-	return (wait_proc(&inf), free_info(&inf), 0);
+	wait_proc(&inf);
+	return (free_info(&inf), 0);
 }
