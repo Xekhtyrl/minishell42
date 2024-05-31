@@ -6,7 +6,7 @@
 /*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/31 17:48:38 by gfinet           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:52:19 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
 				cmd_fork(cmd, inf, n_cmd, pipe_fd);
 			else
-				return (free_env(inf->env),
-					free_info(inf), free_input(&cmd), exit(EXIT_FAILURE), 0);
+				return (free_env(inf->env), free_info(inf), free_input(&cmd),
+					exit(EXIT_FAILURE), 0);
 		}
 	}
 	else if (cmd->type == ENV_TK && n_cmd == 0 && !cmd->next)
@@ -107,5 +107,5 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 			cmd_not_found(tmp);
 		tmp = tmp->next;
 	}
-	return (wait_proc(&inf), free_info(&inf), printf("2 %s\n", (*envp)->var), 0);
+	return (wait_proc(&inf), free_info(&inf), 0);
 }
