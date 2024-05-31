@@ -92,12 +92,9 @@ $(NAME): $(MY_OBJECTS)
 add:
 	git add Makefile src includes main.c .gitignore
 
-f:
-	make -j 3
-
 clean:
 	@rm -rf $(MY_OBJECTS)
-	@make -C $(LIBFT) clean
+	@make -j 3 -C $(LIBFT) clean
 	@rm -rf ./includes/ee/*.sh
 	@echo "$(C_RED)$(NAME) cleanse$(C_END)"
 

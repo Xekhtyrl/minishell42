@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:20:36 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/31 13:46:00 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:48:38 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ pid_t	exec_cmd(t_input *cmd, t_cmd_info *inf, int n_cmd, int **pipe_fd)
 			if (check_good_pipe(pipe_fd, n_cmd) && cmd->type != ERROR_TK)
 				cmd_fork(cmd, inf, n_cmd, pipe_fd);
 			else
-				return (mini_cls_fd(check_next_pipe(pipe_fd, n_cmd, inf),
-						inf->pipe[0], inf->pipe[1]), free_env(inf->env),
+				return (free_env(inf->env),
 					free_info(inf), free_input(&cmd), exit(EXIT_FAILURE), 0);
 		}
 	}
@@ -45,8 +44,7 @@ int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 {
 	g_ret_val = -1;
 	inf->proc[n_cmd] = exec_cmd(cmd, inf, n_cmd, pipe_fd);
-	mini_cls_fd(check_next_pipe(pipe_fd, n_cmd, inf), pipe_fd[n_cmd][0],
-		pipe_fd[n_cmd][1]);
+	mini_cls_fd(pipe_fd[n_cmd][0], pipe_fd[n_cmd][1]);
 	if (inf->proc[n_cmd] == -1)
 		return (send_error(FORK_ERR), g_ret_val = 1, -1);
 	if (check_next_pipe(pipe_fd, n_cmd, inf))
@@ -66,7 +64,8 @@ int	cmd_start(t_cmd_info *inf, t_input *cmd, int **pipe_fd, int n_cmd)
 
 void	cmd_not_found(t_input *cmd)
 {
-	ft_printf("%s : ", cmd->token);
+	ft_putstr_fd(cmd->token, 2);
+	ft_putstr_fd(" : ", 2);
 	send_error(CMD_ERR);
 }
 
@@ -81,11 +80,6 @@ int	set_inf(t_cmd_info *inf, t_env **envp, t_input *cmd)
 		return (0);
 	return (1);
 }
-
-/*
-Main function of execute
-
-*/
 
 int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 {
@@ -113,5 +107,5 @@ int	execute_command(t_env **envp, t_input *cmd, int **pipe_fd)
 			cmd_not_found(tmp);
 		tmp = tmp->next;
 	}
-	return (wait_proc(&inf), free_info(&inf), 0);
+	return (wait_proc(&inf), free_info(&inf), printf("2 %s\n", (*envp)->var), 0);
 }

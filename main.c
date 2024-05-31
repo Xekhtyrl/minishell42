@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvodak <lvodak@student.s19.be>             +#+  +:+       +#+        */
+/*   By: gfinet <gfinet@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:09:38 by lvodak            #+#    #+#             */
-/*   Updated: 2024/05/31 11:26:14 by lvodak           ###   ########.fr       */
+/*   Updated: 2024/05/31 17:44:53 by gfinet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*pick_title(void)
 	return (free(path), free(str2), str);
 }
 
-int	prep_exec(t_input *input, t_env *m_env)
+int	prep_exec(t_input *input, t_env **m_env)
 {
 	int	**pipe;
 
@@ -82,13 +82,13 @@ int	prep_exec(t_input *input, t_env *m_env)
 			return (close_pipes(pipe, ft_lstsize((t_list *)input)),
 				free_input(&input), 0);
 	print_input_lst(input, DEBUG);
-	empty_args(input, m_env);
+	empty_args(input, *m_env);
 	if (!access("/tmp/here_doc.txt", F_OK) && !fork())
 		execve("/bin/rm", (char *[]){"rm", "/tmp/here_doc.txt", 0}, NULL);
 	wait(0);
-	if (!trad_input(input, &m_env))
+	if (!trad_input(input, m_env))
 		send_error(-1);
-	execute_command(&m_env, input, pipe);
+	execute_command(m_env, input, pipe);
 	free_input(&input);
 	return (1);
 }
@@ -142,7 +142,7 @@ int	main(int argc, char **argv, char **envp)
 			ctrl_d(&m_env, 1);
 		add_history(str);
 		if (parse(&input, str, m_env))
-			prep_exec(input, m_env);
+			prep_exec(input, &m_env);
 	}
 	return (g_ret_val);
 }
