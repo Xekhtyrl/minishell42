@@ -53,25 +53,25 @@ int	pipe_heredoc(int *fd_in_out[2], int cur, t_arg_lst *arg)
 }
 
 int	mini_dup(int *fd_in_out[2], int cur, t_cmd_info *inf, t_arg_lst *arg)
-{
+{// In this code infile = Heredoc or infile; and outfile = Append or outfile
 	if (detect_tk(arg, HEREDOC_TK))
-	{
+	{//if Heredoc, add heredoc arg into fd thanks to pipe function
 		if ((cur == 0 && fd_in_out[cur][0] == 0)
 			|| (cur > 0 && fd_in_out[cur][0]))
 			pipe_heredoc(fd_in_out, cur, arg);
 	}
 	if (fd_in_out[cur][0] > 1 && fd_in_out[cur][1] > 1)
-	{
+	{// When there're fd for infile and outfile
 		if (uni_dup(fd_in_out[cur][0], fd_in_out[cur][1]) == -1)
 			return (-1);
 	}
 	else if (fd_in_out[cur][0] == 0 && fd_in_out[cur][1] > 1)
-	{
+	{// When there's no fd for infile but fd for outfile
 		if (uni_dup(0, fd_in_out[cur][1]) == -1)
 			return (-1);
 	}
 	else if (fd_in_out[cur][0] > 0 && fd_in_out[cur][1] == 1)
-	{
+	{// When there's fd for infile but no fd for outfile
 		if (uni_dup(fd_in_out[cur][0], 0) == -1)
 			return (-1);
 	}
